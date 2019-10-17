@@ -1,0 +1,27 @@
+.about {
+    text-align: center;
+
+    font-style: italic;
+    float: right;
+    margin-right: 80px;
+    position: absolute;
+    top: 45%;
+    left: 60%;
+    transform: translateY(-50%);
+    transform: translateX(+5%);
+}
+.about h2 {
+    color: #171717;
+    font-family: 'Times New Roman', sans-serif;
+    font-size: 28px;
+}
+.about hr {
+    border: 0;
+    height: 1px;
+    background: #333 linear-gradient(to right, #ccc, #333, #ccc);
+}
+.about p {
+    font-family: 'Times New Roman', sans-serif;
+    font-size: 24px;
+    color: #171717;
+}

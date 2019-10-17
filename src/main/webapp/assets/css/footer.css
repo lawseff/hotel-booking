@@ -1,0 +1,32 @@
+.footer {
+    padding: 7px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: rgba(44, 44, 44, 0.8);
+    color: white;
+    text-align: center;
+    height: 25px;
+    min-width: 350px;
+}
+
+.footer p {
+    margin : auto;
+    position : absolute;
+    left:0;
+    right:0;
+    line-height: 25px;
+    text-align: center;
+}
+
+.footer span {
+    float: left;
+    padding: 4px;
+    border-radius: 8px;
+    background-color: darkcyan;
+}
+
+body {
+    padding-bottom: 44px;
+}

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib
+        PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+        "http://java.sun.com/j2ee/dtd/web-jsptaglibrary_1_2.dtd">
+
+<taglib>
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>1.2</jsp-version>
+    <short-name>booking</short-name>
+    <uri>hotel-booking</uri>
+    <description>Hotel Booking custom tag library</description>
+
+    <tag>
+        <name>dateInput</name>
+        <tag-class>com.epam.booking.tag.date.DateInputWithRestrictionTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>minimumDate</name>
+            <required>true</required>
+        </attribute>
+    </tag>
+    
+    <tag>
+        <name>formatStatus</name>
+        <tag-class>com.epam.booking.tag.StatusFormatTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>status</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+</taglib>
