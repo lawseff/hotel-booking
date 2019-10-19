@@ -27,7 +27,7 @@ public class ConnectionPool {
     private static ConnectionPool instance = new ConnectionPool();
 
     private List<ProxyConnection> allConnections;
-    private Queue<Connection> availableConnections = new LinkedList<>(); // TODO Connection or ProxyConnection???
+    private Queue<Connection> availableConnections = new LinkedList<>();
     private Semaphore semaphore;
     private long maxWaitMillis;
 
