@@ -4,9 +4,9 @@ import com.epam.booking.entity.reservation.Reservation;
 import com.epam.booking.entity.reservation.ReservationStatus;
 import com.epam.booking.entity.room.Room;
 import com.epam.booking.entity.room.RoomClass;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RoomPicker {
 
@@ -22,36 +22,22 @@ public class RoomPicker {
         Date arrivalDate = reservation.getArrivalDate();
         Date departureDate = reservation.getDepartureDate();
 
-        List<Room> suitableRooms = new ArrayList<>();
-
-        for (Room room : rooms) {
-            RoomClass roomClass = room.getRoomClass();
-            if (room.getBedsAmount() == personsAmount && roomClass.equals(preferredRoomClass) &&
-                    isRoomFree(room, arrivalDate, departureDate, reservations) && room.isActive()) {
-                suitableRooms.add(room);
-            }
-        }
-        return suitableRooms;
+        return rooms.stream()
+                .filter(r -> r.isActive() &&
+                        r.getBedsAmount() == personsAmount &&
+                        r.getRoomClass().equals(preferredRoomClass) &&
+                        isRoomFree(r, arrivalDate, departureDate, reservations))
+                .collect(Collectors.toList());
     }
 
-    // TODO lambda
     private boolean isRoomFree(Room room, Date arrivalDate, Date departureDate, List<Reservation> reservations) {
-        for (Reservation reservation : reservations) {
-            ReservationStatus status = reservation.getReservationStatus();
-            if (status == ReservationStatus.CHECKED_OUT || status == ReservationStatus.CANCELLED) {
-                continue;
-            }
-            Room potentialRoom = reservation.getRoom();
-            if (potentialRoom != null && potentialRoom.equals(room)) {
-                Date reservationArrivalDate = reservation.getArrivalDate();
-                Date reservationDepartureDate = reservation.getDepartureDate();
-                if (dateUtils.isBetweenDates(arrivalDate, reservationArrivalDate, reservationDepartureDate) ||
-                        dateUtils.isBetweenDates(departureDate, reservationArrivalDate, reservationDepartureDate)) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        return reservations.stream()
+                .filter(r ->
+                        r.getReservationStatus() != ReservationStatus.CHECKED_OUT &&
+                        r.getReservationStatus() != ReservationStatus.CANCELLED &&
+                        r.getRoom() != null && r.getRoom().equals(room))
+                .noneMatch(r -> dateUtils.isBetweenDates(arrivalDate, r.getArrivalDate(), r.getDepartureDate()) &&
+                        dateUtils.isBetweenDates(departureDate, r.getArrivalDate(), r.getDepartureDate()));
     }
 
 }
