@@ -20,7 +20,7 @@ public class LocaleFilter extends AbstractFilter {
             throws IOException, ServletException {
         HttpSession session = getSession(servletRequest);
         if (session.getAttribute(LOCALE_ATTRIBUTE) == null) {
-            Locale locale = servletRequest.getLocale(); // TODO get locale from request(browser) or create DEFAULT locale?
+            Locale locale = servletRequest.getLocale();
             session.setAttribute(LOCALE_ATTRIBUTE, locale);
         }
         filterChain.doFilter(servletRequest, servletResponse);
