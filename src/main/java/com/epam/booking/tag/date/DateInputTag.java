@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class DateInputWithRestrictionTag extends TagSupport {
+public class DateInputTag extends TagSupport {
 
     private static final DateTimeFormatter HTML_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final String HTML_INPUT_TAG = "<input type=\"date\" name=\"%s\"  min=\"%s\" value=\"%s\" required>";

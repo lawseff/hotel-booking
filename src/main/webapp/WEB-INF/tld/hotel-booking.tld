@@ -12,7 +12,7 @@
 
     <tag>
         <name>dateInput</name>
-        <tag-class>com.epam.booking.tag.date.DateInputWithRestrictionTag</tag-class>
+        <tag-class>com.epam.booking.tag.date.DateInputTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>name</name>
