@@ -8,7 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebFilter(filterName = "AdminFilter", urlPatterns = { "/rooms" })
@@ -18,11 +17,8 @@ public class AdminFilter extends AbstractFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
         User user = getUser(servletRequest);
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
-        if (user == null) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED); // TODO send error or throw exception?
-        } else if (!user.isAdmin()) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+        if (user == null || !user.isAdmin()) {
+            throw new ServletException("User is not authenticated or authorized");
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }
