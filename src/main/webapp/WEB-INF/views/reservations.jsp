@@ -154,6 +154,16 @@
                 <td>
                     <booking:formatStatus status="${reservation_details.reservationStatus}"/>
                 </td>
+
+            </tr>
+            <tr>
+                <td>${details_total_price}</td>
+                <c:if test="${not empty reservation_details.totalPrice}">
+                    <td>${reservation_details.totalPrice} BYN</td>
+                </c:if>
+            </tr>
+            <tr>
+
                 <c:if test="${reservation_details.reservationStatus ne 'CANCELLED'
                 and reservation_details.reservationStatus ne 'CHECKED_OUT'}">
                     <td>
@@ -164,21 +174,16 @@
                         </form>
                     </td>
                 </c:if>
-            </tr>
-            <tr>
-                <td>${details_total_price}</td>
-                <c:if test="${not empty reservation_details.totalPrice}">
-                    <td>${reservation_details.totalPrice} BYN</td>
-                </c:if>
+
                 <c:if test="${reservation_details.reservationStatus eq 'WAITING' and user.admin}">
                     <td>
                         <c:if test="${not empty rooms}">
-                        <form id="approve" action="${pageContext.request.contextPath}/controller" method="post">
-                            <input type="hidden" name="command" value="approve">
-                            <input type="hidden" name="price" value="${reservation_details.totalPrice}">
-                            <input type="hidden" name="id" value="${reservation_details.id}">
-                            <input type="submit" value="${button_approve}">
-                        </form>
+                            <form id="approve" action="${pageContext.request.contextPath}/controller" method="post">
+                                <input type="hidden" name="command" value="approve">
+                                <input type="hidden" name="price" value="${reservation_details.totalPrice}">
+                                <input type="hidden" name="id" value="${reservation_details.id}">
+                                <input type="submit" value="${button_approve}">
+                            </form>
                         </c:if>
                         <c:if test="${empty rooms}">
                             <input type="button" value="${button_approve}" disabled>
