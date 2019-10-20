@@ -125,7 +125,7 @@ public class CommandFactoryImpl implements CommandFactory {
                 command = new SavePricesCommand(
                         getRoomClassService(),
                         getRoomsPageDataLoader(),
-                        getPriceValidator()
+                        new PriceValidatorImpl()
                 );
                 break;
             case CHANGE_ROOM_STATUS_COMMAND:
@@ -152,7 +152,7 @@ public class CommandFactoryImpl implements CommandFactory {
                 command = new ApproveCommand(
                         getRoomService(),
                         getReservationService(),
-                        getPriceValidator()
+                        new PriceValidatorImpl()
                 );
                 break;
             case PAY_COMMAND:
@@ -183,7 +183,6 @@ public class CommandFactoryImpl implements CommandFactory {
         return command;
     }
 
-    // TODO where to create services, etc?
     private UserService getUserService() {
         Builder<User> builder = new UserBuilder();
         return new UserServiceImpl(daoFactory, builder);
@@ -217,10 +216,6 @@ public class CommandFactoryImpl implements CommandFactory {
         RoomService roomService = getRoomService();
         RoomClassService roomClassService = getRoomClassService();
         return new RoomsPageDataLoader(roomClassService, roomService);
-    }
-
-    private PriceValidator getPriceValidator() {
-        return new PriceValidatorImpl();
     }
 
 }
