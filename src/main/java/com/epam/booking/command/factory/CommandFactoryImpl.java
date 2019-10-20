@@ -19,18 +19,15 @@ import com.epam.booking.command.impl.reservation.PayCommand;
 import com.epam.booking.command.impl.reservation.SetCheckedInCommand;
 import com.epam.booking.command.impl.reservation.SetCheckedOutCommand;
 import com.epam.booking.command.impl.reservation.ShowReservationsPageCommand;
-import com.epam.booking.service.api.PaymentService;
 import com.epam.booking.service.api.ReservationService;
 import com.epam.booking.service.api.RoomClassService;
 import com.epam.booking.service.api.RoomService;
 import com.epam.booking.service.api.UserService;
 import com.epam.booking.command.Command;
-import com.epam.booking.service.impl.PaymentServiceImpl;
 import com.epam.booking.service.impl.ReservationServiceImpl;
 import com.epam.booking.service.impl.RoomClassServiceImpl;
 import com.epam.booking.service.impl.RoomServiceImpl;
 import com.epam.booking.service.impl.UserServiceImpl;
-import com.epam.booking.utils.CurrentPageGetter;
 import com.epam.booking.utils.DateUtils;
 import com.epam.booking.utils.DaysCalculator;
 import com.epam.booking.utils.PriceCalculator;
@@ -43,7 +40,6 @@ import com.epam.booking.entity.User;
 import com.epam.booking.entity.reservation.Reservation;
 import com.epam.booking.entity.room.Room;
 import com.epam.booking.entity.room.RoomClass;
-import com.epam.booking.validation.api.PriceValidator;
 import com.epam.booking.validation.impl.BookingDetailsValidatorImpl;
 import com.epam.booking.validation.impl.PriceValidatorImpl;
 
@@ -157,7 +153,6 @@ public class CommandFactoryImpl implements CommandFactory {
                 break;
             case PAY_COMMAND:
                 command = new PayCommand(
-                        getPaymentService(),
                         getReservationService()
                 );
                 break;
@@ -201,10 +196,6 @@ public class CommandFactoryImpl implements CommandFactory {
     private ReservationService getReservationService() {
         Builder<Reservation> builder = new ReservationBuilder();
         return new ReservationServiceImpl(daoFactory, builder);
-    }
-
-    private PaymentService getPaymentService() {
-        return new PaymentServiceImpl();
     }
 
     private PageDataLoader getBookPageDataLoader() {
