@@ -16,13 +16,10 @@ public class ChangeRoomStatusCommand implements Command {
 
     private RoomService roomService;
     private PageDataLoader roomsPageDataLoader;
-    private CurrentPageGetter currentPageGetter;
 
-    public ChangeRoomStatusCommand(RoomService roomService,
-                                   PageDataLoader roomsPageDataLoader, CurrentPageGetter currentPageGetter) {
+    public ChangeRoomStatusCommand(RoomService roomService, PageDataLoader roomsPageDataLoader) {
         this.roomService = roomService;
         this.roomsPageDataLoader = roomsPageDataLoader;
-        this.currentPageGetter = currentPageGetter;
     }
 
     @Override
@@ -35,7 +32,7 @@ public class ChangeRoomStatusCommand implements Command {
         roomService.setActiveById(id, active);
 
         roomsPageDataLoader.loadDataToSession(request);
-        String page = currentPageGetter.getCurrentPage(request);
+        String page = CurrentPageGetter.getCurrentPage(request);
         return CommandResult.createRedirectCommandResult(page);
     }
 

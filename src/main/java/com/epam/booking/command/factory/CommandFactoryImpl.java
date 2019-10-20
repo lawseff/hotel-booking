@@ -125,22 +125,19 @@ public class CommandFactoryImpl implements CommandFactory {
                 command = new SavePricesCommand(
                         getRoomClassService(),
                         getRoomsPageDataLoader(),
-                        getCurrentPageGetter(),
                         getPriceValidator()
                 );
                 break;
             case CHANGE_ROOM_STATUS_COMMAND:
                 command = new ChangeRoomStatusCommand(
                       getRoomService(),
-                      getRoomsPageDataLoader(),
-                      getCurrentPageGetter()
+                      getRoomsPageDataLoader()
                 );
                 break;
             case SHOW_RESERVATIONS_PAGE_COMMAND:
                 command = new ShowReservationsPageCommand(
                         getReservationService(),
                         getRoomService(),
-                        getCurrentPageGetter(),
                         new DaysCalculator(),
                         new PriceCalculator(),
                         new RoomPicker(new DateUtils())
@@ -175,14 +172,10 @@ public class CommandFactoryImpl implements CommandFactory {
                 );
                 break;
             case CHANGE_LANGUAGE_COMMAND:
-                command = new ChangeLanguageCommand(
-                        getCurrentPageGetter()
-                );
+                command = new ChangeLanguageCommand();
                 break;
             case UPDATE_PAGE_COMMAND:
-                command = new UpdatePageCommand(
-                        getCurrentPageGetter()
-                );
+                command = new UpdatePageCommand();
                 break;
             default:
                 throw new IllegalArgumentException("Invalid command: " + commandName);
@@ -213,10 +206,6 @@ public class CommandFactoryImpl implements CommandFactory {
 
     private PaymentService getPaymentService() {
         return new PaymentServiceImpl();
-    }
-
-    private CurrentPageGetter getCurrentPageGetter() {
-        return new CurrentPageGetter();
     }
 
     private PageDataLoader getBookPageDataLoader() {

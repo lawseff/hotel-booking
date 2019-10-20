@@ -14,12 +14,6 @@ public class ChangeLanguageCommand implements Command {
     private static final String LOCALE_PARAMETER = "locale";
     private static final String LOCALE_ATTRIBUTE = "locale";
 
-    private CurrentPageGetter currentPageGetter;
-
-    public ChangeLanguageCommand(CurrentPageGetter currentPageGetter) {
-        this.currentPageGetter = currentPageGetter;
-    }
-
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         String localeParameter = request.getParameter(LOCALE_PARAMETER);
@@ -28,7 +22,7 @@ public class ChangeLanguageCommand implements Command {
         Locale locale = builder.build();
         HttpSession session = request.getSession();
         session.setAttribute(LOCALE_ATTRIBUTE, locale);
-        String page = currentPageGetter.getCurrentPage(request);
+        String page = CurrentPageGetter.getCurrentPage(request);
         return CommandResult.createRedirectCommandResult(page);
     }
 

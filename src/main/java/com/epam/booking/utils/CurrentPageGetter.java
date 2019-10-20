@@ -6,7 +6,7 @@ public class CurrentPageGetter {
 
     private static final String REFERER  = "referer";
 
-    public String getCurrentPage(HttpServletRequest request) {
+    public static String getCurrentPage(HttpServletRequest request) {
         String header = request.getHeader(REFERER);
         String serverUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() +
                 request.getContextPath();

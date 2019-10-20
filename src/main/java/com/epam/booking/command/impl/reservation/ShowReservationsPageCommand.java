@@ -31,19 +31,16 @@ public class ShowReservationsPageCommand extends AbstractReservationCommand impl
 
     private ReservationService reservationService;
     private RoomService roomService;
-    private CurrentPageGetter currentPageGetter;
     private DaysCalculator daysCalculator;
     private PriceCalculator priceCalculator;
     private RoomPicker roomPicker;
 
     public ShowReservationsPageCommand(ReservationService reservationService, RoomService roomService,
-                                       CurrentPageGetter currentPageGetter,
                                        DaysCalculator daysCalculator, PriceCalculator priceCalculator,
                                        RoomPicker roomPicker) {
         super(reservationService);
         this.reservationService = reservationService;
         this.roomService = roomService;
-        this.currentPageGetter = currentPageGetter;
         this.daysCalculator = daysCalculator;
         this.priceCalculator = priceCalculator;
         this.roomPicker = roomPicker;
@@ -65,7 +62,7 @@ public class ShowReservationsPageCommand extends AbstractReservationCommand impl
             processWaitingReservation(session, reservation);
         }
         session.setAttribute(RESERVATION_DETAILS_ATTRIBUTE, reservation);
-        String page = currentPageGetter.getCurrentPage(request);
+        String page = CurrentPageGetter.getCurrentPage(request);
         return CommandResult.createRedirectCommandResult(page);
     }
 

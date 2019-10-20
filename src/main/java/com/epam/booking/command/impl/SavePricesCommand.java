@@ -19,15 +19,12 @@ public class SavePricesCommand implements Command {
 
     private RoomClassService roomClassService;
     private PageDataLoader roomsPageDataLoader;
-    private CurrentPageGetter currentPageGetter;
     private PriceValidator priceValidator;
 
     public SavePricesCommand(RoomClassService roomClassService,
-                             PageDataLoader roomsPageDataLoader, CurrentPageGetter currentPageGetter,
-                             PriceValidator priceValidator) {
+                             PageDataLoader roomsPageDataLoader, PriceValidator priceValidator) {
         this.roomClassService = roomClassService;
         this.roomsPageDataLoader = roomsPageDataLoader;
-        this.currentPageGetter = currentPageGetter;
         this.priceValidator = priceValidator;
     }
 
@@ -54,7 +51,7 @@ public class SavePricesCommand implements Command {
         }
 
         roomsPageDataLoader.loadDataToSession(request);
-        String currentPage = currentPageGetter.getCurrentPage(request);
+        String currentPage = CurrentPageGetter.getCurrentPage(request);
         return CommandResult.createRedirectCommandResult(currentPage);
     }
 
