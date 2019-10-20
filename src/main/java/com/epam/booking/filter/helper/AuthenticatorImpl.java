@@ -1,9 +1,9 @@
-package com.epam.booking.command.authenticator;
+package com.epam.booking.filter.helper;
 
 import com.epam.booking.command.factory.CommandFactoryImpl;
 import com.epam.booking.entity.User;
 
-public class CommandAuthenticatorImpl implements CommandAuthenticator {
+public class AuthenticatorImpl implements Authenticator {
 
     @Override
     public boolean hasAuthority(User user, String commandName) {
