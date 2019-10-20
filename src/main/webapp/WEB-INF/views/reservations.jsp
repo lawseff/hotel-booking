@@ -228,7 +228,7 @@
         </label>
         <label>
             ${payment_cvv_number}
-            <input type="text" name="cvv_number" id="cvv_number" pattern="\d{3}" maxlength="3" required>
+            <input type="password" name="cvv_number" id="cvv_number" pattern="\d{3}" maxlength="3" required>
         </label>
         <input type="submit" value="${button_pay}">
         <input type="button" value="${button_cancel}" onclick="toggle('hide')">
