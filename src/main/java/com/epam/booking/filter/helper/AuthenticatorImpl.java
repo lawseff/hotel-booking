@@ -12,8 +12,8 @@ public class AuthenticatorImpl implements Authenticator {
             case CommandFactoryImpl.SAVE_PRICES_COMMAND:
             case CommandFactoryImpl.CHANGE_ROOM_STATUS_COMMAND:
             case CommandFactoryImpl.APPROVE_COMMAND:
-            case CommandFactoryImpl.SET_CHECKED_IN_COMMAND:
-            case CommandFactoryImpl.SET_CHECKED_OUT_COMMAND:
+            case CommandFactoryImpl.CHECK_IN_COMMAND:
+            case CommandFactoryImpl.CHECK_OUT_COMMAND:
             case CommandFactoryImpl.SHOW_ROOMS_PAGE_COMMAND:
                 return (user != null) && user.isAdmin();
 

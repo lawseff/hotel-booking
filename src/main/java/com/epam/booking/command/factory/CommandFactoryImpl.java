@@ -49,8 +49,8 @@ public class CommandFactoryImpl implements CommandFactory {
     public static final String SAVE_PRICES_COMMAND = "save_prices";
     public static final String CHANGE_ROOM_STATUS_COMMAND = "change_room_status";
     public static final String APPROVE_COMMAND = "approve";
-    public static final String SET_CHECKED_IN_COMMAND = "set_checked_in";
-    public static final String SET_CHECKED_OUT_COMMAND = "set_checked_out";
+    public static final String CHECK_IN_COMMAND = "check_in";
+    public static final String CHECK_OUT_COMMAND = "check_out";
     public static final String SHOW_ROOMS_PAGE_COMMAND = "show_rooms_page";
 
     // user commands
@@ -156,12 +156,12 @@ public class CommandFactoryImpl implements CommandFactory {
                         getReservationService()
                 );
                 break;
-            case SET_CHECKED_IN_COMMAND:
+            case CHECK_IN_COMMAND:
                 command = new SetCheckedInCommand(
                         getReservationService()
                 );
                 break;
-            case SET_CHECKED_OUT_COMMAND:
+            case CHECK_OUT_COMMAND:
                 command = new SetCheckedOutCommand(
                       getReservationService()
                 );
