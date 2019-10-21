@@ -36,8 +36,8 @@
         <fmt:message key="button.cancel" var="button_cancel"/>
         <fmt:message key="button.approve" var="button_approve"/>
         <fmt:message key="button.pay" var="button_pay"/>
-        <fmt:message key="button.set_checked_in" var="button_set_checked_in"/>
-        <fmt:message key="button.set_checked_out" var="button_set_checked_out"/>
+        <fmt:message key="button.check_in" var="button_check_in"/>
+        <fmt:message key="button.check_out" var="button_check_out"/>
 
         <fmt:message key="payment.sum" var="payment_sum"/>
         <fmt:message key="payment.card_number" var="payment_card_number"/>
@@ -200,7 +200,7 @@
                         <form action="${pageContext.request.contextPath}/controller" method="post">
                             <input type="hidden" name="command" value="set_checked_in">
                             <input type="hidden" name="id" value="${reservation_details.id}">
-                            <input type="submit" value="${button_set_checked_in}">
+                            <input type="submit" value="${button_check_in}">
                         </form>
                     </td>
                 </c:if>
@@ -209,7 +209,7 @@
                         <form action="${pageContext.request.contextPath}/controller" method="post">
                             <input type="hidden" name="command" value="set_checked_out">
                             <input type="hidden" name="id" value="${reservation_details.id}">
-                            <input type="submit" value="${button_set_checked_out}">
+                            <input type="submit" value="${button_check_out}">
                         </form>
                     </td>
                 </c:if>
