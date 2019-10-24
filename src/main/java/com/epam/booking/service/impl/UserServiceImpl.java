@@ -7,7 +7,6 @@ import com.epam.booking.entity.User;
 import com.epam.booking.exception.DaoException;
 import com.epam.booking.exception.ServiceException;
 import com.epam.booking.service.api.UserService;
-import com.epam.booking.utils.PasswordEncryptor;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.Optional;
