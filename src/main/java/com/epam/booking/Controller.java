@@ -63,8 +63,6 @@ public class Controller extends HttpServlet {
         }
     }
 
-
-
     private void dispatch(HttpServletRequest request, HttpServletResponse response, CommandResult commandResult)
             throws ServletException, IOException {
         String page = commandResult.getPage();
