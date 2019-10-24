@@ -7,6 +7,7 @@ import com.epam.booking.entity.User;
 import com.epam.booking.exception.DaoException;
 import com.epam.booking.exception.ServiceException;
 import com.epam.booking.service.api.UserService;
+import com.epam.booking.utils.PasswordEncryptor;
 
 import java.util.Optional;
 
@@ -24,7 +25,8 @@ public class UserServiceImpl implements UserService {
     public Optional<User> login(String email, String password) throws ServiceException {
         try {
             UserDao dao = daoFactory.userDao(builder);
-            return dao.findByEmailAndPassword(email, password);
+            String encryptedPassword = PasswordEncryptor.encryptPassword(password);
+            return dao.findByEmailAndPassword(email, encryptedPassword);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
