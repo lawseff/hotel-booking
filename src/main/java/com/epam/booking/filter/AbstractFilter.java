@@ -24,8 +24,8 @@ public abstract class AbstractFilter implements Filter {
     }
 
     protected User getUser(ServletRequest servletRequest) {
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
-        return (User) request.getSession().getAttribute(USER_ATTRIBUTE);
+        HttpSession session = getSession(servletRequest);
+        return (User) session.getAttribute(USER_ATTRIBUTE);
     }
 
     protected HttpSession getSession(ServletRequest servletRequest) {
