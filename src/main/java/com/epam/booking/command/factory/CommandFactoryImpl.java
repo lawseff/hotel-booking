@@ -155,7 +155,7 @@ public class CommandFactoryImpl implements CommandFactory {
             case PAY_COMMAND:
                 command = new PayCommand(
                         getReservationService(),
-                        new PaymentValidatorImpl()
+                        new PaymentValidatorImpl(new DateUtils())
                 );
                 break;
             case CHECK_IN_COMMAND:
