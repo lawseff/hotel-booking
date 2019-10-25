@@ -2,7 +2,6 @@
 <%@taglib prefix="booking" uri="hotel-booking" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
@@ -28,11 +27,10 @@
 
 <div class="container">
     <form action="${pageContext.request.contextPath}/controller" method="post">
-        <input type="hidden" name="size" value="${fn:length(sessionScope.room_classes)}">
         <display:table name="sessionScope.room_classes" uid="room_class" class="table">
         <display:column title="${class_label}" property="name"/>
         <display:column title="${basic_rate}">
-            <input type="hidden" name="id" value="${room_class.id}">
+            <input type="hidden" name="name" value="${room_class.name}">
             <input type="text" required value="${room_class.basicRate}" name="basic_rate" pattern="\d+\.\d{2}">
         </display:column>
         <display:column title="${rate_per_person}">
