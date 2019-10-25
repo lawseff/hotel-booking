@@ -229,7 +229,7 @@
         </label>
         <label>
             ${payment_valid_thru}
-            <input type="text" name="valid_thru" id="valid_thru" placeholder="${valid_thru_placeholder}" pattern="\d{2}/\d{2}" maxlength="5" required>
+            <input type="text" name="valid_thru" id="valid_thru" placeholder="${valid_thru_placeholder}" pattern="(0[1-9]|1[0-2])/\d{2}" maxlength="5" required>
         </label>
         <label>
             ${payment_cvv_number}
