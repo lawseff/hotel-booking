@@ -13,13 +13,16 @@ import com.epam.booking.entity.User;
 import com.epam.booking.entity.reservation.Reservation;
 import com.epam.booking.entity.room.Room;
 import com.epam.booking.entity.room.RoomClass;
-import java.sql.Connection;
+import com.epam.booking.exception.DaoException;
 
-public class DaoFactory {
+import java.sql.Connection;
+import java.sql.SQLException;
+
+public class DaoHelper {
 
     private Connection connection;
 
-    public DaoFactory(Connection connection) {
+    public DaoHelper(Connection connection) {
         this.connection = connection;
     }
 
@@ -37,6 +40,32 @@ public class DaoFactory {
 
     public ReservationDao reservationDao(Builder<Reservation> builder) {
         return new ReservationDaoImpl(builder, connection);
+    }
+
+    public void startTransaction() throws DaoException {
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage(), e);
+        }
+    }
+
+    public void endTransaction() throws DaoException {
+        try {
+            connection.commit();
+            connection.setAutoCommit(true);
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage(), e);
+        }
+    }
+
+    public void cancelTransaction() throws DaoException {
+        try {
+            connection.rollback();
+            connection.setAutoCommit(true);
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage(), e);
+        }
     }
 
 }
