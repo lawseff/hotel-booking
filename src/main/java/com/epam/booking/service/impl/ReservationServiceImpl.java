@@ -1,7 +1,7 @@
 package com.epam.booking.service.impl;
 
 import com.epam.booking.builder.Builder;
-import com.epam.booking.dao.DaoFactory;
+import com.epam.booking.dao.DaoHelper;
 import com.epam.booking.dao.api.ReservationDao;
 import com.epam.booking.entity.User;
 import com.epam.booking.entity.reservation.Reservation;
@@ -20,8 +20,8 @@ public class ReservationServiceImpl implements ReservationService {
 
     private ReservationDao dao;
 
-    public ReservationServiceImpl(DaoFactory daoFactory, Builder<Reservation> builder) {
-        dao = daoFactory.reservationDao(builder);
+    public ReservationServiceImpl(DaoHelper daoHelper, Builder<Reservation> builder) {
+        dao = daoHelper.reservationDao(builder);
     }
 
     @Override

@@ -5,7 +5,7 @@ import com.epam.booking.command.factory.CommandFactory;
 import com.epam.booking.command.factory.CommandFactoryImpl;
 import com.epam.booking.command.CommandResult;
 import com.epam.booking.connection.ConnectionPool;
-import com.epam.booking.dao.DaoFactory;
+import com.epam.booking.dao.DaoHelper;
 import com.epam.booking.exception.ConnectionPoolException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -51,8 +51,8 @@ public class Controller extends HttpServlet {
 
     private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try (Connection connection = connectionPool.getConnection()) {
-            DaoFactory daoFactory = new DaoFactory(connection);
-            CommandFactory commandFactory = new CommandFactoryImpl(daoFactory);
+            DaoHelper daoHelper = new DaoHelper(connection);
+            CommandFactory commandFactory = new CommandFactoryImpl(daoHelper);
             String commandName = request.getParameter(COMMAND_PARAMETER);
             Command command = commandFactory.createCommand(commandName);
             CommandResult commandResult = command.execute(request, response);

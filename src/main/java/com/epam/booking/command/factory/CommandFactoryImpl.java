@@ -35,7 +35,7 @@ import com.epam.booking.utils.RoomPicker;
 import com.epam.booking.utils.data.loader.PageDataLoader;
 import com.epam.booking.utils.data.loader.impl.BookPageDataLoader;
 import com.epam.booking.utils.data.loader.impl.RoomsPageDataLoader;
-import com.epam.booking.dao.DaoFactory;
+import com.epam.booking.dao.DaoHelper;
 import com.epam.booking.entity.User;
 import com.epam.booking.entity.reservation.Reservation;
 import com.epam.booking.entity.room.Room;
@@ -75,10 +75,10 @@ public class CommandFactoryImpl implements CommandFactory {
     private static final String BOOK_PAGE_URL = "/book";
     private static final String ROOMS_PAGE_URL = "/rooms";
 
-    private DaoFactory daoFactory;
+    private DaoHelper daoHelper;
 
-    public CommandFactoryImpl(DaoFactory daoFactory) {
-        this.daoFactory = daoFactory;
+    public CommandFactoryImpl(DaoHelper daoHelper) {
+        this.daoHelper = daoHelper;
     }
 
     @Override
@@ -182,22 +182,22 @@ public class CommandFactoryImpl implements CommandFactory {
 
     private UserService getUserService() {
         Builder<User> builder = new UserBuilder();
-        return new UserServiceImpl(daoFactory, builder);
+        return new UserServiceImpl(daoHelper, builder);
     }
 
     private RoomService getRoomService() {
         Builder<Room> builder = new RoomBuilder();
-        return new RoomServiceImpl(daoFactory, builder);
+        return new RoomServiceImpl(daoHelper, builder);
     }
 
     private RoomClassService getRoomClassService() {
         Builder<RoomClass> builder = new RoomClassBuilder();
-        return new RoomClassServiceImpl(daoFactory, builder);
+        return new RoomClassServiceImpl(daoHelper, builder);
     }
 
     private ReservationService getReservationService() {
         Builder<Reservation> builder = new ReservationBuilder();
-        return new ReservationServiceImpl(daoFactory, builder);
+        return new ReservationServiceImpl(daoHelper, builder);
     }
 
     private PageDataLoader getBookPageDataLoader() {

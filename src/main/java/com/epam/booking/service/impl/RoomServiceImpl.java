@@ -1,7 +1,7 @@
 package com.epam.booking.service.impl;
 
 import com.epam.booking.builder.Builder;
-import com.epam.booking.dao.DaoFactory;
+import com.epam.booking.dao.DaoHelper;
 import com.epam.booking.dao.api.RoomDao;
 import com.epam.booking.entity.room.Room;
 import com.epam.booking.exception.DaoException;
@@ -14,8 +14,8 @@ public class RoomServiceImpl implements RoomService {
 
     private RoomDao dao;
 
-    public RoomServiceImpl(DaoFactory daoFactory, Builder<Room> builder) {
-        this.dao = daoFactory.roomDao(builder);
+    public RoomServiceImpl(DaoHelper daoHelper, Builder<Room> builder) {
+        this.dao = daoHelper.roomDao(builder);
     }
 
     @Override

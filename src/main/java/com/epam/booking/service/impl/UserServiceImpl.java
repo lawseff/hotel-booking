@@ -1,7 +1,7 @@
 package com.epam.booking.service.impl;
 
 import com.epam.booking.builder.Builder;
-import com.epam.booking.dao.DaoFactory;
+import com.epam.booking.dao.DaoHelper;
 import com.epam.booking.dao.api.UserDao;
 import com.epam.booking.entity.User;
 import com.epam.booking.exception.DaoException;
@@ -13,18 +13,18 @@ import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
 
-    private DaoFactory daoFactory;
+    private DaoHelper daoHelper;
     private Builder<User> builder;
 
-    public UserServiceImpl(DaoFactory daoFactory, Builder<User> builder) {
-        this.daoFactory = daoFactory;
+    public UserServiceImpl(DaoHelper daoHelper, Builder<User> builder) {
+        this.daoHelper = daoHelper;
         this.builder = builder;
     }
 
     @Override
     public Optional<User> login(String email, String password) throws ServiceException {
         try {
-            UserDao dao = daoFactory.userDao(builder);
+            UserDao dao = daoHelper.userDao(builder);
             String encryptedPassword = DigestUtils.md5Hex(password);
             return dao.findByEmailAndPassword(email, encryptedPassword);
         } catch (DaoException e) {
