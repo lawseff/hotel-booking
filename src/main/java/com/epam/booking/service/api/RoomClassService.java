@@ -11,6 +11,6 @@ public interface RoomClassService {
 
     List<RoomClass> getAllRoomClasses() throws ServiceException;
     Optional<RoomClass> findByName(String name) throws ServiceException;
-    void updatePrices(int id, BigDecimal basicRate, BigDecimal ratePerPerson) throws ServiceException;
+    void updatePrices(List<RoomClass> roomClasses) throws ServiceException;
 
 }
