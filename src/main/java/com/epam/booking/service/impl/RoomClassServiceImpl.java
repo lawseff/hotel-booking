@@ -1,7 +1,7 @@
 package com.epam.booking.service.impl;
 
 import com.epam.booking.builder.Builder;
-import com.epam.booking.dao.DaoFactory;
+import com.epam.booking.dao.DaoHelper;
 import com.epam.booking.dao.api.RoomClassDao;
 import com.epam.booking.entity.room.RoomClass;
 import com.epam.booking.exception.DaoException;
@@ -13,10 +13,12 @@ import java.util.Optional;
 
 public class RoomClassServiceImpl implements RoomClassService {
 
+    private DaoHelper daoHelper;
     private RoomClassDao dao;
 
-    public RoomClassServiceImpl(DaoFactory daoFactory, Builder<RoomClass> builder) {
-        dao = daoFactory.roomClassDao(builder);
+    public RoomClassServiceImpl(DaoHelper daoHelper, Builder<RoomClass> builder) {
+        this.daoHelper = daoHelper;
+        dao = daoHelper.roomClassDao(builder);
     }
 
     @Override
@@ -38,16 +40,26 @@ public class RoomClassServiceImpl implements RoomClassService {
     }
 
     @Override
-    public void updatePrices(int id, BigDecimal basicRate, BigDecimal ratePerPerson) throws ServiceException {
+    public void updatePrices(List<RoomClass> roomClasses) throws ServiceException {
         try {
-            Optional<RoomClass> optional = dao.findById(id);
-            if (!optional.isPresent()) {
-                throw new ServiceException("RoomClass not found by id=" + id);
+            daoHelper.startTransaction();
+
+            for (RoomClass submittedRoomClass : roomClasses) {
+                String roomClassName = submittedRoomClass.getName();
+                Optional<RoomClass> roomClassOptional = dao.findByName(roomClassName);
+                if (!roomClassOptional.isPresent()) {
+                    daoHelper.cancelTransaction();
+                    throw new ServiceException("Room class not found: " + roomClassName);
+                }
+                RoomClass actualRoomClass = roomClassOptional.get();
+                BigDecimal basicRate = submittedRoomClass.getBasicRate();
+                BigDecimal ratePerPerson = submittedRoomClass.getRatePerPerson();
+                actualRoomClass.setBasicRate(basicRate);
+                actualRoomClass.setRatePerPerson(ratePerPerson);
+                dao.save(actualRoomClass);
             }
-            RoomClass roomClass = optional.get();
-            roomClass.setBasicRate(basicRate);
-            roomClass.setRatePerPerson(ratePerPerson);
-            dao.save(roomClass);
+
+            daoHelper.endTransaction();
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
