@@ -41,6 +41,7 @@ import com.epam.booking.entity.reservation.Reservation;
 import com.epam.booking.entity.room.Room;
 import com.epam.booking.entity.room.RoomClass;
 import com.epam.booking.validation.impl.BookingDetailsValidatorImpl;
+import com.epam.booking.validation.impl.PaymentValidatorImpl;
 import com.epam.booking.validation.impl.PriceValidatorImpl;
 
 public class CommandFactoryImpl implements CommandFactory {
@@ -153,7 +154,8 @@ public class CommandFactoryImpl implements CommandFactory {
                 break;
             case PAY_COMMAND:
                 command = new PayCommand(
-                        getReservationService()
+                        getReservationService(),
+                        new PaymentValidatorImpl()
                 );
                 break;
             case CHECK_IN_COMMAND:
