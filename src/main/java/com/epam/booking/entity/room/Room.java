@@ -15,14 +15,10 @@ public class Room implements Identifiable, Serializable {
 
     }
 
-    public Room(boolean active, RoomClass roomClass, int bedsAmount) {
+    public Room(Integer id, boolean active, RoomClass roomClass, int bedsAmount) {
         this.active = active;
         this.roomClass = roomClass;
         this.bedsAmount = bedsAmount;
-    }
-
-    public Room(Integer id, boolean active, RoomClass roomClass, int bedsAmount) {
-        this(active, roomClass, bedsAmount);
         this.id = id;
     }
 
