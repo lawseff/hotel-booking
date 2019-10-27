@@ -19,7 +19,7 @@
 #details table tr td input[type="button"],
 #details table tr td input[type="submit"] {
     padding: 2px;
-    min-width: 70px;
+    min-width: 90px;
 }
 
 .form {
