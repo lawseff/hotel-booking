@@ -4,6 +4,7 @@
     text-decoration: none;
     font-family: 'Verdana', sans-serif;
     font-size: 16px;
+    outline: 0;
 }
 
 body {
