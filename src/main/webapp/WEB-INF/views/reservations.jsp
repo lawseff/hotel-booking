@@ -219,6 +219,7 @@
 </div>
 
 <div class="form" id="payment">
+    <span onclick="toggle('hide')">&#10006;</span> <br>
     <form action="${pageContext.request.contextPath}/controller" method="post">
         <input type="hidden" name="command" value="pay">
         <input type="hidden" name="id" value="${reservation_details.id}">
@@ -235,10 +236,9 @@
             ${payment_cvv_number}
             <input type="password" name="cvv_number" id="cvv_number" pattern="\d{3}" maxlength="3" required>
         </label>
-        <input type="submit" value="${button_pay}">
-        <input type="button" value="${button_cancel}" onclick="toggle('hide')">
         <i class="fa fa-cc-visa"></i>
-        <i class="fa fa-cc-mastercard"></i>
+        <i class="fa fa-cc-mastercard" id="mastercard"></i>
+        <input type="submit" value="${button_pay}">
     </form>
 </div>
 <jsp:include page="/WEB-INF/views/footer.jsp"/>
