@@ -41,9 +41,11 @@
 
         <fmt:message key="payment.sum" var="payment_sum"/>
         <fmt:message key="payment.card_number" var="payment_card_number"/>
+        <fmt:message key="payment.card_number_placeholder" var="card_number_placeholder"/>
         <fmt:message key="payment.valid_thru" var="payment_valid_thru"/>
         <fmt:message key="payment.valid_thru_placeholder" var="valid_thru_placeholder"/>
         <fmt:message key="payment.cvv_number" var="payment_cvv_number"/>
+        <fmt:message key="payment.cvv_number_placeholder" var="cvv_number_placeholder"/>
 
         <fmt:message key="status.waiting" var="status_waiting"/>
         <fmt:message key="status.approved" var="status_approved"/>
@@ -226,7 +228,7 @@
         <p>${payment_sum} ${reservation_details.totalPrice} BYN<p>
         <label>
             ${payment_card_number}
-            <input type="text" name="card_number" id="card_number" pattern="\d{16}" maxlength="16" required>
+            <input type="text" name="card_number" id="card_number" pattern="\d{16}" maxlength="16" required placeholder="${card_number_placeholder}">
         </label>
         <label>
             ${payment_valid_thru}
@@ -234,7 +236,7 @@
         </label>
         <label>
             ${payment_cvv_number}
-            <input type="password" name="cvv_number" id="cvv_number" pattern="\d{3}" maxlength="3" required>
+            <input type="password" name="cvv_number" id="cvv_number" pattern="\d{3}" maxlength="3" required placeholder="${cvv_number_placeholder}">
         </label>
         <i class="fa fa-cc-visa"></i>
         <i class="fa fa-cc-mastercard" id="mastercard"></i>
