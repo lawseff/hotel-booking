@@ -14,13 +14,12 @@
     <fmt:setLocale value="${sessionScope.locale}" scope="session"/>
     <fmt:bundle basename="content" prefix="reservations.">
         <fmt:message key="title" var="title"/>
-        <fmt:message key="list.id" var="list_id"/>
+        <fmt:message key="list.client" var="list_client"/>
         <fmt:message key="list.check_in" var="list_check_in"/>
         <fmt:message key="list.check_out" var="list_check_out"/>
         <fmt:message key="list.status" var="list_status"/>
 
         <fmt:message key="details" var="details"/>
-        <fmt:message key="details.id" var="details_id"/>
         <fmt:message key="details.first_name" var="details_first_name"/>
         <fmt:message key="details.second_name" var="details_second_name"/>
         <fmt:message key="details.room" var="details_room"/>
@@ -61,9 +60,20 @@
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 
 <div class="container">
+    <c:set var="user" scope="session" value="${sessionScope.user}"/>
+    <c:set var="default_sort_column" scope="page"/>
+    <c:if test="${user.admin}">
+        <c:set var="default_sort_column" value="4"/>
+    </c:if>
+    <c:if test="${not user.admin}">
+        <c:set var="default_sort_column" value="3"/>
+    </c:if>
+
     <display:table name="sessionScope.reservations" uid="reservation" class="table" pagesize="8"
-                   sort="list" defaultsort="1" defaultorder="descending">
-        <display:column title="${list_id}" property="id" sortable="true"/>
+                   sort="list" defaultsort="${default_sort_column}" defaultorder="ascending">
+        <c:if test="${user.admin}">
+            <display:column title="${list_client}" property="user.email" sortable="true"/>
+        </c:if>
         <display:column title="${list_check_in}" sortable="true" sortProperty="arrivalDate">
             <fmt:formatDate value="${reservation.arrivalDate}" type="date"/>
         </display:column>
@@ -93,10 +103,6 @@
         ${details}
         <hr>
         <table>
-            <tr>
-                <td>${details_id}</td>
-                <td>${reservation_details.id}</td>
-            </tr>
             <tr>
                 <td>${details_first_name}</td>
                 <td>${reservation_details.user.firstName}</td>
