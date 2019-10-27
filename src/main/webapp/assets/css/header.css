@@ -96,10 +96,20 @@ body {
     border: 0;
     cursor: pointer;
     padding: 0 15px;
+    transition: color .2s linear;
+}
+
+.navigation select:-moz-focusring { color: transparent;
+    text-shadow: 0 0 white; }
+
+.navigation select:hover {
+    color: transparent;
+    text-shadow: 0 0 darkturquoise;
 }
 
 .navigation select option {
     background: rgba(44, 44, 44, 0.8);
+    color: white;
 }
 
 @media only screen and (max-width: 950px) {
