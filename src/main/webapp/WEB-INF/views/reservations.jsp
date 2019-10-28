@@ -186,7 +186,6 @@
                         <c:if test="${not empty rooms}">
                             <form id="approve" action="${pageContext.request.contextPath}/controller" method="post">
                                 <input type="hidden" name="command" value="approve">
-                                <input type="hidden" name="price" value="${reservation_details.totalPrice}">
                                 <input type="hidden" name="id" value="${reservation_details.id}">
                                 <input type="submit" value="${button_approve}">
                             </form>
