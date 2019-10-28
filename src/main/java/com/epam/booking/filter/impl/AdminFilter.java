@@ -17,8 +17,11 @@ public class AdminFilter extends AbstractFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
         User user = getUser(servletRequest);
-        if (user == null || !user.isAdmin()) {
-            throw new ServletException("User is not authenticated or authorized");
+        if (user == null) {
+            throw new ServletException("User is not authenticated");
+        }
+        if (!user.isAdmin()) {
+            throw new ServletException("User is not authorized");
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }
