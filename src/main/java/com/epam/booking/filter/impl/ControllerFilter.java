@@ -32,7 +32,6 @@ public class ControllerFilter extends AbstractFilter {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             throw new ServletException("User or guest has no permission to command: " + commandName);
-            // TODO to use logger in filter ???
         }
 
     }
