@@ -26,8 +26,6 @@ import com.epam.booking.service.impl.RoomClassServiceImpl;
 import com.epam.booking.service.impl.RoomServiceImpl;
 import com.epam.booking.service.impl.UserServiceImpl;
 import com.epam.booking.utils.DateUtils;
-import com.epam.booking.utils.DaysCalculator;
-import com.epam.booking.utils.PriceCalculator;
 import com.epam.booking.utils.RoomPicker;
 import com.epam.booking.dao.DaoHelper;
 import com.epam.booking.entity.User;
@@ -124,8 +122,6 @@ public class CommandFactoryImpl implements CommandFactory {
                 command = new ShowReservationsPageCommand(
                         getReservationService(),
                         getRoomService(),
-                        new DaysCalculator(),
-                        new PriceCalculator(),
                         new RoomPicker(new DateUtils())
                 );
                 break;
@@ -137,8 +133,7 @@ public class CommandFactoryImpl implements CommandFactory {
             case APPROVE_COMMAND:
                 command = new ApproveCommand(
                         getRoomService(),
-                        getReservationService(),
-                        new PriceValidatorImpl()
+                        getReservationService()
                 );
                 break;
             case PAY_COMMAND:

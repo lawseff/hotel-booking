@@ -8,7 +8,7 @@ import com.epam.booking.exception.ServiceException;
 import com.epam.booking.service.api.ReservationService;
 import com.epam.booking.service.api.RoomService;
 import com.epam.booking.utils.CurrentPageGetter;
-import com.epam.booking.validation.api.PriceValidator;
+import com.epam.booking.utils.ReservationPriceCalculator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
@@ -17,18 +17,14 @@ import java.util.Optional;
 public class ApproveCommand extends AbstractReservationCommand implements Command {
 
     private static final String ROOM_ID_PARAMETER = "room_id";
-    private static final String PRICE_PARAMETER = "price";
 
     private RoomService roomService;
     private ReservationService reservationService;
-    private PriceValidator priceValidator;
 
-    public ApproveCommand(RoomService roomService, ReservationService reservationService,
-                          PriceValidator priceValidator) {
+    public ApproveCommand(RoomService roomService, ReservationService reservationService) {
         super(reservationService);
         this.roomService = roomService;
         this.reservationService = reservationService;
-        this.priceValidator = priceValidator;
     }
 
     @Override
@@ -44,11 +40,14 @@ public class ApproveCommand extends AbstractReservationCommand implements Comman
         }
         Room room = roomOptional.get();
 
+        /*
         String priceParameter = request.getParameter(PRICE_PARAMETER);
         BigDecimal totalPrice = new BigDecimal(priceParameter);
         if (!priceValidator.isPriceValid(totalPrice)) {
             throw new ServiceException("Invalid total price: " + totalPrice);
         }
+         */
+        BigDecimal totalPrice = ReservationPriceCalculator.calculateReservationPrice(reservation);
 
         reservationService.approve(reservationId, room, totalPrice);
         String page = CurrentPageGetter.getCurrentPage(request);

@@ -1,7 +1,6 @@
 package com.epam.booking.command.impl.reservation;
 
-import com.epam.booking.utils.DaysCalculator;
-import com.epam.booking.utils.PriceCalculator;
+import com.epam.booking.utils.ReservationPriceCalculator;
 import com.epam.booking.utils.RoomPicker;
 import com.epam.booking.command.Command;
 import com.epam.booking.command.CommandResult;
@@ -9,14 +8,12 @@ import com.epam.booking.entity.User;
 import com.epam.booking.entity.reservation.Reservation;
 import com.epam.booking.entity.reservation.ReservationStatus;
 import com.epam.booking.entity.room.Room;
-import com.epam.booking.entity.room.RoomClass;
 import com.epam.booking.exception.ServiceException;
 import com.epam.booking.service.api.ReservationService;
 import com.epam.booking.service.api.RoomService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 public class ShowReservationsPageCommand extends AbstractReservationCommand implements Command {
@@ -29,18 +26,13 @@ public class ShowReservationsPageCommand extends AbstractReservationCommand impl
 
     private ReservationService reservationService;
     private RoomService roomService;
-    private DaysCalculator daysCalculator;
-    private PriceCalculator priceCalculator;
     private RoomPicker roomPicker;
 
     public ShowReservationsPageCommand(ReservationService reservationService, RoomService roomService,
-                                       DaysCalculator daysCalculator, PriceCalculator priceCalculator,
                                        RoomPicker roomPicker) {
         super(reservationService);
         this.reservationService = reservationService;
         this.roomService = roomService;
-        this.daysCalculator = daysCalculator;
-        this.priceCalculator = priceCalculator;
         this.roomPicker = roomPicker;
     }
 
@@ -79,12 +71,7 @@ public class ShowReservationsPageCommand extends AbstractReservationCommand impl
     }
 
     private void processWaitingReservation(HttpServletRequest request, Reservation reservation) throws ServiceException {
-        Date arrivalDate = reservation.getArrivalDate();
-        Date departureDate = reservation.getDepartureDate();
-        int days = daysCalculator.calculateDaysBetweenDates(arrivalDate, departureDate);
-        RoomClass roomClass = reservation.getRoomClass();
-        int personsAmount = reservation.getPersonsAmount();
-        BigDecimal totalPrice = priceCalculator.calculateTotalPrice(days, roomClass, personsAmount);
+        BigDecimal totalPrice = ReservationPriceCalculator.calculateReservationPrice(reservation);
         reservation.setTotalPrice(totalPrice);
 
         List<Room> rooms = roomService.getAllRooms();
