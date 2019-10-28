@@ -1,7 +1,7 @@
 package com.epam.booking.command.impl.reservation;
 
 import com.epam.booking.utils.ReservationPriceCalculator;
-import com.epam.booking.utils.RoomPicker;
+import com.epam.booking.utils.RoomUtils;
 import com.epam.booking.command.Command;
 import com.epam.booking.command.CommandResult;
 import com.epam.booking.entity.User;
@@ -26,14 +26,14 @@ public class ShowReservationsPageCommand extends AbstractReservationCommand impl
 
     private ReservationService reservationService;
     private RoomService roomService;
-    private RoomPicker roomPicker;
+    private RoomUtils roomUtils;
 
     public ShowReservationsPageCommand(ReservationService reservationService, RoomService roomService,
-                                       RoomPicker roomPicker) {
+                                       RoomUtils roomUtils) {
         super(reservationService);
         this.reservationService = reservationService;
         this.roomService = roomService;
-        this.roomPicker = roomPicker;
+        this.roomUtils = roomUtils;
     }
 
     @Override
@@ -76,7 +76,7 @@ public class ShowReservationsPageCommand extends AbstractReservationCommand impl
 
         List<Room> rooms = roomService.getAllRooms();
         List<Reservation> reservations = reservationService.getAllReservations();
-        List<Room> suitableRooms = roomPicker.getSuitableRooms(rooms, reservations, reservation);
+        List<Room> suitableRooms = roomUtils.getAvailableRooms(rooms, reservations, reservation);
         request.setAttribute(SUITABLE_ROOMS_ATTRIBUTE, suitableRooms);
     }
 
