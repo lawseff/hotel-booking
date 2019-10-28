@@ -17,6 +17,15 @@ public class DateUtilsTest {
     private DateUtils dateUtils = new DateUtils();
 
     @DataProvider
+    public static Object[][] dataProviderCalculateDaysBetweenDates() {
+        return new Object[][] {
+                { "2019-11-23", "2019-11-27", 4 },
+                { "2019-12-31", "2020-01-01", 1 },
+                { "2019-10-01", "2019-10-16", 15 }
+        };
+    }
+
+    @DataProvider
     public static Object[][] trueDataProviderIsBetweenDates() {
         return new Object[][] {
                 { "2019-10-15", "2019-10-14", "2019-10-16" },
@@ -31,6 +40,21 @@ public class DateUtilsTest {
                 { "2018-01-01", "2019-05-07", "2019-06-15" },
                 { "2020-01-01", "2019-05-07", "2019-06-15" }
         };
+    }
+
+    @Test
+    @UseDataProvider("dataProviderCalculateDaysBetweenDates")
+    public void testCalculateDaysBetweenDatesShouldReturnDaysWhenDatesSupplied(
+            String firstDateParameter, String secondDateParameter, int expectedDays) throws ParseException {
+        // given
+        Date firstDate = DATE_FORMAT.parse(firstDateParameter);
+        Date secondDate = DATE_FORMAT.parse(secondDateParameter);
+
+        // when
+        int days = dateUtils.calculateDaysBetweenDates(firstDate, secondDate);
+
+        // then
+        Assert.assertEquals(expectedDays, days);
     }
 
     @Test
