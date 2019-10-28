@@ -35,7 +35,7 @@ public class PaymentValidatorImpl implements PaymentValidator {
             return false;
         }
 
-        Date currentDate = dateUtils.getCurrentDateWithoutTime();
+        Date currentDate = dateUtils.getCurrentMonthAndYear();
         try {
             Date cardExpirationDate = DATE_FORMAT.parse(expirationDate);
             return !cardExpirationDate.before(currentDate);

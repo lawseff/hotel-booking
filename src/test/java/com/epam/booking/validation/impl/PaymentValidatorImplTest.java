@@ -60,7 +60,8 @@ public class PaymentValidatorImplTest {
     public void createMock() throws ParseException {
         DateUtils dateUtils = mock(DateUtils.class);
         Date date = DATE_FORMAT.parse(CURRENT_DATE);
-        when(dateUtils.getCurrentDateWithoutTime()).thenReturn(date);
+        when(dateUtils.getCurrentMonthAndYear())
+                .thenReturn(date);
         validator = new PaymentValidatorImpl(dateUtils);
     }
 
