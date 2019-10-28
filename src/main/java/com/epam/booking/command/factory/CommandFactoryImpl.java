@@ -26,7 +26,7 @@ import com.epam.booking.service.impl.RoomClassServiceImpl;
 import com.epam.booking.service.impl.RoomServiceImpl;
 import com.epam.booking.service.impl.UserServiceImpl;
 import com.epam.booking.utils.DateUtils;
-import com.epam.booking.utils.RoomPicker;
+import com.epam.booking.utils.RoomUtils;
 import com.epam.booking.dao.DaoHelper;
 import com.epam.booking.entity.User;
 import com.epam.booking.entity.reservation.Reservation;
@@ -122,7 +122,7 @@ public class CommandFactoryImpl implements CommandFactory {
                 command = new ShowReservationsPageCommand(
                         getReservationService(),
                         getRoomService(),
-                        new RoomPicker(new DateUtils())
+                        new RoomUtils(new DateUtils())
                 );
                 break;
             case CANCEL_RESERVATION_COMMAND:
@@ -133,7 +133,8 @@ public class CommandFactoryImpl implements CommandFactory {
             case APPROVE_COMMAND:
                 command = new ApproveCommand(
                         getRoomService(),
-                        getReservationService()
+                        getReservationService(),
+                        new RoomUtils(new DateUtils())
                 );
                 break;
             case PAY_COMMAND:

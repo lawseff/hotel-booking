@@ -9,9 +9,12 @@ import com.epam.booking.service.api.ReservationService;
 import com.epam.booking.service.api.RoomService;
 import com.epam.booking.utils.CurrentPageGetter;
 import com.epam.booking.utils.ReservationPriceCalculator;
+import com.epam.booking.utils.RoomUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 public class ApproveCommand extends AbstractReservationCommand implements Command {
@@ -20,11 +23,13 @@ public class ApproveCommand extends AbstractReservationCommand implements Comman
 
     private RoomService roomService;
     private ReservationService reservationService;
+    private RoomUtils roomUtils;
 
-    public ApproveCommand(RoomService roomService, ReservationService reservationService) {
+    public ApproveCommand(RoomService roomService, ReservationService reservationService, RoomUtils roomUtils) {
         super(reservationService);
         this.roomService = roomService;
         this.reservationService = reservationService;
+        this.roomUtils = roomUtils;
     }
 
     @Override
@@ -39,19 +44,27 @@ public class ApproveCommand extends AbstractReservationCommand implements Comman
             throw new ServiceException("Room not found by id: " + roomId);
         }
         Room room = roomOptional.get();
-
-        /*
-        String priceParameter = request.getParameter(PRICE_PARAMETER);
-        BigDecimal totalPrice = new BigDecimal(priceParameter);
-        if (!priceValidator.isPriceValid(totalPrice)) {
-            throw new ServiceException("Invalid total price: " + totalPrice);
-        }
-         */
+        validateRoom(room, reservation);
         BigDecimal totalPrice = ReservationPriceCalculator.calculateReservationPrice(reservation);
 
         reservationService.approve(reservationId, room, totalPrice);
         String page = CurrentPageGetter.getCurrentPage(request);
         return CommandResult.createRedirectCommandResult(page);
+    }
+
+    private void validateRoom(Room room, Reservation reservation) throws ServiceException {
+        if (!room.isActive()) {
+            throw new ServiceException("Room is not active");
+        }
+        if (!roomUtils.isRoomSuitable(room, reservation)) {
+            throw new ServiceException("Room is not suitable");
+        }
+        List<Reservation> reservations = reservationService.getAllReservations();
+        Date arrivalDate = reservation.getArrivalDate();
+        Date departureDate = reservation.getDepartureDate();
+        if (!roomUtils.isRoomFree(room, arrivalDate, departureDate, reservations)) {
+            throw new ServiceException("Room is not free on the specified date");
+        }
     }
 
 }
