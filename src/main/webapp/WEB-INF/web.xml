@@ -5,15 +5,6 @@
 <web-app>
   <display-name>Hotel Booking</display-name>
 
-  <error-page>
-    <exception-type>java.lang.Throwable</exception-type>
-    <location>/WEB-INF/views/error.jsp</location>
-  </error-page>
-  <error-page>
-    <error-code>404</error-code>
-    <location>/WEB-INF/views/error404.jsp</location>
-  </error-page>
-
   <servlet>
     <servlet-name>home</servlet-name>
     <jsp-file>/index.jsp</jsp-file>
@@ -55,5 +46,14 @@
     <servlet-name>reservations</servlet-name>
     <url-pattern>/reservations</url-pattern>
   </servlet-mapping>
+
+  <error-page>
+    <exception-type>java.lang.Throwable</exception-type>
+    <location>/WEB-INF/views/error.jsp</location>
+  </error-page>
+  <error-page>
+    <error-code>404</error-code>
+    <location>/WEB-INF/views/error404.jsp</location>
+  </error-page>
 
 </web-app>
