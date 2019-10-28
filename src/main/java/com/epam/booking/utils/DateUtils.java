@@ -14,16 +14,6 @@ public class DateUtils {
         return calendar.getTime();
     }
 
-    public int getCurrentMonth() {
-        Calendar calendar = Calendar.getInstance();
-        return calendar.get(Calendar.MONTH) + 1; // In Calendar months start at 0
-    }
-
-    public int getCurrentYear() {
-        Calendar calendar = Calendar.getInstance();
-        return calendar.get(Calendar.YEAR);
-    }
-
     public boolean isBetweenDates(Date date, Date start, Date end) {
         return date.after(start) && date.before(end) || date.equals(start) || date.equals(end);
     }

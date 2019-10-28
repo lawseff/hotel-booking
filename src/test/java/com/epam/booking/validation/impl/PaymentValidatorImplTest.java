@@ -10,15 +10,21 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @RunWith(DataProviderRunner.class)
 public class PaymentValidatorImplTest {
 
+    // card number
     private static final String VALID_CARD_NUMBER = "4024007122491607";
+    // expiration date
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/yy");
+    private static final String CURRENT_DATE = "10/19";
     private static final String VALID_EXPIRATION_DATE ="08/22";
+    // cvv number
     private static final String VALID_CVV_NUMBER = "123";
-    private static final int CURRENT_MONTH = 10;
-    private static final int CURRENT_YEAR = 2019;
 
     private PaymentValidator validator;
 
@@ -51,12 +57,10 @@ public class PaymentValidatorImplTest {
     }
 
     @Before
-    public void createMock() {
+    public void createMock() throws ParseException {
         DateUtils dateUtils = mock(DateUtils.class);
-        when(dateUtils.getCurrentMonth())
-                .thenReturn(CURRENT_MONTH);
-        when(dateUtils.getCurrentYear())
-                .thenReturn(CURRENT_YEAR);
+        Date date = DATE_FORMAT.parse(CURRENT_DATE);
+        when(dateUtils.getCurrentDateWithoutTime()).thenReturn(date);
         validator = new PaymentValidatorImpl(dateUtils);
     }
 
@@ -89,6 +93,17 @@ public class PaymentValidatorImplTest {
 
         // when
         boolean isValid = validator.isExpirationDateValid(VALID_EXPIRATION_DATE);
+
+        // then
+        Assert.assertTrue(isValid);
+    }
+
+    @Test
+    public void testIsExpirationDateValidShouldReturnTrueWhenCurrentDateSupplied() {
+        // given
+
+        // when
+        boolean isValid = validator.isExpirationDateValid(CURRENT_DATE);
 
         // then
         Assert.assertTrue(isValid);
