@@ -19,8 +19,8 @@ import java.util.Optional;
 
 public class BookCommand implements Command {
 
-    private static final CommandResult RESULT =
-            CommandResult.createForwardCommandResult("/controller?command=show_reservations_page");
+    private static final CommandResult COMMAND_RESULT =
+            CommandResult.createRedirectCommandResult("/controller?command=show_reservations_page");
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     private static final String ARRIVAL_DATE_PARAMETER = "arrival_date";
@@ -67,7 +67,7 @@ public class BookCommand implements Command {
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute(USER_ATTRIBUTE);
             reservationService.book(user, arrivalDate, departureDate, roomClass, personsAmount);
-            return RESULT;
+            return COMMAND_RESULT;
         } catch (ParseException e) {
             throw new ServiceException(e.getMessage(), e);
         }

@@ -5,13 +5,9 @@ import com.epam.booking.builder.impl.ReservationBuilder;
 import com.epam.booking.builder.impl.RoomBuilder;
 import com.epam.booking.builder.impl.RoomClassBuilder;
 import com.epam.booking.builder.impl.UserBuilder;
-import com.epam.booking.command.impl.ChangeLanguageCommand;
-import com.epam.booking.command.impl.ChangeRoomStatusCommand;
-import com.epam.booking.command.impl.LoginCommand;
-import com.epam.booking.command.impl.SavePricesCommand;
-import com.epam.booking.command.impl.ShowPageCommand;
-import com.epam.booking.command.impl.SignOutCommand;
-import com.epam.booking.command.impl.UpdatePageCommand;
+import com.epam.booking.command.impl.*;
+import com.epam.booking.command.impl.room.ChangeRoomStatusCommand;
+import com.epam.booking.command.impl.room.SavePricesCommand;
 import com.epam.booking.command.impl.reservation.ApproveCommand;
 import com.epam.booking.command.impl.reservation.BookCommand;
 import com.epam.booking.command.impl.reservation.CancelReservationCommand;
@@ -19,6 +15,7 @@ import com.epam.booking.command.impl.reservation.PayCommand;
 import com.epam.booking.command.impl.reservation.SetCheckedInCommand;
 import com.epam.booking.command.impl.reservation.SetCheckedOutCommand;
 import com.epam.booking.command.impl.reservation.ShowReservationsPageCommand;
+import com.epam.booking.command.impl.room.ShowRoomsPageCommand;
 import com.epam.booking.service.api.ReservationService;
 import com.epam.booking.service.api.RoomClassService;
 import com.epam.booking.service.api.RoomService;
@@ -32,9 +29,6 @@ import com.epam.booking.utils.DateUtils;
 import com.epam.booking.utils.DaysCalculator;
 import com.epam.booking.utils.PriceCalculator;
 import com.epam.booking.utils.RoomPicker;
-import com.epam.booking.utils.data.loader.PageDataLoader;
-import com.epam.booking.utils.data.loader.impl.BookPageDataLoader;
-import com.epam.booking.utils.data.loader.impl.RoomsPageDataLoader;
 import com.epam.booking.dao.DaoHelper;
 import com.epam.booking.entity.User;
 import com.epam.booking.entity.reservation.Reservation;
@@ -72,8 +66,6 @@ public class CommandFactoryImpl implements CommandFactory {
     // URLs
     private static final String HOME_PAGE_URL = "/home";
     private static final String LOGIN_PAGE_URL = "/login";
-    private static final String BOOK_PAGE_URL = "/book";
-    private static final String ROOMS_PAGE_URL = "/rooms";
 
     private DaoHelper daoHelper;
 
@@ -107,28 +99,25 @@ public class CommandFactoryImpl implements CommandFactory {
                 );
                 break;
             case SHOW_BOOK_PAGE_COMMAND:
-                command = new ShowPageCommand(
-                        BOOK_PAGE_URL,
-                        getBookPageDataLoader()
+                command = new ShowBookPageCommand(
+                        getRoomClassService()
                 );
                 break;
             case SHOW_ROOMS_PAGE_COMMAND:
-                command = new ShowPageCommand(
-                        ROOMS_PAGE_URL,
-                        getRoomsPageDataLoader()
+                command = new ShowRoomsPageCommand(
+                        getRoomClassService(),
+                        getRoomService()
                 );
                 break;
             case SAVE_PRICES_COMMAND:
                 command = new SavePricesCommand(
                         getRoomClassService(),
-                        getRoomsPageDataLoader(),
                         new PriceValidatorImpl()
                 );
                 break;
             case CHANGE_ROOM_STATUS_COMMAND:
                 command = new ChangeRoomStatusCommand(
-                      getRoomService(),
-                      getRoomsPageDataLoader()
+                      getRoomService()
                 );
                 break;
             case SHOW_RESERVATIONS_PAGE_COMMAND:
@@ -198,17 +187,6 @@ public class CommandFactoryImpl implements CommandFactory {
     private ReservationService getReservationService() {
         Builder<Reservation> builder = new ReservationBuilder();
         return new ReservationServiceImpl(daoHelper, builder);
-    }
-
-    private PageDataLoader getBookPageDataLoader() {
-        RoomClassService roomClassService = getRoomClassService();
-        return new BookPageDataLoader(roomClassService);
-    }
-
-    private PageDataLoader getRoomsPageDataLoader() {
-        RoomService roomService = getRoomService();
-        RoomClassService roomClassService = getRoomClassService();
-        return new RoomsPageDataLoader(roomClassService, roomService);
     }
 
 }

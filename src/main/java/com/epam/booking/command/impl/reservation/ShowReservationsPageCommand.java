@@ -5,7 +5,6 @@ import com.epam.booking.utils.PriceCalculator;
 import com.epam.booking.utils.RoomPicker;
 import com.epam.booking.command.Command;
 import com.epam.booking.command.CommandResult;
-import com.epam.booking.utils.CurrentPageGetter;
 import com.epam.booking.entity.User;
 import com.epam.booking.entity.reservation.Reservation;
 import com.epam.booking.entity.reservation.ReservationStatus;
@@ -16,7 +15,6 @@ import com.epam.booking.service.api.ReservationService;
 import com.epam.booking.service.api.RoomService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +25,7 @@ public class ShowReservationsPageCommand extends AbstractReservationCommand impl
     private static final String RESERVATIONS_ATTRIBUTE = "reservations";
     private static final String RESERVATION_DETAILS_ATTRIBUTE = "reservation_details";
     private static final String SUITABLE_ROOMS_ATTRIBUTE = "rooms";
-    private static final String RESERVATIONS_URL = "/reservations";
+    private static final CommandResult COMMAND_RESULT = CommandResult.createForwardCommandResult("/reservations");
 
     private ReservationService reservationService;
     private RoomService roomService;
@@ -49,24 +47,22 @@ public class ShowReservationsPageCommand extends AbstractReservationCommand impl
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         User user = getUser(request);
-        HttpSession session = request.getSession();
-        loadReservations(session, user);
-        if (!shouldShowDetails(request)) {
-            return CommandResult.createRedirectCommandResult(RESERVATIONS_URL);
+        loadReservations(request, user);
+
+        if (shouldShowDetails(request)) {
+            checkCredentials(request);
+            Reservation reservation = getReservation(request);
+            ReservationStatus reservationStatus = reservation.getReservationStatus();
+            if (user.isAdmin() && reservationStatus == ReservationStatus.WAITING) {
+                processWaitingReservation(request, reservation);
+            }
+            request.setAttribute(RESERVATION_DETAILS_ATTRIBUTE, reservation);
         }
 
-        checkCredentials(request);
-        Reservation reservation = getReservation(request);
-        ReservationStatus reservationStatus = reservation.getReservationStatus();
-        if (user.isAdmin() && reservationStatus == ReservationStatus.WAITING) {
-            processWaitingReservation(session, reservation);
-        }
-        session.setAttribute(RESERVATION_DETAILS_ATTRIBUTE, reservation);
-        String page = CurrentPageGetter.getCurrentPage(request);
-        return CommandResult.createRedirectCommandResult(page);
+        return COMMAND_RESULT;
     }
 
-    private void loadReservations(HttpSession session, User user) throws ServiceException {
+    private void loadReservations(HttpServletRequest request, User user) throws ServiceException {
         List<Reservation> reservations;
         if (user.isAdmin()) {
             reservations = reservationService.getAllReservations();
@@ -74,7 +70,7 @@ public class ShowReservationsPageCommand extends AbstractReservationCommand impl
             int id = user.getId();
             reservations = reservationService.findByUserId(id);
         }
-        session.setAttribute(RESERVATIONS_ATTRIBUTE, reservations);
+        request.setAttribute(RESERVATIONS_ATTRIBUTE, reservations);
     }
 
     private boolean shouldShowDetails(HttpServletRequest request) {
@@ -82,7 +78,7 @@ public class ShowReservationsPageCommand extends AbstractReservationCommand impl
         return detailsId != null;
     }
 
-    private void processWaitingReservation(HttpSession session, Reservation reservation) throws ServiceException {
+    private void processWaitingReservation(HttpServletRequest request, Reservation reservation) throws ServiceException {
         Date arrivalDate = reservation.getArrivalDate();
         Date departureDate = reservation.getDepartureDate();
         int days = daysCalculator.calculateDaysBetweenDates(arrivalDate, departureDate);
@@ -94,7 +90,7 @@ public class ShowReservationsPageCommand extends AbstractReservationCommand impl
         List<Room> rooms = roomService.getAllRooms();
         List<Reservation> reservations = reservationService.getAllReservations();
         List<Room> suitableRooms = roomPicker.getSuitableRooms(rooms, reservations, reservation);
-        session.setAttribute(SUITABLE_ROOMS_ATTRIBUTE, suitableRooms);
+        request.setAttribute(SUITABLE_ROOMS_ATTRIBUTE, suitableRooms);
     }
 
 }

@@ -7,6 +7,7 @@ import com.epam.booking.entity.room.Room;
 import com.epam.booking.exception.ServiceException;
 import com.epam.booking.service.api.ReservationService;
 import com.epam.booking.service.api.RoomService;
+import com.epam.booking.utils.CurrentPageGetter;
 import com.epam.booking.validation.api.PriceValidator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +16,6 @@ import java.util.Optional;
 
 public class ApproveCommand extends AbstractReservationCommand implements Command {
 
-    private static final String RESULT_URL = "/controller?command=show_reservations_page&details_id=";
     private static final String ROOM_ID_PARAMETER = "room_id";
     private static final String PRICE_PARAMETER = "price";
 
@@ -51,7 +51,8 @@ public class ApproveCommand extends AbstractReservationCommand implements Comman
         }
 
         reservationService.approve(reservationId, room, totalPrice);
-        return CommandResult.createForwardCommandResult(RESULT_URL + reservationId);
+        String page = CurrentPageGetter.getCurrentPage(request);
+        return CommandResult.createRedirectCommandResult(page);
     }
 
 }

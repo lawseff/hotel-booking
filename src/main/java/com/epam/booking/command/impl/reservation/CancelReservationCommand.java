@@ -5,12 +5,12 @@ import com.epam.booking.command.CommandResult;
 import com.epam.booking.entity.reservation.Reservation;
 import com.epam.booking.exception.ServiceException;
 import com.epam.booking.service.api.ReservationService;
+import com.epam.booking.utils.CurrentPageGetter;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class CancelReservationCommand extends AbstractReservationCommand implements Command {
-
-    private static final String RESULT_URL = "/controller?command=show_reservations_page&details_id=";
 
     private ReservationService reservationService;
 
@@ -25,7 +25,8 @@ public class CancelReservationCommand extends AbstractReservationCommand impleme
         Reservation reservation = getReservation(request);
         int id = reservation.getId();
         reservationService.cancel(id);
-        return CommandResult.createForwardCommandResult(RESULT_URL + id);
+        String page = CurrentPageGetter.getCurrentPage(request);
+        return CommandResult.createRedirectCommandResult(page);
     }
 
 }

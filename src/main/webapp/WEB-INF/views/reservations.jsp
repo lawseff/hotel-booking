@@ -69,7 +69,7 @@
         <c:set var="default_sort_column" value="3"/>
     </c:if>
 
-    <display:table name="sessionScope.reservations" uid="reservation" class="table" pagesize="8"
+    <display:table name="requestScope.reservations" uid="reservation" class="table" pagesize="8" requestURI=""
                    sort="list" defaultsort="${default_sort_column}" defaultorder="ascending">
         <c:if test="${user.admin}">
             <display:column title="${list_client}" property="user.email" sortable="true"/>
@@ -84,17 +84,15 @@
             <booking:formatStatus status="${reservation.reservationStatus}"/>
         </display:column>
         <display:column title="${details}">
-
-            <a href="${pageContext.request.contextPath}/controller?command=show_reservations_page&id=${reservation.id}">
+            <a href="${pageContext.request.contextPath}/controller?command=show_reservations_page&id=${reservation.id}&d-8003858-s=${param["d-8003858-s"]}&d-8003858-p=${param["d-8003858-p"]}&d-8003858-o=${param["d-8003858-o"]}">
                 ...
             </a>
-
         </display:column>
     </display:table>
 </div>
 
 
-    <c:set var="reservation_details" scope="session" value="${sessionScope.reservation_details}"/>
+    <c:set var="reservation_details" scope="request" value="${requestScope.reservation_details}"/>
     <c:set var="user" scope="session" value="${sessionScope.user}"/>
     <c:set var="rooms" scope="session" value="${sessionScope.rooms}"/>
 

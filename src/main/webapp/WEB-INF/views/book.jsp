@@ -34,7 +34,7 @@
             <label>
                 ${class_label} <br>
                 <select name="room_class">
-                    <c:forEach var="room_class" items="${sessionScope.room_classes}">
+                    <c:forEach var="room_class" items="${requestScope.room_classes}">
                         <option value="${room_class.name}">${room_class.name}</option>
                     </c:forEach>
                 </select> <br>

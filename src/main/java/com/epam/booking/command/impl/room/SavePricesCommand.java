@@ -1,10 +1,9 @@
-package com.epam.booking.command.impl;
+package com.epam.booking.command.impl.room;
 
 import com.epam.booking.command.Command;
 import com.epam.booking.command.CommandResult;
 import com.epam.booking.entity.room.RoomClass;
 import com.epam.booking.utils.CurrentPageGetter;
-import com.epam.booking.utils.data.loader.PageDataLoader;
 import com.epam.booking.exception.ServiceException;
 import com.epam.booking.service.api.RoomClassService;
 import com.epam.booking.validation.api.PriceValidator;
@@ -22,12 +21,9 @@ public class SavePricesCommand implements Command {
 
     private RoomClassService roomClassService;
     private PriceValidator priceValidator;
-    private PageDataLoader roomsPageDataLoader;
 
-    public SavePricesCommand(RoomClassService roomClassService,
-                             PageDataLoader roomsPageDataLoader, PriceValidator priceValidator) {
+    public SavePricesCommand(RoomClassService roomClassService, PriceValidator priceValidator) {
         this.roomClassService = roomClassService;
-        this.roomsPageDataLoader = roomsPageDataLoader;
         this.priceValidator = priceValidator;
     }
 
@@ -36,7 +32,6 @@ public class SavePricesCommand implements Command {
         List<RoomClass> roomClasses = getRoomClassesFromRequest(request);
         roomClassService.updatePrices(roomClasses);
 
-        roomsPageDataLoader.loadDataToSession(request);
         String currentPage = CurrentPageGetter.getCurrentPage(request);
         return CommandResult.createRedirectCommandResult(currentPage);
     }

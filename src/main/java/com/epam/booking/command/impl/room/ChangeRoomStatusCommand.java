@@ -1,9 +1,8 @@
-package com.epam.booking.command.impl;
+package com.epam.booking.command.impl.room;
 
 import com.epam.booking.command.Command;
 import com.epam.booking.command.CommandResult;
 import com.epam.booking.utils.CurrentPageGetter;
-import com.epam.booking.utils.data.loader.PageDataLoader;
 import com.epam.booking.exception.ServiceException;
 import com.epam.booking.service.api.RoomService;
 import javax.servlet.http.HttpServletRequest;
@@ -15,11 +14,9 @@ public class ChangeRoomStatusCommand implements Command {
     private static final String ID_PARAMETER = "id";
 
     private RoomService roomService;
-    private PageDataLoader roomsPageDataLoader;
 
-    public ChangeRoomStatusCommand(RoomService roomService, PageDataLoader roomsPageDataLoader) {
+    public ChangeRoomStatusCommand(RoomService roomService) {
         this.roomService = roomService;
-        this.roomsPageDataLoader = roomsPageDataLoader;
     }
 
     @Override
@@ -31,7 +28,6 @@ public class ChangeRoomStatusCommand implements Command {
 
         roomService.setActiveById(id, active);
 
-        roomsPageDataLoader.loadDataToSession(request);
         String page = CurrentPageGetter.getCurrentPage(request);
         return CommandResult.createRedirectCommandResult(page);
     }

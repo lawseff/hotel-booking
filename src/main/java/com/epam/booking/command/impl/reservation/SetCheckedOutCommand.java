@@ -4,6 +4,7 @@ import com.epam.booking.command.Command;
 import com.epam.booking.command.CommandResult;
 import com.epam.booking.exception.ServiceException;
 import com.epam.booking.service.api.ReservationService;
+import com.epam.booking.utils.CurrentPageGetter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 public class SetCheckedOutCommand implements Command {
 
     private static final String ID_PARAMETER = "id";
-    private static final String RESULT_URL = "/controller?command=show_reservations_page&details_id=";
 
     private ReservationService reservationService;
 
@@ -24,7 +24,8 @@ public class SetCheckedOutCommand implements Command {
         String idParameter = request.getParameter(ID_PARAMETER);
         int id = Integer.parseInt(idParameter);
         reservationService.setCheckedOut(id);
-        return CommandResult.createForwardCommandResult(RESULT_URL + id);
+        String page = CurrentPageGetter.getCurrentPage(request);
+        return CommandResult.createRedirectCommandResult(page);
     }
 
 }

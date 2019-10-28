@@ -27,7 +27,7 @@
 
 <div class="container">
     <form action="${pageContext.request.contextPath}/controller" method="post">
-        <display:table name="sessionScope.room_classes" uid="room_class" class="table">
+        <display:table name="requestScope.room_classes" uid="room_class" class="table">
         <display:column title="${class_label}" property="name"/>
         <display:column title="${basic_rate}">
             <input type="hidden" name="name" value="${room_class.name}">
@@ -47,7 +47,7 @@
 </div>
 <div class="container">
 
-    <display:table name="sessionScope.rooms" uid="room" pagesize="5" class="table"
+    <display:table name="requestScope.rooms" uid="room" pagesize="5" class="table" requestURI=""
                    sort="list" defaultsort="1" defaultorder="ascending">
         <display:column title="${number}" property="id" sortable="true"/>
         <display:column title="${class_label}" property="roomClass.name" sortable="true"/>
@@ -60,7 +60,6 @@
                        <c:if test="${room.active}">checked="checked"</c:if>
                        onchange="this.form.submit()"
                 />
-
             </form>
         </display:column>
     </display:table>
