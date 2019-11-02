@@ -46,13 +46,6 @@ public class RoomClassServiceImpl implements RoomClassService {
 
             for (RoomClass submittedRoomClass : roomClasses) {
                 String roomClassName = submittedRoomClass.getName();
-                /*Optional<RoomClass> roomClassOptional = dao.getByName(roomClassName);
-                if (!roomClassOptional.isPresent()) {
-                    daoHelper.cancelTransaction();
-                    throw new ServiceException("Room class not found: " + roomClassName);
-                }
-                RoomClass actualRoomClass = roomClassOptional.get();
-                 */
                 RoomClass actualRoomClass = dao.getByName(roomClassName)
                         .orElseThrow(() -> new ServiceException("Room class not found: " + roomClassName));
                 BigDecimal basicRate = submittedRoomClass.getBasicRate();
@@ -63,7 +56,12 @@ public class RoomClassServiceImpl implements RoomClassService {
             }
 
             daoHelper.endTransaction();
-        } catch (DaoException e) {
+        } catch (Exception e) {
+            try {
+                daoHelper.cancelTransaction();
+            } catch (DaoException daoException) {
+                throw new ServiceException(daoException.getMessage(), e);
+            }
             throw new ServiceException(e.getMessage(), e);
         }
     }
