@@ -48,12 +48,12 @@ public class ReservationDaoImpl extends AbstractDao<Reservation> implements Rese
     }
 
     @Override
-    public Optional<Reservation> findById(int id) throws DaoException {
+    public Optional<Reservation> getById(int id) throws DaoException {
         return executeForSingleResult(FIND_BY_ID_QUERY, id);
     }
 
     @Override
-    public List<Reservation> findByUserId(int id) throws DaoException {
+    public List<Reservation> getByUserId(int id) throws DaoException {
         return executeQuery(FIND_BY_USER_ID_QUERY, id);
     }
 

@@ -25,7 +25,7 @@ public class RoomClassDaoImpl extends AbstractDao<RoomClass> implements RoomClas
     }
 
     @Override
-    public Optional<RoomClass> findByName(String name) throws DaoException {
+    public Optional<RoomClass> getByName(String name) throws DaoException {
         return executeForSingleResult(FIND_BY_NAME_QUERY, name);
     }
 

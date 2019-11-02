@@ -60,7 +60,7 @@ public class ShowReservationsPageCommand extends AbstractReservationCommand impl
             reservations = reservationService.getAllReservations();
         } else {
             int id = user.getId();
-            reservations = reservationService.findByUserId(id);
+            reservations = reservationService.getByUserId(id);
         }
         request.setAttribute(RESERVATIONS_ATTRIBUTE, reservations);
     }

@@ -6,6 +6,6 @@ import java.util.Optional;
 
 public interface RoomClassDao extends Dao<RoomClass> {
 
-    Optional<RoomClass> findByName(String name) throws DaoException;
+    Optional<RoomClass> getByName(String name) throws DaoException;
 
 }

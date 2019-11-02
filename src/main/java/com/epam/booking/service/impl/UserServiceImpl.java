@@ -22,11 +22,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> login(String email, String password) throws ServiceException {
+    public Optional<User> getUserByEmailAndPassword(String email, String password) throws ServiceException {
         try {
             UserDao dao = daoHelper.userDao(builder);
             String encryptedPassword = DigestUtils.md5Hex(password);
-            return dao.findByEmailAndPassword(email, encryptedPassword);
+            return dao.getByEmailAndPassword(email, encryptedPassword);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }

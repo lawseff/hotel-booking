@@ -14,9 +14,9 @@ public interface ReservationService {
 
     List<Reservation> getAllReservations() throws ServiceException;
 
-    Optional<Reservation> findById(int id) throws ServiceException;
+    Optional<Reservation> getById(int id) throws ServiceException;
 
-    List<Reservation> findByUserId(int userId) throws ServiceException;
+    List<Reservation> getByUserId(int userId) throws ServiceException;
 
     void book(User user, Date arrivalDate, Date departureDate, RoomClass roomClass, int personsAmount)
             throws ServiceException;

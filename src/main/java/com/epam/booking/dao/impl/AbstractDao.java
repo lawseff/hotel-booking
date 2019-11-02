@@ -23,7 +23,7 @@ public abstract class AbstractDao <T extends Identifiable> implements Dao<T> {
     }
 
     @Override
-    public Optional<T> findById(int id) throws DaoException {
+    public Optional<T> getById(int id) throws DaoException {
         String tableName = getTableName();
         String query = String.format(FIND_BY_ID_QUERY, tableName);
         String idParameter = Long.toString(id);

@@ -9,6 +9,6 @@ public interface RoomService {
 
     List<Room> getAllRooms() throws ServiceException;
     void setActiveById(int id, boolean active) throws ServiceException;
-    Optional<Room> findById(int id) throws ServiceException;
+    Optional<Room> getById(int id) throws ServiceException;
 
 }

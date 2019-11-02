@@ -6,7 +6,6 @@ import com.epam.booking.exception.ServiceException;
 import com.epam.booking.service.api.ReservationService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Optional;
 
 public abstract class AbstractReservationCommand {
 
@@ -22,11 +21,8 @@ public abstract class AbstractReservationCommand {
     protected Reservation getReservation(HttpServletRequest request) throws ServiceException {
         String idParameter = request.getParameter(ID_PARAMETER);
         int id = Integer.parseInt(idParameter);
-        Optional<Reservation> optional = reservationService.findById(id);
-        if (!optional.isPresent()) {
-            throw new ServiceException("Invalid reservation id: " + id);
-        }
-        return optional.get();
+        return reservationService.getById(id)
+                .orElseThrow(() -> new ServiceException("Invalid reservation id: " + id));
     }
 
     protected User getUser(HttpServletRequest request) {

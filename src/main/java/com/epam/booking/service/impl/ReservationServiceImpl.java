@@ -34,18 +34,18 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public Optional<Reservation> findById(int id) throws ServiceException {
+    public Optional<Reservation> getById(int id) throws ServiceException {
         try {
-            return dao.findById(id);
+            return dao.getById(id);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
-    public List<Reservation> findByUserId(int userId) throws ServiceException {
+    public List<Reservation> getByUserId(int userId) throws ServiceException {
         try {
-            return dao.findByUserId(userId);
+            return dao.getByUserId(userId);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
@@ -70,7 +70,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public void approve(int id, Room room, BigDecimal totalPrice) throws ServiceException {
-        Reservation reservation = getById(id);
+        Reservation reservation = getByIdOrElseThrowException(id);
         ReservationStatus reservationStatus = reservation.getReservationStatus();
         if (reservationStatus != ReservationStatus.WAITING) {
             throw new ServiceException("Can't approve reservation which is " + reservationStatus);
@@ -87,7 +87,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public void setPaid(int id) throws ServiceException {
-        Reservation reservation = getById(id);
+        Reservation reservation = getByIdOrElseThrowException(id);
         ReservationStatus reservationStatus = reservation.getReservationStatus();
         if (reservationStatus != ReservationStatus.APPROVED) {
             throw new ServiceException("Can't set paid reservation which is " + reservationStatus);
@@ -102,7 +102,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public void setCheckedIn(int id) throws ServiceException {
-        Reservation reservation = getById(id);
+        Reservation reservation = getByIdOrElseThrowException(id);
         ReservationStatus reservationStatus = reservation.getReservationStatus();
         if (reservationStatus != ReservationStatus.PAID) {
             throw new ServiceException("Can't set checked in reservation which is " + reservationStatus);
@@ -117,7 +117,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public void setCheckedOut(int id) throws ServiceException {
-        Reservation reservation = getById(id);
+        Reservation reservation = getByIdOrElseThrowException(id);
         ReservationStatus reservationStatus = reservation.getReservationStatus();
         if (reservationStatus != ReservationStatus.CHECKED_IN) {
             throw new ServiceException("Can't set checked out reservation which is " + reservationStatus);
@@ -133,7 +133,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public void cancel(int id) throws ServiceException {
         try {
-            Optional<Reservation> optional = dao.findById(id);
+            Optional<Reservation> optional = dao.getById(id);
             if (!optional.isPresent()) {
                 throw new ServiceException("Reservation not found by id: " + id);
             }
@@ -149,13 +149,10 @@ public class ReservationServiceImpl implements ReservationService {
         }
     }
 
-    private Reservation getById(int id) throws ServiceException {
+    private Reservation getByIdOrElseThrowException(int id) throws ServiceException {
         try {
-            Optional<Reservation> optional = dao.findById(id);
-            if (!optional.isPresent()) {
-                throw new ServiceException("Reservation not found by id: " + id);
-            }
-            return optional.get();
+            return dao.getById(id)
+                    .orElseThrow(() -> new ServiceException("Reservation not found by id: " + id));
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }

@@ -31,9 +31,9 @@ public class RoomClassServiceImpl implements RoomClassService {
     }
 
     @Override
-    public Optional<RoomClass> findByName(String name) throws ServiceException {
+    public Optional<RoomClass> getByName(String name) throws ServiceException {
         try {
-            return dao.findByName(name);
+            return dao.getByName(name);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
@@ -46,12 +46,15 @@ public class RoomClassServiceImpl implements RoomClassService {
 
             for (RoomClass submittedRoomClass : roomClasses) {
                 String roomClassName = submittedRoomClass.getName();
-                Optional<RoomClass> roomClassOptional = dao.findByName(roomClassName);
+                /*Optional<RoomClass> roomClassOptional = dao.getByName(roomClassName);
                 if (!roomClassOptional.isPresent()) {
                     daoHelper.cancelTransaction();
                     throw new ServiceException("Room class not found: " + roomClassName);
                 }
                 RoomClass actualRoomClass = roomClassOptional.get();
+                 */
+                RoomClass actualRoomClass = dao.getByName(roomClassName)
+                        .orElseThrow(() -> new ServiceException("Room class not found: " + roomClassName));
                 BigDecimal basicRate = submittedRoomClass.getBasicRate();
                 BigDecimal ratePerPerson = submittedRoomClass.getRatePerPerson();
                 actualRoomClass.setBasicRate(basicRate);

@@ -19,9 +19,9 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Optional<Room> findById(int id) throws ServiceException {
+    public Optional<Room> getById(int id) throws ServiceException {
         try {
-            return dao.findById(id);
+            return dao.getById(id);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
@@ -39,11 +39,8 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public void setActiveById(int id, boolean active) throws ServiceException {
         try {
-            Optional<Room> optional = dao.findById(id);
-            if (!optional.isPresent()) {
-                throw new ServiceException("Room not found by id=" + id);
-            }
-            Room room = optional.get();
+            Room room = dao.getById(id)
+                    .orElseThrow(() -> new ServiceException("Room not found by id=" + id));
             room.setActive(active);
             dao.save(room);
         } catch (DaoException e) {

@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface ReservationDao extends Dao<Reservation> {
 
-    List<Reservation> findByUserId(int id) throws DaoException;
+    List<Reservation> getByUserId(int id) throws DaoException;
 
 }

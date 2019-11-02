@@ -52,11 +52,8 @@ public class BookCommand implements Command {
             }
 
             String roomClassName = request.getParameter(ROOM_CLASS_PARAMETER);
-            Optional<RoomClass> roomClassOptional = roomClassService.findByName(roomClassName);
-            if (!roomClassOptional.isPresent()) {
-                throw new ServiceException("Invalid room class: " + roomClassName);
-            }
-            RoomClass roomClass = roomClassOptional.get();
+            RoomClass roomClass = roomClassService.getByName(roomClassName)
+                    .orElseThrow(() -> new ServiceException("Invalid room class: " + roomClassName));
 
             String personsAmountParameter = request.getParameter(PERSONS_AMOUNT_PARAMETER);
             int personsAmount = Integer.parseInt(personsAmountParameter);

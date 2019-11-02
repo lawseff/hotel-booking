@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 public class ApproveCommand extends AbstractReservationCommand implements Command {
 
@@ -39,11 +38,8 @@ public class ApproveCommand extends AbstractReservationCommand implements Comman
 
         String roomIdParameter = request.getParameter(ROOM_ID_PARAMETER);
         int roomId = Integer.parseInt(roomIdParameter);
-        Optional<Room> roomOptional = roomService.findById(roomId);
-        if (!roomOptional.isPresent()) {
-            throw new ServiceException("Room not found by id: " + roomId);
-        }
-        Room room = roomOptional.get();
+        Room room = roomService.getById(roomId)
+                .orElseThrow(() -> new ServiceException("Room not found by id: " + roomId));
         validateRoom(room, reservation);
         BigDecimal totalPrice = ReservationPriceCalculator.calculateReservationPrice(reservation);
 

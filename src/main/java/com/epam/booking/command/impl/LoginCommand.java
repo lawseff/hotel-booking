@@ -32,7 +32,7 @@ public class LoginCommand implements Command {
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         String email = request.getParameter(EMAIL_PARAMETER);
         String password = request.getParameter(PASSWORD_PARAMETER);
-        Optional<User> userOptional = userService.login(email, password);
+        Optional<User> userOptional = userService.getUserByEmailAndPassword(email, password);
         User user;
         HttpSession session = request.getSession();
         if (userOptional.isPresent()) {

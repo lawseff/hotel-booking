@@ -14,7 +14,7 @@ import java.util.Optional;
  */
 public interface Dao <T extends Identifiable> {
 
-    Optional<T> findById(int id) throws DaoException;
+    Optional<T> getById(int id) throws DaoException;
 
     List<T> getAll() throws DaoException;
 

@@ -33,7 +33,7 @@ public class RoomDaoImpl extends AbstractDao<Room> implements RoomDao {
     }
 
     @Override
-    public Optional<Room> findById(int id) throws DaoException {
+    public Optional<Room> getById(int id) throws DaoException {
         return executeForSingleResult(FIND_BY_ID_QUERY, id);
     }
 

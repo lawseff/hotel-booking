@@ -23,7 +23,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     }
 
     @Override
-    public Optional<User> findByEmailAndPassword(String email, String password) throws DaoException {
+    public Optional<User> getByEmailAndPassword(String email, String password) throws DaoException {
         return executeForSingleResult(
                 FIND_BY_EMAIL_AND_PASSWORD_QUERY,
                 email, password);
