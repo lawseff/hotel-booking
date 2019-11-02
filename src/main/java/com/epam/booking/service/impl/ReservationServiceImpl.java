@@ -54,13 +54,11 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public void book(User user, Date arrivalDate, Date departureDate, RoomClass roomClass, int personsAmount)
             throws ServiceException {
-        Room room  = null;
-        BigDecimal totalPrice = null;
         Reservation reservation = new Reservation(user,
-                roomClass, room,
+                roomClass, null,
                 ReservationStatus.WAITING,
                 arrivalDate, departureDate,
-                personsAmount, totalPrice);
+                personsAmount, null);
         try {
             dao.save(reservation);
         } catch (DaoException e) {
