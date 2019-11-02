@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 public class ConnectionPool {
 
     private static final boolean SEMAPHORE_FAIR = true;
-    private static ConnectionPool instance = new ConnectionPool();
+    private static final ConnectionPool INSTANCE = new ConnectionPool();
 
     private List<ProxyConnection> allConnections;
     private Queue<Connection> availableConnections = new LinkedList<>();
@@ -53,7 +53,7 @@ public class ConnectionPool {
      * @return the {@link ConnectionPool} instance
      */
     public static ConnectionPool getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
     /**
