@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * <P>A pool of fixed amount of connections to a database.
@@ -25,6 +27,7 @@ public class ConnectionPool {
 
     private static final boolean SEMAPHORE_FAIR = true;
     private static final ConnectionPool INSTANCE = new ConnectionPool();
+    private static final Lock LOCK = new ReentrantLock();
 
     private List<ProxyConnection> allConnections;
     private Queue<Connection> availableConnections = new LinkedList<>();
@@ -66,12 +69,15 @@ public class ConnectionPool {
     public Connection getConnection() throws ConnectionPoolException {
         try {
             if (semaphore.tryAcquire(maxWaitMillis, TimeUnit.MILLISECONDS)) {
+                LOCK.lock();
                 return availableConnections.poll();
             } else {
                 throw new ConnectionPoolException("Connection waiting timed out");
             }
         } catch (InterruptedException e) {
             throw new ConnectionPoolException(e.getMessage(), e);
+        } finally {
+            LOCK.unlock();
         }
     }
 
