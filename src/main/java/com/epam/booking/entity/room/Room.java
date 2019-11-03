@@ -55,11 +55,7 @@ public class Room implements Identifiable, Serializable {
             return false;
         }
         Room other = (Room) obj;
-        if (id != null) {
-            return id.equals(other.id);
-        } else {
-            return other.id == null;
-        }
+        return (id != null) ? id.equals(other.id) : other.id == null;
     }
 
     @Override
