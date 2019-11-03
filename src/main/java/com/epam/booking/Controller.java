@@ -23,12 +23,6 @@ public class Controller extends HttpServlet {
 
     public static final String COMMAND_PARAMETER = "command";
     private static final Logger LOGGER = LogManager.getLogger(Controller.class);
-    private ConnectionPool connectionPool;
-
-    @Override
-    public void init() {
-        connectionPool = ConnectionPool.getInstance();
-    }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -40,16 +34,8 @@ public class Controller extends HttpServlet {
         process(request, response);
     }
 
-    @Override
-    public void destroy() {
-        try {
-            connectionPool.close();
-        } catch (ConnectionPoolException e) {
-            LOGGER.error(e.getMessage(), e);
-        }
-    }
-
     private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
         try (Connection connection = connectionPool.getConnection()) {
             DaoHelper daoHelper = new DaoHelper(connection);
             CommandFactory commandFactory = new CommandFactoryImpl(daoHelper);
