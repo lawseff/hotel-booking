@@ -1,10 +1,13 @@
-# Hotel Booking
+## Hotel Booking
 
-## Task
+### Business use case
 
-**Клиент** заполняет **Заявку**, указывая количество мест в номере, класс апартаментов и время пребывания. 
-**Администратор** управляет **Клиентами** и **Номерами**, просматривает поступившие **Заявки**, выделяет наиболее подходящий из доступных **Номеров**, выставляет **Счет клиенту**.
+The **client** fills out an **application**, specifying the number of beds, room class and the length of stay.
+The administrator:
 
-## Author
-Mikhail Loseu
+- manages clients and rooms;
+- views received applications;
+- selects the most suitable and available room for the client;
+- bills the client.
 
+Mikhail Loseu, 2019
