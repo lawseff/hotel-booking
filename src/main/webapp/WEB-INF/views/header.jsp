@@ -12,6 +12,7 @@
     <fmt:bundle basename="content" prefix="header.">
         <fmt:message key="home" var="home"/>
         <fmt:message key="log_in" var="log_in"/>
+        <fmt:message key="register" var="register"/>
         <fmt:message key="rooms" var="rooms"/>
         <fmt:message key="book" var="book"/>
         <fmt:message key="reservations" var="reservations"/>
@@ -31,6 +32,9 @@
             <c:if test="${empty user}">
                 <a href="${pageContext.request.contextPath}/controller?command=show_login_page">
                     <li>${log_in}&nbsp;<i class="fa fa-sign-out"></i></li>
+                </a>
+                <a href="#">
+                    <li>${register}</li>
                 </a>
             </c:if>
             <c:if test="${not empty user}">
