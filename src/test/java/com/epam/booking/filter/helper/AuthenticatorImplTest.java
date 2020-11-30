@@ -56,7 +56,7 @@ public class AuthenticatorImplTest {
                 { CommandFactoryImpl.SHOW_LOGIN_PAGE_COMMAND },
                 { CommandFactoryImpl.LOGIN_COMMAND },
                 { CommandFactoryImpl.CHANGE_LANGUAGE_COMMAND },
-                { CommandFactoryImpl.UPDATE_PAGE_COMMAND }
+                { CommandFactoryImpl.UPDATE_PAGE_COMMAND },
         };
     }
 
