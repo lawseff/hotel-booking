@@ -50,19 +50,20 @@ public class AuthenticatorImplTest {
     }
 
     @DataProvider
-    public static Object[][] anyCredentialsCommandsDataProvider() {
+    public static Object[][] anyRoleCommandsDataProvider() {
         return new Object[][] {
                 { CommandFactoryImpl.SHOW_HOME_PAGE_COMMAND },
                 { CommandFactoryImpl.SHOW_LOGIN_PAGE_COMMAND },
                 { CommandFactoryImpl.LOGIN_COMMAND },
                 { CommandFactoryImpl.CHANGE_LANGUAGE_COMMAND },
                 { CommandFactoryImpl.UPDATE_PAGE_COMMAND },
+                { CommandFactoryImpl.SHOW_REGISTER_PAGE_COMMAND },
         };
     }
 
     @Test
     @UseDataProvider("adminCommandsDataProvider")
-    public void testHasAuthorityShouldReturnTrueWhenUserIsAdmin(String adminCommand) {
+    public void hasAuthority_Admin_True(String adminCommand) {
         // given
         /* ADMIN */
 
@@ -75,7 +76,7 @@ public class AuthenticatorImplTest {
 
     @Test
     @UseDataProvider("userCommandsDataProvider")
-    public void testHasAuthorityShouldReturnTrueWhenUserIsNotAdmin(String userCommand) {
+    public void hasAuthority_User_True(String userCommand) {
         // given
         /* USER */
 
@@ -88,7 +89,7 @@ public class AuthenticatorImplTest {
 
     @Test
     @UseDataProvider("adminCommandsDataProvider")
-    public void testHasAuthorityShouldReturnFalseWhenUserIsNotAdmin(String adminCommand) {
+    public void hasAuthority_User_False(String adminCommand) {
         // given
         /* USER */
 
@@ -100,8 +101,8 @@ public class AuthenticatorImplTest {
     }
 
     @Test
-    @UseDataProvider("anyCredentialsCommandsDataProvider")
-    public void testHasAuthorityShouldReturnTrueWhenUserIsEmpty(String anyCredentialsCommand) {
+    @UseDataProvider("anyRoleCommandsDataProvider")
+    public void hasAuthority_NotRegistered_True(String anyCredentialsCommand) {
         // given
         /* EMPTY_USER */
 
@@ -114,7 +115,7 @@ public class AuthenticatorImplTest {
 
     @Test
     @UseDataProvider("adminCommandsDataProvider")
-    public void testHasAuthorityShouldReturnFalseWhenUserIsEmptyAndAdminCommandSupplied(String adminCommand) {
+    public void hasAuthority_NotRegisteredAndAdminCommands_False(String adminCommand) {
         // given
         /* EMPTY_USER */
 
@@ -127,7 +128,7 @@ public class AuthenticatorImplTest {
 
     @Test
     @UseDataProvider("userCommandsDataProvider")
-    public void testHasAuthorityShouldReturnFalseWhenUserIsEmptyAndUserCommandSupplied(String adminCommand) {
+    public void hasAuthority_NotRegisteredAndUserCommands_False(String adminCommand) {
         // given
         /* EMPTY_USER */
 

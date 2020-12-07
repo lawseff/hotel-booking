@@ -18,6 +18,11 @@ public class RoomServiceImpl implements RoomService {
         this.dao = daoHelper.roomDao(builder);
     }
 
+    // Visible for testing
+    protected RoomServiceImpl(RoomDao dao) {
+        this.dao = dao;
+    }
+
     @Override
     public Optional<Room> getById(int id) throws ServiceException {
         try {

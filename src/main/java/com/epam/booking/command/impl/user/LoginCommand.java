@@ -1,4 +1,4 @@
-package com.epam.booking.command.impl;
+package com.epam.booking.command.impl.user;
 
 import com.epam.booking.command.Command;
 import com.epam.booking.command.CommandResult;

@@ -48,7 +48,8 @@ public class ApproveCommand extends AbstractReservationCommand implements Comman
         return CommandResult.createRedirectCommandResult(page);
     }
 
-    private void validateRoom(Room room, Reservation reservation) throws ServiceException {
+    // Visible for testing
+    protected void validateRoom(Room room, Reservation reservation) throws ServiceException {
         if (!room.isActive()) {
             throw new ServiceException("Room is not active");
         }

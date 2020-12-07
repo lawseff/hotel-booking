@@ -1,5 +1,14 @@
 # Hotel Booking
 
+#### Disclaimer:
+If you somehow managed to find this repo, don't browse the code.
+
+Why?
+1) This is legacy code 
+and I'm not really interested in supporting this project
+2) It has zero budget
+3) A couple of features gotta be made in short deadlines
+
 ## Business use case
 
 A **client** fills out an **application**, specifying the number of beds, room class and the length of stay.

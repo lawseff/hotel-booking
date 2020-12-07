@@ -24,6 +24,11 @@ public class ReservationServiceImpl implements ReservationService {
         dao = daoHelper.reservationDao(builder);
     }
 
+    // Visible for testing
+    protected ReservationServiceImpl(ReservationDao dao) {
+        this.dao = dao;
+    }
+
     @Override
     public List<Reservation> getAllReservations() throws ServiceException {
         try {
@@ -139,7 +144,7 @@ public class ReservationServiceImpl implements ReservationService {
             }
             Reservation reservation = optional.get();
             ReservationStatus reservationStatus = reservation.getReservationStatus();
-            if (reservationStatus == ReservationStatus.CANCELLED || reservationStatus == ReservationStatus.CHECKED_OUT) {
+            if (!canBeCancelled(reservation)) {
                 throw new ServiceException("Can't cancel reservation which is " + reservationStatus);
             }
             reservation.setReservationStatus(ReservationStatus.CANCELLED);
@@ -156,6 +161,12 @@ public class ReservationServiceImpl implements ReservationService {
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
+    }
+
+    private boolean canBeCancelled(Reservation reservation) {
+        return reservation.getReservationStatus() != null
+            && reservation.getReservationStatus() != ReservationStatus.CANCELLED
+            && reservation.getReservationStatus() != ReservationStatus.CHECKED_OUT;
     }
 
 }

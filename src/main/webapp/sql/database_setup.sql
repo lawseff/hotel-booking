@@ -26,7 +26,6 @@ CREATE TABLE room_class (
 
 CREATE TABLE room (
 	id int NOT NULL AUTO_INCREMENT,
-    room_number varchar(100) NOT NULL,
     is_active bool NOT NULL DEFAULT true,
     room_class_id int NOT NULL,
     beds_amount tinyint NOT NULL,

@@ -30,6 +30,11 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     }
 
     @Override
+    public Optional<User> getByEmail(String email) throws DaoException {
+        return Optional.empty();
+    }
+
+    @Override
     public void save(User entity) throws DaoException {
         throw new UnsupportedOperationException();
     }

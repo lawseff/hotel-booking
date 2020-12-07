@@ -2,6 +2,7 @@ USE hotel_booking;
 
 DELETE FROM room;
 
+// TODO remove room_number
 INSERT INTO room (room_class_id, room_number, beds_amount)
 	VALUES 
     ((SELECT id FROM room_class WHERE class_name='STANDARD'), '135a', 2),

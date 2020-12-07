@@ -12,32 +12,43 @@ import java.math.BigDecimal;
 @RunWith(DataProviderRunner.class)
 public class PriceValidatorImplTest {
 
-    private static final BigDecimal VALID_PRICE = new BigDecimal("105.30");
+    @DataProvider
+    public static Object[][] validDataProvider() {
+        return new Object[][] {
+                { new BigDecimal("10") },
+                { new BigDecimal("20.5") },
+                { new BigDecimal("30.75") },
+                { new BigDecimal("1000.00") }, // max valid price
+        };
+    }
 
     @DataProvider
-    public static Object[][] invalidDataProviderIsPriceValid() {
+    public static Object[][] invalidDataProvider() {
         return new Object[][] {
                 { new BigDecimal("0.00") }, // zero price
-                { new BigDecimal("-135.75") } // negative price
+                { new BigDecimal("-135.75") }, // negative price
+                { new BigDecimal("1000.01") }, // more than 1000.00
+                { new BigDecimal("10.123") } // invalid number of digits after the point
         };
     }
 
     private PriceValidator validator = new PriceValidatorImpl();
 
     @Test
-    public void testIsPriceValidShouldReturnTrueWhenValidPriceSupplied() {
+    @UseDataProvider("validDataProvider")
+    public void isPriceValid_ValidPrice_True(BigDecimal price) {
         // given
 
         // when
-        boolean isValid = validator.isPriceValid(VALID_PRICE);
+        boolean isValid = validator.isPriceValid(price);
 
         // then
         Assert.assertTrue(isValid);
     }
 
     @Test
-    @UseDataProvider("invalidDataProviderIsPriceValid")
-    public void testIsPriceValidShouldReturnFalseWhenInvalidPriceSupplied(BigDecimal price) {
+    @UseDataProvider("invalidDataProvider")
+    public void isPriceValid_InvalidPrice_False(BigDecimal price) {
         // given
 
         // when

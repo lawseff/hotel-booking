@@ -25,7 +25,7 @@ public class BookingDetailsValidatorImplTest {
     private BookingDetailsValidator validator;
 
     @DataProvider
-    public static Object[][] validDataProviderIsPeriodOfStayValid() {
+    public static Object[][] validDataProvider() {
         return new Object[][] {
                 { "2019-10-15", "2019-10-16" },
                 { "2019-11-25", "2019-12-01" },
@@ -35,7 +35,7 @@ public class BookingDetailsValidatorImplTest {
     }
 
     @DataProvider
-    public static Object[][] invalidDataProviderIsPeriodOfStayValid() {
+    public static Object[][] invalidDataProvider() {
         return new Object[][] {
                 { "2019-10-16", "2019-10-16" }, // arrival date is the same as departure date
                 { "2019-11-01", "2019-10-31" }, // departure date is before arrival date
@@ -61,8 +61,8 @@ public class BookingDetailsValidatorImplTest {
     }
 
     @Test
-    @UseDataProvider("validDataProviderIsPeriodOfStayValid")
-    public void testIsPeriodOfStayValidShouldReturnTrueWhenValidDatesSupplied(
+    @UseDataProvider("validDataProvider")
+    public void isPeriodOfStayValid_ValidPeriod_True(
             String arrivalDateParameter, String departureDateParameter) throws ParseException {
         // given
         Date arrivalDate = DATE_FORMAT.parse(arrivalDateParameter);
@@ -76,8 +76,8 @@ public class BookingDetailsValidatorImplTest {
     }
 
     @Test
-    @UseDataProvider("invalidDataProviderIsPeriodOfStayValid")
-    public void testIsPeriodOfStayValidShouldReturnFalseWhenInvalidDatesSupplied(
+    @UseDataProvider("invalidDataProvider")
+    public void isPeriodOfStayValid_ValidPeriod_False(
             String arrivalDateParameter, String departureDateParameter
     ) throws ParseException {
         // given

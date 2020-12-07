@@ -16,6 +16,7 @@ import com.epam.booking.command.impl.reservation.SetCheckedInCommand;
 import com.epam.booking.command.impl.reservation.SetCheckedOutCommand;
 import com.epam.booking.command.impl.reservation.ShowReservationsPageCommand;
 import com.epam.booking.command.impl.room.ShowRoomsPageCommand;
+import com.epam.booking.command.impl.user.LoginCommand;
 import com.epam.booking.service.api.ReservationService;
 import com.epam.booking.service.api.RoomClassService;
 import com.epam.booking.service.api.RoomService;
@@ -58,12 +59,14 @@ public class CommandFactoryImpl implements CommandFactory {
     public static final String SHOW_HOME_PAGE_COMMAND = "show_home_page";
     public static final String SHOW_LOGIN_PAGE_COMMAND = "show_login_page";
     public static final String LOGIN_COMMAND = "login";
+    public static final String SHOW_REGISTER_PAGE_COMMAND = "show_register_page";
     public static final String CHANGE_LANGUAGE_COMMAND = "change_language";
     public static final String UPDATE_PAGE_COMMAND = "update_page";
 
     // URLs
     private static final String HOME_PAGE_URL = "/home";
     private static final String LOGIN_PAGE_URL = "/login";
+    private static final String REGISTER_PAGE_URL = "/register";
 
     private DaoHelper daoHelper;
 
@@ -85,6 +88,9 @@ public class CommandFactoryImpl implements CommandFactory {
                 command = new LoginCommand(
                         getUserService()
                 );
+                break;
+            case SHOW_REGISTER_PAGE_COMMAND:
+                command = new ShowPageCommand(REGISTER_PAGE_URL);
                 break;
             case SIGN_OUT_COMMAND:
                 command = new SignOutCommand();

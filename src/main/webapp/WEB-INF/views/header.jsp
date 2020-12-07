@@ -33,7 +33,7 @@
                 <a href="${pageContext.request.contextPath}/controller?command=show_login_page">
                     <li>${log_in}&nbsp;<i class="fa fa-sign-out"></i></li>
                 </a>
-                <a href="#">
+                <a href="${pageContext.request.contextPath}/controller?command=show_register_page">
                     <li>${register}</li>
                 </a>
             </c:if>
