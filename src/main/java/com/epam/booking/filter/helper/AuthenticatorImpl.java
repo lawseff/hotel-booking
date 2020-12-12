@@ -31,6 +31,7 @@ public class AuthenticatorImpl implements Authenticator {
             case CommandFactoryImpl.SHOW_LOGIN_PAGE_COMMAND:
             case CommandFactoryImpl.LOGIN_COMMAND:
             case CommandFactoryImpl.SHOW_REGISTER_PAGE_COMMAND:
+            case CommandFactoryImpl.REGISTER_COMMAND:
             case CommandFactoryImpl.CHANGE_LANGUAGE_COMMAND:
             case CommandFactoryImpl.UPDATE_PAGE_COMMAND:
                 return true;

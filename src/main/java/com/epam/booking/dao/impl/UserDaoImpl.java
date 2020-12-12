@@ -12,6 +12,11 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     private static final String TABLE_NAME = "booking_user";
     private static final String FIND_BY_EMAIL_AND_PASSWORD_QUERY =
             "SELECT * FROM booking_user WHERE email=? AND user_password=?;";
+    private static final String FIND_BY_EMAIL_QUERY =
+            "SELECT * FROM booking_user WHERE email=?;";
+    private static final String SAVE_QUERY =
+        "INSERT INTO booking_user (email, user_password, first_name, second_name) " +
+        "VALUES (?, ?, ?, ?);";
 
     public UserDaoImpl(Builder<User> builder, Connection connection) {
         super(builder, connection);
@@ -31,12 +36,17 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
     @Override
     public Optional<User> getByEmail(String email) throws DaoException {
-        return Optional.empty();
+        return executeForSingleResult(FIND_BY_EMAIL_QUERY, email);
     }
 
     @Override
-    public void save(User entity) throws DaoException {
-        throw new UnsupportedOperationException();
+    public void save(User user) throws DaoException {
+        executeUpdate(SAVE_QUERY,
+            user.getEmail(),
+            user.getPassword(),
+            user.getFirstName(),
+            user.getSecondName()
+        );
     }
 
     @Override

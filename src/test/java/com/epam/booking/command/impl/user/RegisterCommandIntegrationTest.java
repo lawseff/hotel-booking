@@ -147,10 +147,10 @@ public class RegisterCommandIntegrationTest {
   }
 
   private void assertUser(User user) {
-    assertEquals(user.getEmail(), EMAIL);
-    assertEquals(user.getPassword(), PASSWORD);
-    assertEquals(user.getFirstName(), FIRST_NAME);
-    assertEquals(user.getSecondName(), LAST_NAME);
+    assertEquals(EMAIL, user.getEmail());
+    assertEquals(PASSWORD, user.getPassword());
+    assertEquals(FIRST_NAME, user.getFirstName());
+    assertEquals(LAST_NAME, user.getSecondName());
   }
   
 }

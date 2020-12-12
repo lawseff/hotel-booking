@@ -17,6 +17,7 @@ import com.epam.booking.command.impl.reservation.SetCheckedOutCommand;
 import com.epam.booking.command.impl.reservation.ShowReservationsPageCommand;
 import com.epam.booking.command.impl.room.ShowRoomsPageCommand;
 import com.epam.booking.command.impl.user.LoginCommand;
+import com.epam.booking.command.impl.user.RegisterCommand;
 import com.epam.booking.service.api.ReservationService;
 import com.epam.booking.service.api.RoomClassService;
 import com.epam.booking.service.api.RoomService;
@@ -36,6 +37,7 @@ import com.epam.booking.entity.room.RoomClass;
 import com.epam.booking.validation.impl.BookingDetailsValidatorImpl;
 import com.epam.booking.validation.impl.PaymentValidatorImpl;
 import com.epam.booking.validation.impl.PriceValidatorImpl;
+import com.epam.booking.validation.impl.UserDetailsValidatorImpl;
 
 public class CommandFactoryImpl implements CommandFactory {
 
@@ -60,6 +62,7 @@ public class CommandFactoryImpl implements CommandFactory {
     public static final String SHOW_LOGIN_PAGE_COMMAND = "show_login_page";
     public static final String LOGIN_COMMAND = "login";
     public static final String SHOW_REGISTER_PAGE_COMMAND = "show_register_page";
+    public static final String REGISTER_COMMAND = "register";
     public static final String CHANGE_LANGUAGE_COMMAND = "change_language";
     public static final String UPDATE_PAGE_COMMAND = "update_page";
 
@@ -91,6 +94,12 @@ public class CommandFactoryImpl implements CommandFactory {
                 break;
             case SHOW_REGISTER_PAGE_COMMAND:
                 command = new ShowPageCommand(REGISTER_PAGE_URL);
+                break;
+            case REGISTER_COMMAND:
+                command = new RegisterCommand(
+                    getUserService(),
+                    new UserDetailsValidatorImpl()
+                );
                 break;
             case SIGN_OUT_COMMAND:
                 command = new SignOutCommand();

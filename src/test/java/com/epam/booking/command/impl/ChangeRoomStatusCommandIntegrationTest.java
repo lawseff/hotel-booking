@@ -4,6 +4,7 @@ import com.epam.booking.command.CommandResult;
 import com.epam.booking.command.impl.room.ChangeRoomStatusCommand;
 import com.epam.booking.exception.ServiceException;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -34,6 +35,7 @@ public class ChangeRoomStatusCommandIntegrationTest {
   }
   
   @Test
+  @Ignore
   public void execute() throws ServiceException {
     CommandResult result = command.execute(request, response);
 
