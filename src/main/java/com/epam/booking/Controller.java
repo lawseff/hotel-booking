@@ -10,6 +10,7 @@ import com.epam.booking.exception.ConnectionPoolException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,6 +35,11 @@ public class Controller extends HttpServlet {
         process(request, response);
     }
 
+    // Visible for testing
+    public ServletContext getContext() {
+        return getServletContext();
+    }
+
     private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         try (Connection connection = connectionPool.getConnection()) {
@@ -53,10 +59,10 @@ public class Controller extends HttpServlet {
             throws ServletException, IOException {
         String page = commandResult.getPage();
         if (commandResult.isRedirect()) {
-            String contextPath = getServletContext().getContextPath();
+            String contextPath = getContext().getContextPath();
             response.sendRedirect(contextPath + page);
         } else {
-            RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher(page);
+            RequestDispatcher requestDispatcher = getContext().getRequestDispatcher(page);
             requestDispatcher.forward(request, response);
         }
     }

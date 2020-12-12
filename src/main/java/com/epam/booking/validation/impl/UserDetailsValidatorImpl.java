@@ -4,7 +4,7 @@ import com.epam.booking.validation.api.UserDetailsValidator;
 
 public class UserDetailsValidatorImpl implements UserDetailsValidator {
 
-  private static final String EMAIL_REGEX = "^[a-zA-Z0-9_]+@([a-zA-Z0-9\\-]+\\.)+[a-zA-Z0-9\\-]+$";
+  private static final String EMAIL_REGEX = "^[a-zA-Z0-9_.]+@([a-zA-Z0-9\\-]+\\.)+[a-zA-Z0-9\\-]+$";
   private static final int EMAIL_MAX_LENGTH = 30;
   
   @Override

@@ -31,10 +31,10 @@
         <display:column title="${class_label}" property="name"/>
         <display:column title="${basic_rate}">
             <input type="hidden" name="name" value="${room_class.name}">
-            <input type="text" required value="${room_class.basicRate}" name="basic_rate" pattern="\d+\.\d{2}">
+            <input type="text" required value="${room_class.basicRate}" name="basic_rate" pattern="^\d+\.\d{2}$" min="5" max="1000">
         </display:column>
         <display:column title="${rate_per_person}">
-            <input type="text" required value="${room_class.ratePerPerson}" name="rate_per_person" pattern="\d+\.\d{2}">
+            <input type="text" required value="${room_class.ratePerPerson}" name="rate_per_person" pattern="^\d+\.\d{2}$" min="5" max="1000">
         </display:column>
         </display:table>
         <input type="hidden" name="command" value="save_prices">

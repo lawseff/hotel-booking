@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
         try {
             UserDao dao = daoHelper.userDao(builder);
             String encryptedPassword = encryptPassword(password);
-            return dao.getByEmailAndPassword(email, encryptedPassword);
+            return dao.getByEmailAndPassword(email.toLowerCase(), encryptedPassword);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
 
     private User signUpUser(SignUpRequest request) throws DaoException, EntityAlreadyExistsException {
         UserDao dao = daoHelper.userDao(builder);
-        if (dao.getByEmail(request.getEmail()).isPresent()) {
+        if (dao.getByEmail(request.getEmail().toLowerCase()).isPresent()) {
             throw new EntityAlreadyExistsException();
         }
         User user = mapToUser(request);
@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
     private User mapToUser(SignUpRequest request) {
         return new User(
             false,
-            request.getEmail(),
+            request.getEmail().toLowerCase(),
             encryptPassword(request.getPassword()),
             request.getFirstName(),
             request.getLastName()

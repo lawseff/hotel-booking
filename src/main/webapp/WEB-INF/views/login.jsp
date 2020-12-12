@@ -28,11 +28,21 @@
             <input type="hidden" name="command" value="login">
             <label >
                 Email
-                <input type="text" name="email" required>
+                <input type="email"
+                       name="email"
+                       required
+                       minlength="5"
+                       maxlength="30"
+                >
             </label>
             <label>
                 ${password}
-                <input type="password" name="password" required>
+                <input type="password"
+                       name="password"
+                       required
+                       minlength="5"
+                       maxlength="30"
+                >
             </label>
                 <input class="button" type="submit" value="${log_in}">
         </form>

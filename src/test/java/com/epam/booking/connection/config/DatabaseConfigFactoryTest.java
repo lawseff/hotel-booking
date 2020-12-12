@@ -6,13 +6,18 @@ import org.junit.Test;
 public class DatabaseConfigFactoryTest {
 
     private static final String EXPECTED_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String EXPECTED_URL = "jdbc:mysql://localhost:3306/hotel_booking";
+    private static final String EXPECTED_URL = "jdbc:mysql://localhost:3306/hotel_booking_test";
     private static final String EXPECTED_USER = "root";
     private static final String EXPECTED_PASSWORD = "root";
-    private static final int EXPECTED_POOL_SIZE = 5;
+    private static final int EXPECTED_POOL_SIZE = 1;
     private static final long EXPECTED_MAX_WAIT_MILLIS = 5000;
 
     private DatabaseConfigFactory configFactory = new DatabaseConfigFactory();
+
+    @Test(expected = IllegalStateException.class)
+    public void createConfig_MissingConfigFile_Exception() {
+        configFactory.createConfig("this file does not exist");
+    }
 
     @Test
     public void testCreateConfigShouldReturnConfigWhenMethodInvoked() {

@@ -1,5 +1,7 @@
 package com.epam.booking.validation.impl;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 import com.epam.booking.utils.DateUtils;
 import com.epam.booking.validation.api.BookingDetailsValidator;
@@ -54,12 +56,6 @@ public class BookingDetailsValidatorImplTest {
         validator = new BookingDetailsValidatorImpl(dateUtils);
     }
 
-    @After
-    public void verifyMock() {
-        verify(dateUtils, times(1)).getCurrentDateWithoutTime();
-        verifyNoMoreInteractions(dateUtils);
-    }
-
     @Test
     @UseDataProvider("validDataProvider")
     public void isPeriodOfStayValid_ValidPeriod_True(
@@ -72,7 +68,9 @@ public class BookingDetailsValidatorImplTest {
         boolean isValid = validator.isPeriodOfStayValid(arrivalDate, departureDate);
 
         // then
-        Assert.assertTrue(isValid);
+        assertTrue(isValid);
+        verify(dateUtils, times(1)).getCurrentDateWithoutTime();
+        verifyNoMoreInteractions(dateUtils);
     }
 
     @Test
@@ -89,6 +87,25 @@ public class BookingDetailsValidatorImplTest {
 
         // then
         Assert.assertFalse(isValid);
+        verify(dateUtils, times(1)).getCurrentDateWithoutTime();
+        verifyNoMoreInteractions(dateUtils);
+    }
+
+    @Test
+    public void isPersonsAmountValid_Valid_True() {
+        assertTrue(validator.isPersonsAmountValid(5));
+    }
+
+    @DataProvider
+    public static Object[][] isPersonsAmountInvalidDataProvider() {
+        return new Object[][] {
+            {-1}, {0}, {7}
+        };
+    }
+    @Test
+    @UseDataProvider("isPersonsAmountInvalidDataProvider")
+    public void isPersonsAmountValid_Parameterized_False(int amount) {
+        assertFalse(validator.isPersonsAmountValid(amount));
     }
 
 }

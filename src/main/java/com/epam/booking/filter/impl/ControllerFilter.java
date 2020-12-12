@@ -23,6 +23,10 @@ public class ControllerFilter extends AbstractFilter {
         authenticator = new AuthenticatorImpl();
     }
 
+    public void setAuthenticator(Authenticator authenticator) {
+        this.authenticator = authenticator;
+    }
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {

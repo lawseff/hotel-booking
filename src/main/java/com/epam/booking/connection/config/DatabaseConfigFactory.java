@@ -30,7 +30,11 @@ public class DatabaseConfigFactory {
      * @return a {@link DatabaseConfig} object.
      */
     public DatabaseConfig createConfig() {
-        Properties properties = readPropertiesFromResources();
+       return createConfig(PROPERTIES_FILE);
+    }
+
+    public DatabaseConfig createConfig(String file) {
+        Properties properties = readPropertiesFromResources(file);
         String driverName = properties.getProperty(DRIVER);
         String url = properties.getProperty(URL);
         String user = properties.getProperty(USER);
@@ -42,9 +46,9 @@ public class DatabaseConfigFactory {
         return new DatabaseConfig(driverName, url, user, password, poolSize, connectionTimeoutMillis);
     }
 
-    private Properties readPropertiesFromResources() {
+    private Properties readPropertiesFromResources(String file) {
         ClassLoader loader = getClass().getClassLoader();
-        try (InputStream inputStream = loader.getResourceAsStream(PROPERTIES_FILE)) {
+        try (InputStream inputStream = loader.getResourceAsStream(file)) {
             if (inputStream == null) {
                 String message = "database.properties not found";
                 LOGGER.error(message);

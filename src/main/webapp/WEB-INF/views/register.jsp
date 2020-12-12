@@ -30,19 +30,39 @@
         <input type="hidden" name="command" value="register">
         <label >
             Email
-            <input type="text" name="email" required>
+            <input type="email"
+                   name="email"
+                   required
+                   minlength="5"
+                   maxlength="30"
+            >
         </label>
         <label>
             ${password}
-            <input type="password" name="password" required>
+            <input type="password"
+                   name="password"
+                   required
+                   minlength="5"
+                   maxlength="30"
+            >
         </label>
         <label >
             ${first_name}
-            <input type="text" name="first_name" required>
+            <input type="text"
+                   name="first_name"
+                   required
+                   minlength="3"
+                   maxlength="30"
+            >
         </label>
         <label >
             ${last_name}
-            <input type="text" name="last_name" required>
+            <input type="text"
+                   name="last_name"
+                   required
+                   minlength="3"
+                   maxlength="30"
+            >
         </label>
         <input class="button" type="submit" value="${register}">
     </form>
