@@ -3,6 +3,7 @@ package com.epam.booking.service.impl;
 import com.epam.booking.dao.api.ReservationDao;
 import com.epam.booking.entity.reservation.Reservation;
 import com.epam.booking.entity.reservation.ReservationStatus;
+import com.epam.booking.entity.room.Room;
 import com.epam.booking.exception.DaoException;
 import com.epam.booking.exception.ServiceException;
 import org.junit.Before;
@@ -11,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -42,14 +44,41 @@ public class ReservationServiceImplTest {
   }
 
   @Test(expected = ServiceException.class)
-  public void cancel_NotFound() throws DaoException, ServiceException {
+  public void cancel_DatabaseException() throws ServiceException, DaoException {
+    doThrow(new DaoException()).when(reservationDao).save(any());
+
+    reservationService.cancel(1);
+  }
+
+  @Test(expected = ServiceException.class)
+  public void cancel_NotFound_Exception() throws DaoException, ServiceException {
     when(reservationDao.getById(1)).thenReturn(Optional.empty());
 
     reservationService.cancel(1);
   }
 
   @Test(expected = ServiceException.class)
-  public void cancel_InvalidStatus() throws ServiceException {
+  public void cancel_InvalidStatus_Exception() throws ServiceException {
+    when(reservation.getReservationStatus()).thenReturn(ReservationStatus.CHECKED_OUT);
+
+    reservationService.cancel(1);
+  }
+
+  @Test
+  public void approve_ValidStatus_Approved() throws ServiceException {
+    Room room = mock(Room.class);
+    when(room.getId()).thenReturn(123);
+    when(reservation.getReservationStatus()).thenReturn(ReservationStatus.WAITING);
+
+    reservationService.approve(1, room, BigDecimal.TEN);
+
+    verify(reservation).setReservationStatus(ReservationStatus.APPROVED);
+    verify(reservation).setTotalPrice(BigDecimal.TEN);
+    verify(reservation).setRoom(room);
+  }
+
+  @Test(expected = ServiceException.class)
+  public void approve_InvalidStatus_Exception() throws ServiceException {
     when(reservation.getReservationStatus()).thenReturn(ReservationStatus.CHECKED_OUT);
 
     reservationService.cancel(1);

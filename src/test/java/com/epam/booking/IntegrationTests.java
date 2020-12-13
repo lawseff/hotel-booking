@@ -3,24 +3,29 @@ package com.epam.booking;
 import com.epam.booking.command.factory.CommandFactoryImpl;
 import com.epam.booking.command.impl.CommandTestUtils;
 import com.epam.booking.connection.ConnectionPool;
+import com.epam.booking.entity.User;
+import com.epam.booking.entity.reservation.Reservation;
 import com.epam.booking.entity.room.Room;
 import com.epam.booking.entity.room.RoomClass;
 import com.epam.booking.exception.ConnectionPoolException;
+import com.epam.booking.exception.ServiceException;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,12 +44,13 @@ public class IntegrationTests {
   }
 
   @AfterClass
-  public static void tearDown() throws ConnectionPoolException {
+  public static void tearDownOnce() throws ConnectionPoolException {
     ConnectionPool.getInstance().close();
   }
 
   private HttpServletRequest request;
   private Map<String, Object> requestAttributes;
+  private HttpSession session;
   private HttpServletResponse response;
 
   @Before
@@ -63,7 +69,17 @@ public class IntegrationTests {
         i -> requestAttributes.put((String)i.getArguments()[0], i.getArguments()[1])
     ).when(request).setAttribute(any(), any());
     CommandTestUtils.mockCurrentPage(request);
+    session = mock(HttpSession.class);
+    when(request.getSession())
+        .thenReturn(session);
+
     response = mock(HttpServletResponse.class);
+
+  }
+
+  @After
+  public void tearDOwn() throws SQLException {
+    cleanUp("DELETE FROM reservation");
   }
 
   // =========================================================================
@@ -121,6 +137,302 @@ public class IntegrationTests {
     cleanUp("UPDATE room SET is_active=1 WHERE id=1");
   }
 
+  @Test
+  public void SavePricesCommand_NormalFlow_PricesUpdated() throws ServletException, IOException, SQLException {
+    setCommand(CommandFactoryImpl.SAVE_PRICES_COMMAND);
+    when(request.getParameterValues("name"))
+        .thenReturn(new String[]{"VIP"});
+    when(request.getParameterValues("basic_rate"))
+        .thenReturn(new String[]{"150.50"});
+    when(request.getParameterValues("rate_per_person"))
+        .thenReturn(new String[]{"250.50"});
+
+    controller.doPost(request, response);
+
+    assertEquals(1, countRows("room_class",
+        "class_name='VIP' AND basic_rate=150.50 AND rate_per_person=250.50"
+    ));
+    cleanUp("UPDATE room_class " +
+        "SET basic_rate=145.00, rate_per_person=25.00 " +
+        "WHERE class_name='VIP'"
+    );
+  }
+
+  @DataProvider
+  public static Object[][] savePricesCommand() {
+    return new Object[][] {
+        {"-150.50", "250.50"}, // invalid basicRate
+        {"150.50", "10000.00"} // invalid ratePerPerson
+    };
+  }
+  @Test
+  @UseDataProvider("savePricesCommand")
+  public void SavePricesCommand_InvalidPrice_Exception(String basicRate, String ratePerPerson) throws ServletException, IOException {
+    setCommand(CommandFactoryImpl.SAVE_PRICES_COMMAND);
+    when(request.getParameterValues("name"))
+        .thenReturn(new String[]{"VIP"});
+    when(request.getParameterValues("basic_rate"))
+        .thenReturn(new String[]{basicRate});
+    when(request.getParameterValues("rate_per_person"))
+        .thenReturn(new String[]{ratePerPerson});
+
+    try {
+      controller.doPost(request, response);
+    } catch (ServletException e) {
+      assertTrue(e.getCause() instanceof  ServiceException);
+    }
+  }
+
+  @Test
+  public void BookCommand_ValidParams_NormalFlow() throws ServletException, IOException, SQLException {
+    setCommand(CommandFactoryImpl.BOOK_COMMAND);
+    mockUser();
+    DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    String arrivalDate = format.format(Date.from(LocalDate.now().plusDays(5).atStartOfDay().toInstant(ZoneOffset.UTC)));
+    mockParam("arrival_date", arrivalDate);
+    String departureDate = format.format(Date.from(LocalDate.now().plusDays(6).atStartOfDay().toInstant(ZoneOffset.UTC)));
+    mockParam("departure_date", departureDate);
+    mockParam("room_class", "VIP");
+    mockParam("persons_amount", "1");
+
+    controller.doPost(request, response);
+
+    assertEquals(1, countRows("reservation",
+        "arrival_date='" + arrivalDate + "' AND departure_date='" + departureDate + "'"
+    ));
+  }
+
+  @DataProvider
+  public static Object[][] bookCommand_InvalidParams() {
+    DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    String validArrivalDate = format.format(Date.from(LocalDate.now().plusDays(5).atStartOfDay().toInstant(ZoneOffset.UTC)));
+    String validDepartureDate = format.format(Date.from(LocalDate.now().plusDays(6).atStartOfDay().toInstant(ZoneOffset.UTC)));
+    String invalidDate = format.format(Date.from(LocalDate.now().minusYears(3).atStartOfDay().toInstant(ZoneOffset.UTC)));
+    return new Object[][] {
+        {"", "", "VIP", "1"}, // unparsable
+        {validArrivalDate, validDepartureDate, "VIP", "-1"}, // invalid persons amount
+        {validArrivalDate, validDepartureDate, "INVALID_CLASS", "1"},
+
+        // invalid period
+        {validArrivalDate, invalidDate, "VIP", "1"},
+        {invalidDate, validArrivalDate, "VIP", "1"},
+    };
+  }
+  @Test
+  @UseDataProvider("bookCommand_InvalidParams")
+  public void BookCommand_InvalidParamsException(
+      String arrivalDate,
+      String departureDate,
+      String roomClass,
+      String personsAmount
+  ) throws ServletException, IOException {
+    setCommand(CommandFactoryImpl.BOOK_COMMAND);
+    mockUser();
+    mockParam("arrival_date", arrivalDate);
+    mockParam("departure_date", departureDate);
+    mockParam("room_class", roomClass);
+    mockParam("persons_amount", personsAmount);
+
+    try {
+      controller.doPost(request, response);
+    } catch (ServletException e) {
+
+      assertTrue(e.getCause() instanceof ServiceException);
+    }
+  }
+
+  @Test
+  public void SetCheckedInCommand_ValidStatus_CheckedIn() throws SQLException, ServletException, IOException {
+    setCommand(CommandFactoryImpl.CHECK_IN_COMMAND);
+    mockReservation("PAID");
+    mockParam("id", "1");
+
+    controller.doPost(request, response);
+
+    assertEquals(1, countRows("reservation", "reservation_status='CHECKED_IN'"));
+  }
+
+  @Test
+  public void SetCheckedInCommand_InvalidStatus_Exception() throws SQLException, IOException {
+    setCommand(CommandFactoryImpl.CHECK_IN_COMMAND);
+    mockReservation("CANCELLED");
+    mockParam("id", "1");
+
+    try {
+      controller.doPost(request, response);
+
+    } catch (ServletException e) {
+      assertTrue(e.getCause() instanceof ServiceException);
+    }
+  }
+
+  @Test
+  public void SetCheckedInCommand_InvalidId_Exception() throws SQLException, IOException {
+    setCommand(CommandFactoryImpl.CHECK_IN_COMMAND);
+    mockReservation("PAID");
+    mockParam("id", "999");
+
+    try {
+      controller.doPost(request, response);
+
+    } catch (ServletException e) {
+      assertTrue(e.getCause() instanceof ServiceException);
+    }
+  }
+
+  @Test
+  public void SetCheckedOutCommand_ValidStatus_CheckedOut() throws SQLException, ServletException, IOException {
+    setCommand(CommandFactoryImpl.CHECK_OUT_COMMAND);
+    mockReservation("CHECKED_IN");
+    mockParam("id", "1");
+
+    controller.doPost(request, response);
+
+    assertEquals(1, countRows("reservation", "reservation_status='CHECKED_OUT'"));
+  }
+
+  @Test
+  public void SetCheckedOutCommand_InvalidStatus_Exception() throws SQLException, IOException {
+    setCommand(CommandFactoryImpl.CHECK_OUT_COMMAND);
+    mockReservation("CANCELLED");
+    mockParam("id", "1");
+
+    try {
+      controller.doPost(request, response);
+
+    } catch (ServletException e) {
+      assertTrue(e.getCause() instanceof ServiceException);
+    }
+  }
+
+  @Test
+  public void CancelReservationCommand_ValidStatus_Cancelled() throws SQLException, ServletException, IOException {
+    setCommand(CommandFactoryImpl.CANCEL_RESERVATION_COMMAND);
+    mockReservation("WAITING");
+    mockParam("id", "1");
+    mockUser();
+
+    controller.doPost(request, response);
+
+    assertEquals(1, countRows("reservation", "reservation_status='CANCELLED'"));
+  }
+
+  @Test
+  public void CancelReservationCommand_InvalidStatis_Exception() throws SQLException, IOException {
+    setCommand(CommandFactoryImpl.CANCEL_RESERVATION_COMMAND);
+    mockReservation("CANCELLED");
+    mockParam("id", "1");
+    mockUser();
+
+    try {
+      controller.doPost(request, response);
+
+    } catch (ServletException e) {
+      assertTrue(e.getCause() instanceof ServiceException);
+    }
+  }
+
+  @Test
+  public void PayCommand_ValidParams_Paid() throws SQLException, ServletException, IOException {
+    setCommand(CommandFactoryImpl.PAY_COMMAND);
+    mockUser();
+    mockReservation("APPROVED");
+    mockParam("id", "1");
+    mockParam("card_number", "5500000000000004");
+    DateFormat format = new SimpleDateFormat("MM/yy");
+    String valid_thru = format.format(Date.from(LocalDate.now().plusYears(1).atStartOfDay().toInstant(ZoneOffset.UTC)));
+    mockParam("valid_thru", valid_thru);
+    mockParam("cvv_number", "123");
+
+    controller.doPost(request, response);
+
+    assertEquals(1, countRows("reservation", "reservation_status='PAID'"));
+  }
+
+  @DataProvider
+  public static Object[][] payCommand_InvalidParams() {
+    DateFormat format = new SimpleDateFormat("MM/yy");
+    String validExpirationDate = format.format(Date.from(LocalDate.now().plusYears(1).atStartOfDay().toInstant(ZoneOffset.UTC)));
+    String invalidExpirationDate = format.format(Date.from(LocalDate.now().minusYears(1).atStartOfDay().toInstant(ZoneOffset.UTC)));
+    return new Object[][] {
+        {"WAITING", "5500000000000004", validExpirationDate, "123"}, // invalid status
+        {"APPROVED", "4444", validExpirationDate, "123"}, // invalid card number
+        {"APPROVED", "5500000000000004", invalidExpirationDate, "123"},
+        {"APPROVED", "5500000000000004", validExpirationDate, "99999"}, // invalid cvv
+    };
+  }
+  @Test
+  @UseDataProvider("payCommand_InvalidParams")
+  public void PayCommand_InvalidParams_Exception(
+      String status, String cardNumber, String validThru, String cvvNumber
+  ) throws SQLException, IOException {
+    setCommand(CommandFactoryImpl.PAY_COMMAND);
+    mockUser();
+    mockReservation(status);
+    mockParam("id", "1");
+    mockParam("card_number", cardNumber);
+    mockParam("valid_thru", validThru);
+    mockParam("cvv_number", cvvNumber);
+
+    try {
+      controller.doPost(request, response);
+    } catch (ServletException e) {
+      assertTrue(e.getCause() instanceof ServiceException);
+    }
+  }
+
+  @Test
+  public void PayCommand_NotAuthorized_Exception() throws SQLException, IOException {
+    setCommand(CommandFactoryImpl.PAY_COMMAND);
+    mockUser();
+    mockReservation("2", "APPROVED");
+    mockParam("id", "1");
+    mockParam("card_number", "5500000000000004");
+    DateFormat format = new SimpleDateFormat("MM/yy");
+    String valid_thru = format.format(Date.from(LocalDate.now().plusYears(1).atStartOfDay().toInstant(ZoneOffset.UTC)));
+    mockParam("valid_thru", valid_thru);
+    mockParam("cvv_number", "123");
+
+    try {
+      controller.doPost(request, response);
+    } catch (ServletException e) {
+      assertTrue(e.getCause() instanceof ServiceException);
+    }
+  }
+
+  @DataProvider
+  public static Object[][] showReservationsPageCommand() {
+    return new Object[][] {
+        {true, "1", "WAITING"},
+        {true, "1", "PAID"},
+        {false, "1", "WAITING"},
+        {true, null, "PAID"},
+        {false, null, "WAITING"},
+    };
+  }
+  @Test
+  @UseDataProvider("showReservationsPageCommand")
+  public void ShowReservationsPageCommand(boolean isAdmin, String id, String status) throws SQLException, ServletException, IOException {
+    setCommand(CommandFactoryImpl.SHOW_RESERVATIONS_PAGE_COMMAND);
+    if (isAdmin) {
+      mockAdmin();
+    } else {
+      mockUser();
+    }
+    mockReservation(status);
+    mockParam("id", id);
+
+    controller.doGet(request, response);
+
+    List<Reservation> reservations = getAttribute("reservations", List.class);
+    assertEquals(1, reservations.size());
+    if (id != null) {
+      assertNotNull(getAttribute("reservation_details", Reservation.class));
+    } else {
+      assertNull(request.getAttribute("reservation_details"));
+    }
+  }
+
   // =========================================================================
 
   private void mockParam(String param, String value) {
@@ -136,6 +448,42 @@ public class IntegrationTests {
     Object attribute = requestAttributes.get(name);
     assertNotNull(attribute);
     return (T) attribute;
+  }
+
+  private void mockUser() {
+    when(session.getAttribute("user")).thenReturn(new User(
+        1,
+        false,
+        "test@example.com",
+        "qwerty",
+        "Test",
+        "User"
+    ));
+  }
+
+  private void mockAdmin() {
+    when(session.getAttribute("user")).thenReturn(new User(
+        2,
+        true,
+        "admin@example.com",
+        "admin",
+        "Test",
+        "Admin"
+    ));
+  }
+
+  private void mockReservation(String status) throws SQLException {
+    mockReservation("1", status);
+  }
+
+  private void mockReservation(String userId, String status) throws SQLException {
+    String query = "INSERT INTO reservation " +
+        "(id, user_id, room_class_id, room_id, reservation_status, arrival_date, departure_date, persons_amount, total_price) " +
+        "VALUES (1, %s, 1, 1, '%s', '2020-12-10', '2020-12-15', 1, '500.00');";
+    executeUpdate(String.format(query,
+        userId,
+        status
+    ));
   }
 
   private static void createTestDatabase() throws SQLException {
@@ -208,6 +556,10 @@ public class IntegrationTests {
     statement.executeUpdate("INSERT INTO room (room_class_id, beds_amount)\n" +
         "\tVALUES \n" +
         "    ((SELECT id FROM room_class WHERE class_name='VIP'), 1);");
+    statement.executeUpdate("INSERT INTO booking_user(email, user_password, first_name, second_name) " +
+        "VALUES ('test@example.com', 'qwerty', 'Test', 'User')");
+    statement.executeUpdate("INSERT INTO booking_user(email, user_password, first_name, second_name) " +
+        "VALUES ('admin@example.com', 'admin', 'Test', 'Admin')");
     connection.close();
   }
 
@@ -216,12 +568,19 @@ public class IntegrationTests {
     String query = "SELECT COUNT(*) FROM " + table + " WHERE " + where + ";";
     ResultSet resultSet = connection.createStatement().executeQuery(query);
     resultSet.next();
-    return resultSet.getInt(1);
+    int result = resultSet.getInt(1);
+    connection.close();
+    return result;
   }
 
   private static void cleanUp(String query) throws SQLException {
+    executeUpdate(query);
+  }
+
+  private static void executeUpdate(String query) throws SQLException {
     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotel_booking_test?user=root&password=root");
     connection.createStatement().executeUpdate(query);
+    connection.close();
   }
 
 }
