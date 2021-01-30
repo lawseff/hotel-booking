@@ -42,7 +42,7 @@ public class LoginCommandTest {
   }
 
   @Test
-  public void execute_UserFound() throws ServiceException {
+  public void execute_UserFound_SavedToSession() throws ServiceException {
     User user = mock(User.class);
     when(userService.getUserByEmailAndPassword(anyString(), anyString())).thenReturn(Optional.of(user));
 
@@ -54,7 +54,7 @@ public class LoginCommandTest {
   }
 
   @Test
-  public void execute_UserNotFound() throws ServiceException {
+  public void execute_UserNotFound_LoginFailed() throws ServiceException {
     when(userService.getUserByEmailAndPassword(anyString(), anyString())).thenReturn(Optional.empty());
     CommandResult result = loginCommand.execute(request, null);
 

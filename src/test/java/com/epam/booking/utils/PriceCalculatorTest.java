@@ -40,7 +40,7 @@ public class PriceCalculatorTest {
 
     @Test
     @UseDataProvider("dataProviderCalculatePrice")
-    public void calculatePrice_OrderParams_BigDecimal(
+    public void calculatePrice_OrderParams_BigDecimalResult(
             int days, RoomClass roomClass, int personsAmount, BigDecimal expectedPrice) {
         // given
 

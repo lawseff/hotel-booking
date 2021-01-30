@@ -66,7 +66,7 @@ public class PaymentValidatorImplTest {
     }
 
     @Test
-    public void testIsCardNumberValidShouldReturnTrueWhenValidCardNumberSupplied() {
+    public void issCardNumberValid_Valid_True() {
         // given
 
         // when
@@ -78,7 +78,7 @@ public class PaymentValidatorImplTest {
 
     @Test
     @UseDataProvider("invalidDataProviderIsCardNumberValid")
-    public void testIsCardNumberValidShouldReturnFalseWhenInvalidCardNumberSupplied(String cardNumber) {
+    public void isCardNumberValid_Invalid_False(String cardNumber) {
         // given
 
         // when
@@ -89,7 +89,7 @@ public class PaymentValidatorImplTest {
     }
 
     @Test
-    public void testIsExpirationDateValidShouldReturnTrueWhenValidExpirationDateSupplied() {
+    public void isExpirationDateValid_FutureDate_True() {
         // given
 
         // when
@@ -100,7 +100,7 @@ public class PaymentValidatorImplTest {
     }
 
     @Test
-    public void testIsExpirationDateValidShouldReturnTrueWhenCurrentDateSupplied() {
+    public void isExpirationDateValid_CurrentDate_True() {
         // given
 
         // when
@@ -112,7 +112,7 @@ public class PaymentValidatorImplTest {
 
     @Test
     @UseDataProvider("invalidDataProviderIsExpirationDateValid")
-    public void testIsExpirationDateValidShouldReturnFalseWhenInvalidExpirationDateSupplied(String expirationDate) {
+    public void isExpirationDateValid_Invalid_False(String expirationDate) {
         // given
 
         // when
@@ -123,7 +123,7 @@ public class PaymentValidatorImplTest {
     }
 
     @Test
-    public void testIsCvvNumberValidShouldReturnTrueWhenValidCvvNumberSupplied() {
+    public void isCvvNumberValid_Valid_True() {
         // given
 
         // when
@@ -135,7 +135,7 @@ public class PaymentValidatorImplTest {
 
     @Test
     @UseDataProvider("invalidDataProviderIsCvvNumberValid")
-    public void testIsCvvNumberValidShouldReturnTrueWhenValidCvvNumberSupplied(String cvvNumber) {
+    public void isExpirationDateValid_Valid_True(String cvvNumber) {
         // given
 
         // when

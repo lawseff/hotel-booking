@@ -48,28 +48,28 @@ public class PayCommandTest {
   }
 
   @Test
-  public void execute_NormalFlow() throws ServiceException {
+  public void execute_NormalFlow_Paid() throws ServiceException {
     payCommand.execute(request, null);
 
     verify(reservationService, times(1)).setPaid(0);
   }
 
   @Test(expected = ServiceException.class)
-  public void execute_InvalidCardNumber() throws ServiceException {
+  public void execute_InvalidCardNumber_Exception() throws ServiceException {
     when(validator.isCardNumberValid(any())).thenReturn(false);
 
     payCommand.execute(request, null);
   }
 
   @Test(expected = ServiceException.class)
-  public void execute_InvalidExpirationDate() throws ServiceException {
+  public void execute_InvalidExpirationDate_Exception() throws ServiceException {
     when(validator.isExpirationDateValid(any())).thenReturn(false);
 
     payCommand.execute(request, null);
   }
 
   @Test(expected = ServiceException.class)
-  public void execute_InvalidCvvNumber() throws ServiceException {
+  public void execute_InvalidCvvNumber_Exception() throws ServiceException {
     when(validator.isCvvNumberValid(any())).thenReturn(false);
 
     payCommand.execute(request, null);

@@ -47,7 +47,7 @@ public class RoomDaoImpl extends AbstractDao<Room> implements RoomDao {
         RoomClass roomClass = entity.getRoomClass();
         Object[] parameters = {
                 entity.getId(),
-                entity.isActive(),
+                entity.isActive() ? 1 : 0,
                 roomClass.getId(),
                 entity.getBedsAmount()
         };

@@ -20,7 +20,7 @@ public class DatabaseConfigFactoryTest {
     }
 
     @Test
-    public void testCreateConfigShouldReturnConfigWhenMethodInvoked() {
+    public void createConfig_FileIsPresent_ConfigCreated() {
         // given
 
         // when

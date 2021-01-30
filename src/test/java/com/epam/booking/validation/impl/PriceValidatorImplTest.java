@@ -17,7 +17,7 @@ public class PriceValidatorImplTest {
         return new Object[][] {
                 { new BigDecimal("10") },
                 { new BigDecimal("20.5") },
-                { new BigDecimal("30.75") },
+                { new BigDecimal("50.75") },
                 { new BigDecimal("1000.00") }, // max valid price
         };
     }

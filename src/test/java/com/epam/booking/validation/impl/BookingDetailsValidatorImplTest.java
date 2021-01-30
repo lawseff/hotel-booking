@@ -47,7 +47,7 @@ public class BookingDetailsValidatorImplTest {
     }
 
     @Before
-    public void createMock() throws ParseException {
+    public void setUp() throws ParseException {
         dateUtils = mock(DateUtils.class);
 
         when(dateUtils.getCurrentDateWithoutTime())

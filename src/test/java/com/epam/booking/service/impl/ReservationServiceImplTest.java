@@ -36,7 +36,7 @@ public class ReservationServiceImplTest {
   }
 
   @Test
-  public void cancel_NormalFlow() throws ServiceException, DaoException {
+  public void cancel_NormalFlow_Cancelled() throws ServiceException, DaoException {
     reservationService.cancel(1);
 
     verify(reservation, times(1)).setReservationStatus(ReservationStatus.CANCELLED);
@@ -44,7 +44,7 @@ public class ReservationServiceImplTest {
   }
 
   @Test(expected = ServiceException.class)
-  public void cancel_DatabaseException() throws ServiceException, DaoException {
+  public void cancel_DatabaseIsDown_Exception() throws ServiceException, DaoException {
     doThrow(new DaoException()).when(reservationDao).save(any());
 
     reservationService.cancel(1);

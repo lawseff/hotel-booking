@@ -44,7 +44,7 @@ public class DateUtilsTest {
 
     @Test
     @UseDataProvider("dataProviderCalculateDaysBetweenDates")
-    public void testCalculateDaysBetweenDatesShouldReturnDaysWhenDatesSupplied(
+    public void calculateDaysBetweenDates_Parameterized_DaysReturned(
             String firstDateParameter, String secondDateParameter, int expectedDays) throws ParseException {
         // given
         Date firstDate = DATE_FORMAT.parse(firstDateParameter);
@@ -59,7 +59,7 @@ public class DateUtilsTest {
 
     @Test
     @UseDataProvider("trueDataProviderIsBetweenDates")
-    public void testIsBetweenDatesShouldReturnTrueWhenDatesSupplied(
+    public void issBetweenDates_BetweenDates_True(
             String dateParameter, String startParameter, String endParameter) throws ParseException {
         // given
         Date date = DATE_FORMAT.parse(dateParameter);
@@ -75,7 +75,7 @@ public class DateUtilsTest {
 
     @Test
     @UseDataProvider("falseDataProviderIsBetweenDates")
-    public void testIsBetweenDatesShouldReturnFalseWhenDatesSupplied(
+    public void isBetweenDates_NotInBetween_False(
             String dateParameter, String startParameter, String endParameter) throws ParseException {
         // given
         Date date = DATE_FORMAT.parse(dateParameter);

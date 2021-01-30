@@ -186,7 +186,7 @@ public class IntegrationTests {
   @Test
   public void BookCommand_ValidParams_NormalFlow() throws ServletException, IOException, SQLException {
     setCommand(CommandFactoryImpl.BOOK_COMMAND);
-    mockUser();
+    setUserRole();
     DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     String arrivalDate = format.format(Date.from(LocalDate.now().plusDays(5).atStartOfDay().toInstant(ZoneOffset.UTC)));
     mockParam("arrival_date", arrivalDate);
@@ -227,7 +227,7 @@ public class IntegrationTests {
       String personsAmount
   ) throws ServletException, IOException {
     setCommand(CommandFactoryImpl.BOOK_COMMAND);
-    mockUser();
+    setUserRole();
     mockParam("arrival_date", arrivalDate);
     mockParam("departure_date", departureDate);
     mockParam("room_class", roomClass);
@@ -244,7 +244,7 @@ public class IntegrationTests {
   @Test
   public void SetCheckedInCommand_ValidStatus_CheckedIn() throws SQLException, ServletException, IOException {
     setCommand(CommandFactoryImpl.CHECK_IN_COMMAND);
-    mockReservation("PAID");
+    initReservation("PAID");
     mockParam("id", "1");
 
     controller.doPost(request, response);
@@ -255,7 +255,7 @@ public class IntegrationTests {
   @Test
   public void SetCheckedInCommand_InvalidStatus_Exception() throws SQLException, IOException {
     setCommand(CommandFactoryImpl.CHECK_IN_COMMAND);
-    mockReservation("CANCELLED");
+    initReservation("CANCELLED");
     mockParam("id", "1");
 
     try {
@@ -269,7 +269,7 @@ public class IntegrationTests {
   @Test
   public void SetCheckedInCommand_InvalidId_Exception() throws SQLException, IOException {
     setCommand(CommandFactoryImpl.CHECK_IN_COMMAND);
-    mockReservation("PAID");
+    initReservation("PAID");
     mockParam("id", "999");
 
     try {
@@ -283,7 +283,7 @@ public class IntegrationTests {
   @Test
   public void SetCheckedOutCommand_ValidStatus_CheckedOut() throws SQLException, ServletException, IOException {
     setCommand(CommandFactoryImpl.CHECK_OUT_COMMAND);
-    mockReservation("CHECKED_IN");
+    initReservation("CHECKED_IN");
     mockParam("id", "1");
 
     controller.doPost(request, response);
@@ -294,7 +294,7 @@ public class IntegrationTests {
   @Test
   public void SetCheckedOutCommand_InvalidStatus_Exception() throws SQLException, IOException {
     setCommand(CommandFactoryImpl.CHECK_OUT_COMMAND);
-    mockReservation("CANCELLED");
+    initReservation("CANCELLED");
     mockParam("id", "1");
 
     try {
@@ -308,9 +308,9 @@ public class IntegrationTests {
   @Test
   public void CancelReservationCommand_ValidStatus_Cancelled() throws SQLException, ServletException, IOException {
     setCommand(CommandFactoryImpl.CANCEL_RESERVATION_COMMAND);
-    mockReservation("WAITING");
+    initReservation("WAITING");
     mockParam("id", "1");
-    mockUser();
+    setUserRole();
 
     controller.doPost(request, response);
 
@@ -320,9 +320,9 @@ public class IntegrationTests {
   @Test
   public void CancelReservationCommand_InvalidStatis_Exception() throws SQLException, IOException {
     setCommand(CommandFactoryImpl.CANCEL_RESERVATION_COMMAND);
-    mockReservation("CANCELLED");
+    initReservation("CANCELLED");
     mockParam("id", "1");
-    mockUser();
+    setUserRole();
 
     try {
       controller.doPost(request, response);
@@ -335,8 +335,8 @@ public class IntegrationTests {
   @Test
   public void PayCommand_ValidParams_Paid() throws SQLException, ServletException, IOException {
     setCommand(CommandFactoryImpl.PAY_COMMAND);
-    mockUser();
-    mockReservation("APPROVED");
+    setUserRole();
+    initReservation("APPROVED");
     mockParam("id", "1");
     mockParam("card_number", "5500000000000004");
     DateFormat format = new SimpleDateFormat("MM/yy");
@@ -367,8 +367,8 @@ public class IntegrationTests {
       String status, String cardNumber, String validThru, String cvvNumber
   ) throws SQLException, IOException {
     setCommand(CommandFactoryImpl.PAY_COMMAND);
-    mockUser();
-    mockReservation(status);
+    setUserRole();
+    initReservation(status);
     mockParam("id", "1");
     mockParam("card_number", cardNumber);
     mockParam("valid_thru", validThru);
@@ -384,8 +384,8 @@ public class IntegrationTests {
   @Test
   public void PayCommand_NotAuthorized_Exception() throws SQLException, IOException {
     setCommand(CommandFactoryImpl.PAY_COMMAND);
-    mockUser();
-    mockReservation("2", "APPROVED");
+    setUserRole();
+    initReservation("2", "APPROVED");
     mockParam("id", "1");
     mockParam("card_number", "5500000000000004");
     DateFormat format = new SimpleDateFormat("MM/yy");
@@ -415,11 +415,11 @@ public class IntegrationTests {
   public void ShowReservationsPageCommand(boolean isAdmin, String id, String status) throws SQLException, ServletException, IOException {
     setCommand(CommandFactoryImpl.SHOW_RESERVATIONS_PAGE_COMMAND);
     if (isAdmin) {
-      mockAdmin();
+      setAdminRole();
     } else {
-      mockUser();
+      setUserRole();
     }
-    mockReservation(status);
+    initReservation(status);
     mockParam("id", id);
 
     controller.doGet(request, response);
@@ -450,7 +450,7 @@ public class IntegrationTests {
     return (T) attribute;
   }
 
-  private void mockUser() {
+  private void setUserRole() {
     when(session.getAttribute("user")).thenReturn(new User(
         1,
         false,
@@ -461,7 +461,7 @@ public class IntegrationTests {
     ));
   }
 
-  private void mockAdmin() {
+  private void setAdminRole() {
     when(session.getAttribute("user")).thenReturn(new User(
         2,
         true,
@@ -472,11 +472,11 @@ public class IntegrationTests {
     ));
   }
 
-  private void mockReservation(String status) throws SQLException {
-    mockReservation("1", status);
+  private void initReservation(String status) throws SQLException {
+    initReservation("1", status);
   }
 
-  private void mockReservation(String userId, String status) throws SQLException {
+  private void initReservation(String userId, String status) throws SQLException {
     String query = "INSERT INTO reservation " +
         "(id, user_id, room_class_id, room_id, reservation_status, arrival_date, departure_date, persons_amount, total_price) " +
         "VALUES (1, %s, 1, 1, '%s', '2020-12-10', '2020-12-15', 1, '500.00');";

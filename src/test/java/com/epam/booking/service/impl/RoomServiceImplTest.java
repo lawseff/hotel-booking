@@ -29,7 +29,7 @@ public class RoomServiceImplTest {
   }
 
   @Test
-  public void setActiveById_NormalFlow() throws DaoException, ServiceException {
+  public void setActiveById_NormalFlow_StatusSet() throws DaoException, ServiceException {
     Room room = mock(Room.class);
     when(roomDao.getById(1)).thenReturn(Optional.of(room));
 
@@ -39,14 +39,14 @@ public class RoomServiceImplTest {
   }
 
   @Test(expected = ServiceException.class)
-  public void setActiveById_DaoException() throws DaoException, ServiceException {
+  public void setActiveById_DatabaseIsDown_Exception() throws DaoException, ServiceException {
     when(roomDao.getById(1)).thenThrow(new DaoException());
 
     roomService.setActiveById(1, true);
   }
 
   @Test(expected = ServiceException.class)
-  public void setActiveById_NotFound() throws DaoException, ServiceException {
+  public void setActiveById_NotFound_Exception() throws DaoException, ServiceException {
     when(roomDao.getById(1)).thenReturn(Optional.empty());
 
     roomService.setActiveById(1, true);

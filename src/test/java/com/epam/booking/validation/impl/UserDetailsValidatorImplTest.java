@@ -26,6 +26,7 @@ public class UserDetailsValidatorImplTest {
   @DataProvider
   public static Object[][] invalidEmailDataProvider() {
     return new Object[][] {
+        { null },
         { "не_латинские_символы@майл.ру" },
         { "invalid_domain@abc" },
         { "too_long_email_1234@example.com" }, // 31 symbols
@@ -54,6 +55,45 @@ public class UserDetailsValidatorImplTest {
 
     // then
     assertFalse(valid);
+  }
+
+
+  @DataProvider
+  public static Object[][] isValidPassword_Invalid_False() {
+    return new Object[][] {
+        { null },
+        {"1234"}, // too short
+        { "123456789_123456789_123456789_1"} // too long
+    };
+  }
+  @Test
+  @UseDataProvider
+  public void isValidPassword_Invalid_False(String password) {
+    assertFalse(validator.isValidPassword(password));
+  }
+
+  @Test
+  public void isValidPassword_Valid_True() {
+    assertTrue(validator.isValidPassword("12345"));
+  }
+
+  @DataProvider
+  public static Object[][] isValidName_Invalid_False() {
+    return new Object[][] {
+        { null },
+        {"ab"}, // too short
+        { "adbcdefghijklmnopqrstuvwxuzabcd"} // too long
+    };
+  }
+  @Test
+  @UseDataProvider
+  public void isValidName_Invalid_False(String password) {
+    assertFalse(validator.isValidName(password));
+  }
+
+  @Test
+  public void isValidName_Valid_True() {
+    assertTrue(validator.isValidName("John"));
   }
 
 }

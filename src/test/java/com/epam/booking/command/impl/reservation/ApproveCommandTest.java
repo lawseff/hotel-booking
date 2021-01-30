@@ -46,26 +46,26 @@ public class ApproveCommandTest {
   }
 
   @Test
-  public void validateRoom_Valid() throws ServiceException {
+  public void validateRoom_Valid_NoException() throws ServiceException {
     command.validateRoom(room, reservation);
   }
 
   @Test(expected = ServiceException.class)
-  public void validateRoom_NotActive() throws ServiceException {
+  public void validateRoom_NotActive_Exception() throws ServiceException {
     when(room.isActive()).thenReturn(false);
 
     command.validateRoom(room, reservation);
   }
 
   @Test(expected = ServiceException.class)
-  public void validateRoom_NotSuitable() throws ServiceException {
+  public void validateRoom_NotSuitable_Exception() throws ServiceException {
     when(roomUtils.isRoomSuitable(room, reservation)).thenReturn(false);
 
     command.validateRoom(room, reservation);
   }
 
   @Test(expected = ServiceException.class)
-  public void validateRoom_IsNotFree() throws ServiceException {
+  public void validateRoom_IsNotFree_Exception() throws ServiceException {
     when(roomUtils.isRoomFree(eq(room), any(), any(), any())).thenReturn(false);
 
     command.validateRoom(room, reservation);
