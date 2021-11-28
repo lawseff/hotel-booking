@@ -1,6 +1,6 @@
 package com.epam.booking.tag;
 
-import com.epam.booking.entity.reservation.ReservationStatus;
+import web.entity.reservation.ReservationStatus;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;

@@ -1,13 +1,12 @@
 package com.epam.booking.service.impl;
 
 import com.epam.booking.dao.api.RoomDao;
-import com.epam.booking.entity.room.Room;
+import web.entity.room.Room;
 import com.epam.booking.exception.DaoException;
 import com.epam.booking.exception.ServiceException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 

@@ -1,6 +1,6 @@
 package com.epam.booking.filter.impl;
 
-import com.epam.booking.entity.User;
+import web.entity.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

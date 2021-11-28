@@ -2,7 +2,7 @@ package com.epam.booking.command.impl.user;
 
 import com.epam.booking.command.Command;
 import com.epam.booking.command.CommandResult;
-import com.epam.booking.entity.User;
+import web.entity.User;
 import com.epam.booking.exception.ServiceException;
 import com.epam.booking.service.api.UserService;
 

@@ -1,6 +1,6 @@
 package com.epam.booking.service.api;
 
-import com.epam.booking.entity.room.Room;
+import web.entity.room.Room;
 import com.epam.booking.exception.ServiceException;
 import java.util.List;
 import java.util.Optional;

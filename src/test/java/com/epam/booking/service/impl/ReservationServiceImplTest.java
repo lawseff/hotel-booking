@@ -1,9 +1,9 @@
 package com.epam.booking.service.impl;
 
 import com.epam.booking.dao.api.ReservationDao;
-import com.epam.booking.entity.reservation.Reservation;
-import com.epam.booking.entity.reservation.ReservationStatus;
-import com.epam.booking.entity.room.Room;
+import web.entity.reservation.Reservation;
+import web.entity.reservation.ReservationStatus;
+import web.entity.room.Room;
 import com.epam.booking.exception.DaoException;
 import com.epam.booking.exception.ServiceException;
 import org.junit.Before;

@@ -28,12 +28,12 @@
         </div>
         <c:set var="user" scope="session" value="${sessionScope.user}"/>
         <ul class="navigation">
-            <a href="${pageContext.request.contextPath}/controller?command=show_home_page"><li>${home}</li></a>
+            <a href="${pageContext.request.contextPath}/home"><li>${home}</li></a>
             <c:if test="${empty user}">
-                <a href="${pageContext.request.contextPath}/controller?command=show_login_page">
+                <a href="${pageContext.request.contextPath}/login">
                     <li>${log_in}&nbsp;<i class="fa fa-sign-out"></i></li>
                 </a>
-                <a href="${pageContext.request.contextPath}/controller?command=show_register_page">
+                <a href="${pageContext.request.contextPath}/register">
                     <li>${register}</li>
                 </a>
             </c:if>
@@ -74,8 +74,7 @@
     </div>
 </div>
 
-<form id="change_language" action="${pageContext.request.contextPath}/controller">
-    <input type="hidden" name="command" value="change_language">
+<form id="change_language" action="${pageContext.request.contextPath}/change_language">
 </form>
 
 </body>

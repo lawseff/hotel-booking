@@ -1,6 +1,6 @@
 package com.epam.booking.filter.helper;
 
-import com.epam.booking.entity.User;
+import web.entity.User;
 
 public interface Authenticator {
 

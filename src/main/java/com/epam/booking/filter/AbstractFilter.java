@@ -1,6 +1,6 @@
 package com.epam.booking.filter;
 
-import com.epam.booking.entity.User;
+import web.entity.User;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterConfig;

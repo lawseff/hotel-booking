@@ -2,7 +2,7 @@ package com.epam.booking.filter.helper;
 
 import static org.mockito.Mockito.*;
 import com.epam.booking.command.factory.CommandFactoryImpl;
-import com.epam.booking.entity.User;
+import web.entity.User;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;

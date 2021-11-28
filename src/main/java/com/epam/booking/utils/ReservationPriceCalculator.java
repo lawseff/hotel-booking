@@ -1,7 +1,7 @@
 package com.epam.booking.utils;
 
-import com.epam.booking.entity.reservation.Reservation;
-import com.epam.booking.entity.room.RoomClass;
+import web.entity.reservation.Reservation;
+import web.entity.room.RoomClass;
 import java.math.BigDecimal;
 import java.util.Date;
 

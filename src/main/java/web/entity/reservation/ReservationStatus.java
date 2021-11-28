@@ -1,4 +1,4 @@
-package com.epam.booking.entity.reservation;
+package web.entity.reservation;
 
 public enum ReservationStatus {
 

@@ -1,6 +1,6 @@
-package com.epam.booking.entity.room;
+package web.entity.room;
 
-import com.epam.booking.entity.Identifiable;
+import web.entity.Identifiable;
 import java.io.Serializable;
 import java.math.BigDecimal;
 

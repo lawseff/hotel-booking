@@ -35,19 +35,19 @@ public class ConnectionPool {
     private long maxWaitMillis;
 
     private ConnectionPool() {
-        DatabaseConfigFactory configFactory = new DatabaseConfigFactory();
-        DatabaseConfig config = configFactory.createConfig();
-        ConnectionFactory connectionFactory = new ConnectionFactory(config);
-
-        int poolSize = config.getPoolSize();
-        maxWaitMillis = config.getMaxWaitMillis();
-        semaphore = new Semaphore(poolSize, SEMAPHORE_FAIR);
-        allConnections = new ArrayList<>(poolSize);
-        for (int i = 0; i < poolSize; i++) {
-            ProxyConnection connection = connectionFactory.createProxyConnection();
-            allConnections.add(connection);
-            availableConnections.add(connection);
-        }
+//        DatabaseConfigFactory configFactory = new DatabaseConfigFactory();
+//        DatabaseConfig config = configFactory.createConfig();
+//        ConnectionFactory connectionFactory = new ConnectionFactory(config);
+//
+//        int poolSize = config.getPoolSize();
+//        maxWaitMillis = config.getMaxWaitMillis();
+//        semaphore = new Semaphore(poolSize, SEMAPHORE_FAIR);
+//        allConnections = new ArrayList<>(poolSize);
+//        for (int i = 0; i < poolSize; i++) {
+//            ProxyConnection connection = connectionFactory.createProxyConnection();
+//            allConnections.add(connection);
+//            availableConnections.add(connection);
+//        }
     }
 
     /**
@@ -87,13 +87,13 @@ public class ConnectionPool {
      * @throws ConnectionPoolException if exception was thrown during connection closing
      */
     public void close() throws ConnectionPoolException {
-        try {
-            for (ProxyConnection connection : allConnections) {
-                connection.terminate();
-            }
-        } catch (SQLException e) {
-            throw new ConnectionPoolException(e.getMessage(), e);
-        }
+//        try {
+//            for (ProxyConnection connection : allConnections) {
+//                connection.terminate();
+//            }
+//        } catch (SQLException e) {
+//            throw new ConnectionPoolException(e.getMessage(), e);
+//        }
     }
 
     /**

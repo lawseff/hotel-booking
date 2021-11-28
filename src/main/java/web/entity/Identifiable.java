@@ -1,4 +1,4 @@
-package com.epam.booking.entity;
+package web.entity;
 
 /**
  * <P>Any class, implementing this interface must have id field in it.

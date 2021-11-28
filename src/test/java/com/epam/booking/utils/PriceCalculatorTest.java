@@ -1,6 +1,6 @@
 package com.epam.booking.utils;
 
-import com.epam.booking.entity.room.RoomClass;
+import web.entity.room.RoomClass;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;

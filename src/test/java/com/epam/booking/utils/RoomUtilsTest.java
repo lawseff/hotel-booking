@@ -1,8 +1,8 @@
 package com.epam.booking.utils;
 
-import com.epam.booking.entity.reservation.Reservation;
-import com.epam.booking.entity.reservation.ReservationStatus;
-import com.epam.booking.entity.room.Room;
+import web.entity.reservation.Reservation;
+import web.entity.reservation.ReservationStatus;
+import web.entity.room.Room;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

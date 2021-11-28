@@ -2,7 +2,7 @@ package com.epam.booking.dao.impl;
 
 import com.epam.booking.builder.Builder;
 import com.epam.booking.dao.api.Dao;
-import com.epam.booking.entity.Identifiable;
+import web.entity.Identifiable;
 import com.epam.booking.exception.DaoException;
 import java.sql.*;
 import java.util.ArrayList;

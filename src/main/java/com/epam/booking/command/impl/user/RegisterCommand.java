@@ -3,11 +3,11 @@ package com.epam.booking.command.impl.user;
 import com.epam.booking.command.Command;
 import com.epam.booking.command.CommandResult;
 import com.epam.booking.dto.SignUpRequest;
-import com.epam.booking.entity.User;
+import web.entity.User;
 import com.epam.booking.exception.EntityAlreadyExistsException;
 import com.epam.booking.exception.ServiceException;
 import com.epam.booking.service.api.UserService;
-import com.epam.booking.validation.api.UserDetailsValidator;
+import web.validation.UserDetailsValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -1,7 +1,8 @@
-package com.epam.booking.validation.impl;
+package web.validation;
 
-import com.epam.booking.validation.api.UserDetailsValidator;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserDetailsValidatorImpl implements UserDetailsValidator {
 
   private static final String EMAIL_REGEX = "^[a-zA-Z0-9_.]+@([a-zA-Z0-9\\-]+\\.)+[a-zA-Z0-9\\-]+$";

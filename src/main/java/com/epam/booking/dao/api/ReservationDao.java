@@ -1,6 +1,6 @@
 package com.epam.booking.dao.api;
 
-import com.epam.booking.entity.reservation.Reservation;
+import web.entity.reservation.Reservation;
 import com.epam.booking.exception.DaoException;
 import java.util.List;
 

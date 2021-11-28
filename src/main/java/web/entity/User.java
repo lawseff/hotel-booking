@@ -1,15 +1,38 @@
-package com.epam.booking.entity;
+package web.entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import web.entity.Identifiable;
 
+@Entity
+@Table(name = "booking_user")
 public class User implements Identifiable, Serializable {
 
     private static final long serialVersionUID = 5113246202178236722L;
+
+    @Column(name = "id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
+    @Column(name = "is_admin")
     private boolean admin;
+
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "user_password")
     private String password;
+
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "second_name")
     private String secondName;
 
     public User() {
@@ -94,7 +117,7 @@ public class User implements Identifiable, Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        User other = (User) obj;
+        web.entity.User other = (web.entity.User) obj;
         return (id != null) ? id.equals(other.id) : other.id == null;
     }
 

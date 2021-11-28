@@ -24,8 +24,7 @@
     </c:if>
 
     <div class="login">
-        <form action="${pageContext.request.contextPath}/controller" method="post">
-            <input type="hidden" name="command" value="login">
+        <form action="${pageContext.request.contextPath}/login" method="post">
             <label >
                 Email
                 <input type="email"

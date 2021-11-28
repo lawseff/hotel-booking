@@ -1,8 +1,7 @@
 package com.epam.booking.builder.impl;
 
 import com.epam.booking.builder.Builder;
-import com.epam.booking.entity.User;
-import com.epam.booking.entity.room.RoomClass;
+import web.entity.room.RoomClass;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;

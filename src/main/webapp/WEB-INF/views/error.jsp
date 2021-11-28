@@ -19,8 +19,7 @@
     <jsp:include page="/WEB-INF/views/header.jsp"/>
     <div class="form">
         ${message}
-        <form action="${pageContext.request.contextPath}/controller" method="get">
-            <input type="hidden" name="command" value="show_home_page">
+        <form action="${pageContext.request.contextPath}/home" method="get">
             <input type="submit" value="${home}">
         </form>
     </div>

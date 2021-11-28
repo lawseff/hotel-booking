@@ -1,7 +1,7 @@
 package com.epam.booking.filter.helper;
 
 import com.epam.booking.command.factory.CommandFactoryImpl;
-import com.epam.booking.entity.User;
+import web.entity.User;
 
 public class AuthenticatorImpl implements Authenticator {
 

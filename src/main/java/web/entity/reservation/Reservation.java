@@ -1,9 +1,9 @@
-package com.epam.booking.entity.reservation;
+package web.entity.reservation;
 
-import com.epam.booking.entity.Identifiable;
-import com.epam.booking.entity.User;
-import com.epam.booking.entity.room.Room;
-import com.epam.booking.entity.room.RoomClass;
+import web.entity.Identifiable;
+import web.entity.User;
+import web.entity.room.Room;
+import web.entity.room.RoomClass;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;

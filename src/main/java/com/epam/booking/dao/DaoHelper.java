@@ -9,10 +9,10 @@ import com.epam.booking.dao.impl.ReservationDaoImpl;
 import com.epam.booking.dao.impl.RoomClassDaoImpl;
 import com.epam.booking.dao.impl.RoomDaoImpl;
 import com.epam.booking.dao.impl.UserDaoImpl;
-import com.epam.booking.entity.User;
-import com.epam.booking.entity.reservation.Reservation;
-import com.epam.booking.entity.room.Room;
-import com.epam.booking.entity.room.RoomClass;
+import web.entity.User;
+import web.entity.reservation.Reservation;
+import web.entity.room.Room;
+import web.entity.room.RoomClass;
 import com.epam.booking.exception.DaoException;
 
 import java.sql.Connection;

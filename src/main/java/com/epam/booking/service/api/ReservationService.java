@@ -1,9 +1,9 @@
 package com.epam.booking.service.api;
 
-import com.epam.booking.entity.User;
-import com.epam.booking.entity.reservation.Reservation;
-import com.epam.booking.entity.room.Room;
-import com.epam.booking.entity.room.RoomClass;
+import web.entity.User;
+import web.entity.reservation.Reservation;
+import web.entity.room.Room;
+import web.entity.room.RoomClass;
 import com.epam.booking.exception.ServiceException;
 import java.math.BigDecimal;
 import java.util.Date;

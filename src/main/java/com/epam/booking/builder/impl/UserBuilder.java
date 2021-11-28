@@ -1,7 +1,7 @@
 package com.epam.booking.builder.impl;
 
 import com.epam.booking.builder.Builder;
-import com.epam.booking.entity.User;
+import web.entity.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

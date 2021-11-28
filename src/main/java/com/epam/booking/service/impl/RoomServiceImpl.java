@@ -3,7 +3,7 @@ package com.epam.booking.service.impl;
 import com.epam.booking.builder.Builder;
 import com.epam.booking.dao.DaoHelper;
 import com.epam.booking.dao.api.RoomDao;
-import com.epam.booking.entity.room.Room;
+import web.entity.room.Room;
 import com.epam.booking.exception.DaoException;
 import com.epam.booking.exception.ServiceException;
 import com.epam.booking.service.api.RoomService;

@@ -2,8 +2,8 @@ package com.epam.booking.command.impl.room;
 
 import com.epam.booking.command.Command;
 import com.epam.booking.command.CommandResult;
-import com.epam.booking.entity.room.Room;
-import com.epam.booking.entity.room.RoomClass;
+import web.entity.room.Room;
+import web.entity.room.RoomClass;
 import com.epam.booking.exception.ServiceException;
 import com.epam.booking.service.api.RoomClassService;
 import com.epam.booking.service.api.RoomService;

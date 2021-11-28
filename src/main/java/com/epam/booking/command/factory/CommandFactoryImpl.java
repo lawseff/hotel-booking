@@ -30,14 +30,14 @@ import com.epam.booking.service.impl.UserServiceImpl;
 import com.epam.booking.utils.DateUtils;
 import com.epam.booking.utils.RoomUtils;
 import com.epam.booking.dao.DaoHelper;
-import com.epam.booking.entity.User;
-import com.epam.booking.entity.reservation.Reservation;
-import com.epam.booking.entity.room.Room;
-import com.epam.booking.entity.room.RoomClass;
+import web.entity.User;
+import web.entity.reservation.Reservation;
+import web.entity.room.Room;
+import web.entity.room.RoomClass;
 import com.epam.booking.validation.impl.BookingDetailsValidatorImpl;
 import com.epam.booking.validation.impl.PaymentValidatorImpl;
 import com.epam.booking.validation.impl.PriceValidatorImpl;
-import com.epam.booking.validation.impl.UserDetailsValidatorImpl;
+import web.validation.UserDetailsValidatorImpl;
 
 public class CommandFactoryImpl implements CommandFactory {
 

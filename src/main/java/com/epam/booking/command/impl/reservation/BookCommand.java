@@ -2,8 +2,8 @@ package com.epam.booking.command.impl.reservation;
 
 import com.epam.booking.command.Command;
 import com.epam.booking.command.CommandResult;
-import com.epam.booking.entity.User;
-import com.epam.booking.entity.room.RoomClass;
+import web.entity.User;
+import web.entity.room.RoomClass;
 import com.epam.booking.exception.ServiceException;
 import com.epam.booking.service.api.ReservationService;
 import com.epam.booking.service.api.RoomClassService;
@@ -15,7 +15,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Optional;
 
 public class BookCommand implements Command {
 

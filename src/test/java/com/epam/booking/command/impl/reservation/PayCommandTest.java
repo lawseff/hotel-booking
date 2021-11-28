@@ -1,7 +1,6 @@
 package com.epam.booking.command.impl.reservation;
 
-import com.epam.booking.command.CommandResult;
-import com.epam.booking.entity.reservation.Reservation;
+import web.entity.reservation.Reservation;
 import com.epam.booking.exception.ServiceException;
 import com.epam.booking.service.api.ReservationService;
 import com.epam.booking.validation.api.PaymentValidator;

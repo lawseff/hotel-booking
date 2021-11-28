@@ -1,7 +1,7 @@
 package com.epam.booking.dao.impl;
 
 import com.epam.booking.dao.api.UserDao;
-import com.epam.booking.entity.User;
+import web.entity.User;
 import com.epam.booking.exception.DaoException;
 import java.util.ArrayList;
 import java.util.Collections;

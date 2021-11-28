@@ -1,6 +1,6 @@
 package com.epam.booking.utils;
 
-import com.epam.booking.entity.room.RoomClass;
+import web.entity.room.RoomClass;
 import java.math.BigDecimal;
 
 public class PriceCalculator {

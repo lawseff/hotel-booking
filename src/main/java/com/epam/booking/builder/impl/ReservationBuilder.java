@@ -1,11 +1,11 @@
 package com.epam.booking.builder.impl;
 
 import com.epam.booking.builder.Builder;
-import com.epam.booking.entity.User;
-import com.epam.booking.entity.reservation.Reservation;
-import com.epam.booking.entity.reservation.ReservationStatus;
-import com.epam.booking.entity.room.Room;
-import com.epam.booking.entity.room.RoomClass;
+import web.entity.User;
+import web.entity.reservation.Reservation;
+import web.entity.reservation.ReservationStatus;
+import web.entity.room.Room;
+import web.entity.room.RoomClass;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.sql.ResultSet;
