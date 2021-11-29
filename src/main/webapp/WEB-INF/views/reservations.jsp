@@ -173,9 +173,7 @@
                 <c:if test="${reservation_details.reservationStatus ne 'CANCELLED'
                 and reservation_details.reservationStatus ne 'CHECKED_OUT'}">
                     <td>
-                        <form action="${pageContext.request.contextPath}/controller" method="post">
-                            <input type="hidden" name="command" value="cancel_reservation">
-                            <input type="hidden" name="id" value="${reservation_details.id}">
+                        <form action="${pageContext.request.contextPath}/reservations/${reservation_details.id}/cancel" method="post">
                             <input type="submit" value="${button_cancel}">
                         </form>
                     </td>

@@ -44,6 +44,15 @@ public class ReservationServiceImpl implements ReservationService {
         }
     }
 
+    @Override
+    public void cancelReservation(Integer id) throws ServiceException {
+        checkPermissions(id);
+        reservationRepository.findById(id).ifPresent(reservation -> {
+            reservation.setReservationStatus(ReservationStatus.CANCELLED);
+            reservationRepository.save(reservation);
+        });
+    }
+
     private void loadReservations(Model model, User user) {
         List<Reservation> reservations;
         if (user.isAdmin()) {
@@ -56,10 +65,8 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     private void loadDetails(Model model, Integer id, User user) throws ServiceException {
+        checkPermissions(id);
         Reservation reservation = reservationRepository.getById(id);
-        if (!user.isAdmin() && !reservation.getUser().equals(user)) {
-            throw new ServiceException("Not authorized");
-        }
         ReservationStatus reservationStatus = reservation.getReservationStatus();
         if (user.isAdmin() && reservationStatus == ReservationStatus.WAITING) {
             BigDecimal totalPrice = ReservationPriceCalculator.calculateReservationPrice(reservation);
@@ -74,6 +81,14 @@ public class ReservationServiceImpl implements ReservationService {
 
     private boolean shouldShowDetails(Integer id) {
         return id != null;
+    }
+
+    private void checkPermissions(Integer reservationId) throws ServiceException {
+        Reservation reservation = reservationRepository.getById(reservationId);
+        User user = roleService.getCurrentUser();;
+        if (!user.isAdmin() && !reservation.getUser().equals(user)) {
+            throw new ServiceException("Not authorized");
+        }
     }
 
 }
