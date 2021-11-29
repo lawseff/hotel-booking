@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 import web.service.ReservationService;
 import web.utils.CurrentPageGetter;
@@ -15,7 +16,6 @@ import web.utils.CurrentPageGetter;
 @Controller
 public class ReservationController {
 
-    //    approve
     //    check_in
     //    check_out
     //    pay
@@ -37,8 +37,20 @@ public class ReservationController {
     }
 
     @PostMapping("/reservations/{id}/cancel")
+    @PreAuthorize("@roleService.isUser()")
     public RedirectView cancelReservation(@PathVariable("id") Integer id, HttpServletRequest request) throws ServiceException {
         service.cancelReservation(id);
+        return redirectToCurrentPage(request);
+    }
+
+    @PostMapping("/reservations/{id}/approve")
+    @PreAuthorize("@roleService.isAdmin()")
+    public RedirectView approveReservation(
+            @PathVariable("id") Integer reservationId,
+            @RequestParam("roomId") Integer roomId,
+            HttpServletRequest request
+    ) throws ServiceException {
+        service.approve(reservationId, roomId);
         return redirectToCurrentPage(request);
     }
 

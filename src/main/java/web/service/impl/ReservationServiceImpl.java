@@ -53,6 +53,16 @@ public class ReservationServiceImpl implements ReservationService {
         });
     }
 
+    @Override
+    public void approve(Integer reservationId, Integer roomId) throws ServiceException {
+        Reservation reservation = reservationRepository.getById(reservationId);
+        Room room = roomRepository.getById(roomId);
+        reservation.setRoom(room);
+        reservation.setReservationStatus(ReservationStatus.APPROVED);
+        reservation.setTotalPrice(ReservationPriceCalculator.calculateReservationPrice(reservation));
+        reservationRepository.save(reservation);
+    }
+
     private void loadReservations(Model model, User user) {
         List<Reservation> reservations;
         if (user.isAdmin()) {

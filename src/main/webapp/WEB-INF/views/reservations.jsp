@@ -121,7 +121,7 @@
                 <c:if test="${user.admin and reservation_details.reservationStatus eq 'WAITING'}">
                     <td>
                         <c:if test="${not empty rooms}">
-                        <select name="room_id" form="approve" required>
+                        <select name="roomId" form="approve" required>
                             <c:forEach items="${rooms}" var="room">
                                 <option value="${room.id}">
                                     ${details_room_number}${room.id}
@@ -182,9 +182,7 @@
                 <c:if test="${reservation_details.reservationStatus eq 'WAITING' and user.admin}">
                     <td>
                         <c:if test="${not empty rooms}">
-                            <form id="approve" action="${pageContext.request.contextPath}/controller" method="post">
-                                <input type="hidden" name="command" value="approve">
-                                <input type="hidden" name="id" value="${reservation_details.id}">
+                            <form id="approve" action="${pageContext.request.contextPath}/reservations/${reservation_details.id}/approve" method="post">
                                 <input type="submit" value="${button_approve}">
                             </form>
                         </c:if>

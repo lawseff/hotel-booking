@@ -9,4 +9,6 @@ public interface ReservationService {
 
     void cancelReservation(Integer id) throws ServiceException;
 
+    void approve(Integer reservationId, Integer roomId) throws ServiceException;
+
 }
