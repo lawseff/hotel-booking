@@ -12,7 +12,7 @@
 
     <tag>
         <name>dateInput</name>
-        <tag-class>com.epam.booking.tag.date.DateInputTag</tag-class>
+        <tag-class>com.booking.tag.date.DateInputTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>name</name>
@@ -26,7 +26,7 @@
     
     <tag>
         <name>formatStatus</name>
-        <tag-class>com.epam.booking.tag.StatusFormatTag</tag-class>
+        <tag-class>com.booking.tag.StatusFormatTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>status</name>
