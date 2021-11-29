@@ -47,7 +47,7 @@
                 <a href="${pageContext.request.contextPath}/controller?command=show_reservations_page">
                     <li>${reservations}</li>
                 </a>
-                <a href="${pageContext.request.contextPath}/controller?command=sign_out">
+                <a href="${pageContext.request.contextPath}/sign_out">
                     <li>${sign_out}&nbsp;<i class="fa fa-sign-out"></i></li>
                 </a>
             </c:if>

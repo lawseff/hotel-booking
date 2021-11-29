@@ -2,7 +2,9 @@ package web.controller;
 
 import com.epam.booking.dto.SignUpRequest;
 import com.epam.booking.exception.ServiceException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,12 +49,16 @@ public class AuthorizationController {
     }
 
     @PostMapping("/register")
-    public RedirectView register(@RequestBody SignUpRequest request, HttpSession session) throws ServiceException {
+    public RedirectView register(SignUpRequest request, HttpSession session) throws ServiceException {
         boolean success = userService.register(request, session);
         String page = success ? REGISTER_SUCCESS_PAGE : REGISTER_FAIL_PAGE;
         return new RedirectView(page);
     }
-    // register
-    // sign_out
+
+    @GetMapping("/sign_out")
+    public RedirectView signOut(HttpServletRequest request) {
+        userService.signOut(request);
+        return new RedirectView("/home");
+    }
 
 }

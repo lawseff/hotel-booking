@@ -26,8 +26,7 @@
 </c:if>
 
 <div class="login">
-    <form action="${pageContext.request.contextPath}/controller" method="post">
-        <input type="hidden" name="command" value="register">
+    <form action="${pageContext.request.contextPath}/register" method="post">
         <label >
             Email
             <input type="email"
@@ -49,7 +48,7 @@
         <label >
             ${first_name}
             <input type="text"
-                   name="first_name"
+                   name="firstName"
                    required
                    minlength="3"
                    maxlength="30"
@@ -58,7 +57,7 @@
         <label >
             ${last_name}
             <input type="text"
-                   name="last_name"
+                   name="lastName"
                    required
                    minlength="3"
                    maxlength="30"

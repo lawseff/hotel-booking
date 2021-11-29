@@ -4,7 +4,10 @@ import com.epam.booking.dto.SignUpRequest;
 import com.epam.booking.exception.DaoException;
 import com.epam.booking.exception.EntityAlreadyExistsException;
 import com.epam.booking.exception.ServiceException;
+import java.util.Locale;
+import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.transaction.annotation.Transactional;
 import web.entity.User;
 import web.repository.UserRepository;
 import web.validation.UserDetailsValidator;
@@ -16,12 +19,10 @@ import web.service.UserService;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private static final String LOGIN_USER_ATTRIBUTE = "user";
-    private static final String IS_LOGIN_FAILED_ATTRIBUTE = "is_login_failed";
-
-    private static final String REGISTER_USER_ATTRIBUTE = "user";
-    private static final String IS_REGISTER_FAILED_ATTRIBUTE = "is_register_failed";
     private static final String USER_ATTRIBUTE = "user";
+    private static final String IS_LOGIN_FAILED_ATTRIBUTE = "is_login_failed";
+    private static final String IS_REGISTER_FAILED_ATTRIBUTE = "is_register_failed";
+    private static final String LOCALE_ATTRIBUTE = "locale";
 
     private final UserDetailsValidator validator;
     private final UserRepository repository;
@@ -36,7 +37,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> userOptional = repository.findByEmailAndPassword(email, wrapEncryptPassword(password));
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            session.setAttribute(LOGIN_USER_ATTRIBUTE, user);
+            session.setAttribute(USER_ATTRIBUTE, user);
             return true;
         } else {
             session.setAttribute(IS_LOGIN_FAILED_ATTRIBUTE, true);
@@ -45,17 +46,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public boolean register(SignUpRequest request, HttpSession session) throws ServiceException {
-        return  false;
-//        validate(request);
-//        try {
-//            User user = signUp(request);
-//            session.setAttribute(USER_ATTRIBUTE, user);
-//            return true;
-//        } catch (EntityAlreadyExistsException e) {
-//            session.setAttribute(IS_REGISTER_FAILED_ATTRIBUTE, true);
-//            return false;
-//        }
+        validate(request);
+        try {
+            User user = signUpUser(request);
+            session.setAttribute(USER_ATTRIBUTE, user);
+            return true;
+        } catch (EntityAlreadyExistsException e) {
+            session.setAttribute(IS_REGISTER_FAILED_ATTRIBUTE, true);
+            return false;
+        }
+    }
+
+    @Override
+    public void signOut(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Locale locale = (Locale) session.getAttribute(LOCALE_ATTRIBUTE);
+        session.invalidate();
+        request.getSession().setAttribute(LOCALE_ATTRIBUTE, locale);
     }
 
     private void validate(SignUpRequest request) throws ServiceException {
@@ -68,26 +77,16 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public User signUp(SignUpRequest request) throws ServiceException {
-        try {
-            return signUpUser(request);
-        } catch (DaoException e) {
-            throw new ServiceException(e.getMessage(), e);
-        }
-    }
-
     private String encryptPassword(String password) {
         return wrapEncryptPassword(password);
     }
 
-    private User signUpUser(SignUpRequest request) throws DaoException, EntityAlreadyExistsException {
-        return  null;
-//        if (userDao.getByEmail(request.getEmail().toLowerCase()).isPresent()) {
-//            throw new EntityAlreadyExistsException();
-//        }
-//        User user = mapToUser(request);
-//        userDao.save(user);
-//        return userDao.getByEmail(user.getEmail()).get();
+    private User signUpUser(SignUpRequest request) throws EntityAlreadyExistsException {
+        if (repository.findByEmail(request.getEmail()).isPresent()) {
+            throw new EntityAlreadyExistsException();
+        }
+        User user = mapToUser(request);
+        return repository.save(user);
     }
 
     private User mapToUser(SignUpRequest request) {
@@ -103,6 +102,5 @@ public class UserServiceImpl implements UserService {
     private String wrapEncryptPassword(String password) {
         return DigestUtils.md5Hex(password);
     }
-
 
 }
