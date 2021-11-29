@@ -1,8 +1,7 @@
 package web.controller;
 
 import com.epam.booking.exception.ServiceException;
-import com.epam.booking.utils.CurrentPageGetter;
-import web.validation.api.PriceValidator;
+import web.utils.CurrentPageGetter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;

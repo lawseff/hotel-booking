@@ -2,7 +2,6 @@ package com.epam.booking.command.impl;
 
 import com.epam.booking.command.CommandResult;
 import com.epam.booking.exception.ServiceException;
-import com.epam.booking.utils.CurrentPageGetter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;

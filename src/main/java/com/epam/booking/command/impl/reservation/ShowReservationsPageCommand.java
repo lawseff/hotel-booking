@@ -1,7 +1,7 @@
 package com.epam.booking.command.impl.reservation;
 
-import com.epam.booking.utils.ReservationPriceCalculator;
-import com.epam.booking.utils.RoomUtils;
+import web.utils.ReservationPriceCalculator;
+import web.utils.RoomUtils;
 import com.epam.booking.command.Command;
 import com.epam.booking.command.CommandResult;
 import web.entity.User;

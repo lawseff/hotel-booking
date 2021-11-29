@@ -1,5 +1,14 @@
 package web.entity.reservation;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import web.entity.Identifiable;
 import web.entity.User;
 import web.entity.room.Room;
@@ -8,17 +17,40 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+@Entity
+@Table(name = "reservation")
 public class Reservation implements Identifiable, Serializable {
 
     private static final long serialVersionUID = 4646050451695840394L;
+    @Id
     private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "room_class_id")
     private RoomClass roomClass;
+
+    @ManyToOne
+    @JoinColumn(name = "room_id")
     private Room room;
+
+    @Column(name = "reservation_status")
+    @Enumerated(EnumType.STRING)
     private ReservationStatus reservationStatus;
+
+    @Column(name = "arrival_date")
     private Date arrivalDate;
+
+    @Column(name = "departure_date")
     private Date departureDate;
+
+    @Column(name = "persons_amount")
     private int personsAmount;
+
+    @Column(name = "total_price")
     private BigDecimal totalPrice;
 
     public Reservation() {
@@ -52,6 +84,30 @@ public class Reservation implements Identifiable, Serializable {
     @Override
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setRoomClass(RoomClass roomClass) {
+        this.roomClass = roomClass;
+    }
+
+    public void setArrivalDate(Date arrivalDate) {
+        this.arrivalDate = arrivalDate;
+    }
+
+    public void setDepartureDate(Date departureDate) {
+        this.departureDate = departureDate;
+    }
+
+    public void setPersonsAmount(int personsAmount) {
+        this.personsAmount = personsAmount;
     }
 
     public User getUser() {

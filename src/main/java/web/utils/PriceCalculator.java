@@ -1,5 +1,6 @@
-package com.epam.booking.utils;
+package web.utils;
 
+import org.springframework.stereotype.Component;
 import web.entity.room.RoomClass;
 import java.math.BigDecimal;
 

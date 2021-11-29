@@ -21,19 +21,18 @@
     <jsp:include page="/WEB-INF/views/header.jsp"/>
 
     <div class="reservation_request">
-        <form action="${pageContext.request.contextPath}/controller" method="post">
-            <input type="hidden" name="command" value="book">
+        <form action="${pageContext.request.contextPath}/book" method="post">
             <label>
                 ${check_in} <br>
-                <booking:dateInput name="arrival_date" minimumDate="today"/> <br>
+                <booking:dateInput name="arrivalDate" minimumDate="today"/> <br>
             </label>
             <label>
                 ${check_out} <br>
-                <booking:dateInput name="departure_date" minimumDate="tomorrow"/> <br>
+                <booking:dateInput name="departureDate" minimumDate="tomorrow"/> <br>
             </label>
             <label>
                 ${class_label} <br>
-                <select name="room_class">
+                <select name="roomClass">
                     <c:forEach var="room_class" items="${requestScope.room_classes}">
                         <option value="${room_class.name}">${room_class.name}</option>
                     </c:forEach>
@@ -41,7 +40,7 @@
             </label>
             <label>
                 ${persons} <br>
-                <select name="persons_amount">
+                <select name="personsAmount">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>

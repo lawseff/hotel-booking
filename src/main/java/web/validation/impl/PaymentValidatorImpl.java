@@ -1,6 +1,6 @@
 package web.validation.impl;
 
-import com.epam.booking.utils.DateUtils;
+import web.utils.DateUtils;
 import web.validation.api.PaymentValidator;
 
 import java.text.ParseException;

@@ -2,7 +2,7 @@ package com.epam.booking.command.impl.room;
 
 import com.epam.booking.command.Command;
 import com.epam.booking.command.CommandResult;
-import com.epam.booking.utils.CurrentPageGetter;
+import web.utils.CurrentPageGetter;
 import com.epam.booking.exception.ServiceException;
 import com.epam.booking.service.api.RoomService;
 import javax.servlet.http.HttpServletRequest;

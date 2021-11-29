@@ -3,7 +3,7 @@ package web.validation.impl;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
-import com.epam.booking.utils.DateUtils;
+import web.utils.DateUtils;
 import web.validation.api.BookingDetailsValidator;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;

@@ -1,5 +1,6 @@
-package com.epam.booking.utils;
+package web.utils;
 
+import org.springframework.stereotype.Component;
 import web.entity.reservation.Reservation;
 import web.entity.reservation.ReservationStatus;
 import web.entity.room.Room;
@@ -8,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class RoomUtils {
 
     private DateUtils dateUtils;

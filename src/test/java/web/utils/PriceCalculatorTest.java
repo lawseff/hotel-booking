@@ -1,4 +1,4 @@
-package com.epam.booking.utils;
+package web.utils;
 
 import web.entity.room.RoomClass;
 import com.tngtech.java.junit.dataprovider.DataProvider;

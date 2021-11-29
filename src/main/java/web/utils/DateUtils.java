@@ -1,9 +1,11 @@
-package com.epam.booking.utils;
+package web.utils;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DateUtils {
 
     private static final int FIRST_DAY_OF_MONTH = 1;

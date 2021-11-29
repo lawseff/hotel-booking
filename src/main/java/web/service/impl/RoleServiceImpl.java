@@ -1,27 +1,27 @@
 package web.service.impl;
 
-import web.service.RoleService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import web.entity.User;
+import web.service.RoleService;
 
 public class RoleServiceImpl implements RoleService {
 
     @Override
     public boolean isUser() {
-        return getUser() != null;
+        return getCurrentUser() != null;
     }
 
     @Override
     public boolean isAdmin() {
-        User user = getUser();
+        User user = getCurrentUser();
         return user != null && user.isAdmin();
     }
 
-    private User getUser() {
+    @Override
+    public User getCurrentUser() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         HttpSession session = request.getSession(false);
         if (session == null) {

@@ -5,7 +5,7 @@ import web.entity.room.Room;
 import com.epam.booking.exception.ServiceException;
 import com.epam.booking.service.api.ReservationService;
 import com.epam.booking.service.api.RoomService;
-import com.epam.booking.utils.RoomUtils;
+import web.utils.RoomUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package com.epam.booking.utils;
+package web.utils;
 
 import javax.servlet.http.HttpServletRequest;
 

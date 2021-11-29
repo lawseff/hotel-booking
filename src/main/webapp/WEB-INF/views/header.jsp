@@ -42,9 +42,9 @@
                     <a href="${pageContext.request.contextPath}/rooms"><li>${rooms}</li></a>
                 </c:if>
                 <c:if test="${not user.admin}">
-                    <a href="${pageContext.request.contextPath}/controller?command=show_book_page"><li>${book}</li></a>
+                    <a href="${pageContext.request.contextPath}/book"><li>${book}</li></a>
                 </c:if>
-                <a href="${pageContext.request.contextPath}/controller?command=show_reservations_page">
+                <a href="${pageContext.request.contextPath}/reservations">
                     <li>${reservations}</li>
                 </a>
                 <a href="${pageContext.request.contextPath}/sign_out">

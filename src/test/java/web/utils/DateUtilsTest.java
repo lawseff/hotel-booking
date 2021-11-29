@@ -1,4 +1,4 @@
-package com.epam.booking.utils;
+package web.utils;
 
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;

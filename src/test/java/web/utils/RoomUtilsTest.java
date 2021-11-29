@@ -1,4 +1,4 @@
-package com.epam.booking.utils;
+package web.utils;
 
 import web.entity.reservation.Reservation;
 import web.entity.reservation.ReservationStatus;
@@ -11,7 +11,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
