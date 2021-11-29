@@ -1,8 +1,10 @@
-package com.epam.booking.validation.impl;
+package web.validation.impl;
 
-import com.epam.booking.validation.api.PriceValidator;
+import org.springframework.stereotype.Component;
+import web.validation.api.PriceValidator;
 import java.math.BigDecimal;
 
+@Component
 public class PriceValidatorImpl implements PriceValidator {
 
     private static final BigDecimal MAX_PRICE = new BigDecimal("1000.00");

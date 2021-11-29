@@ -1,7 +1,7 @@
-package com.epam.booking.validation.impl;
+package web.validation.impl;
 
 import com.epam.booking.utils.DateUtils;
-import com.epam.booking.validation.api.PaymentValidator;
+import web.validation.api.PaymentValidator;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package com.epam.booking.validation.api;
+package web.validation.api;
 
 import java.util.Date;
 

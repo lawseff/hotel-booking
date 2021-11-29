@@ -1,8 +1,8 @@
-package com.epam.booking.validation.impl;
+package web.validation.impl;
 
 import static org.mockito.Mockito.*;
 import com.epam.booking.utils.DateUtils;
-import com.epam.booking.validation.api.PaymentValidator;
+import web.validation.api.PaymentValidator;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;

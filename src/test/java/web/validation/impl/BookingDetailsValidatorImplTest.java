@@ -1,14 +1,13 @@
-package com.epam.booking.validation.impl;
+package web.validation.impl;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 import com.epam.booking.utils.DateUtils;
-import com.epam.booking.validation.api.BookingDetailsValidator;
+import web.validation.api.BookingDetailsValidator;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -26,23 +26,21 @@
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 
 <div class="container">
-    <form action="${pageContext.request.contextPath}/controller" method="post">
+    <form action="${pageContext.request.contextPath}/rooms/prices" method="post">
         <display:table name="requestScope.room_classes" uid="room_class" class="table">
         <display:column title="${class_label}" property="name"/>
         <display:column title="${basic_rate}">
             <input type="hidden" name="name" value="${room_class.name}">
-            <input type="text" required value="${room_class.basicRate}" name="basic_rate" pattern="^\d+\.\d{2}$" min="5" max="1000">
+            <input type="text" required value="${room_class.basicRate}" name="basicRate" pattern="^\d+\.\d{2}$" min="5" max="1000">
         </display:column>
         <display:column title="${rate_per_person}">
-            <input type="text" required value="${room_class.ratePerPerson}" name="rate_per_person" pattern="^\d+\.\d{2}$" min="5" max="1000">
+            <input type="text" required value="${room_class.ratePerPerson}" name="ratePerPerson" pattern="^\d+\.\d{2}$" min="5" max="1000">
         </display:column>
         </display:table>
-        <input type="hidden" name="command" value="save_prices">
         <input type="submit" value="${save}" id="save">
     </form>
-    <form action="${pageContext.request.contextPath}/controller" method="get">
+    <form action="${pageContext.request.contextPath}/update_page" method="get">
         <input type="submit" value="${cancel}" id="cancel">
-        <input type="hidden" name="command" value="update_page">
     </form>
 </div>
 <div class="container">

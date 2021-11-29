@@ -3,7 +3,7 @@ package com.epam.booking.command.impl.reservation;
 import web.entity.reservation.Reservation;
 import com.epam.booking.exception.ServiceException;
 import com.epam.booking.service.api.ReservationService;
-import com.epam.booking.validation.api.PaymentValidator;
+import web.validation.api.PaymentValidator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

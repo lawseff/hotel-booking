@@ -1,4 +1,4 @@
-package com.epam.booking.validation.impl;
+package web.validation.impl;
 
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;

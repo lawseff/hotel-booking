@@ -1,6 +1,6 @@
-package com.epam.booking.validation.impl;
+package web.validation.impl;
 
-import com.epam.booking.validation.api.PriceValidator;
+import web.validation.api.PriceValidator;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;

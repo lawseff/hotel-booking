@@ -34,9 +34,9 @@ import web.entity.User;
 import web.entity.reservation.Reservation;
 import web.entity.room.Room;
 import web.entity.room.RoomClass;
-import com.epam.booking.validation.impl.BookingDetailsValidatorImpl;
-import com.epam.booking.validation.impl.PaymentValidatorImpl;
-import com.epam.booking.validation.impl.PriceValidatorImpl;
+import web.validation.impl.BookingDetailsValidatorImpl;
+import web.validation.impl.PaymentValidatorImpl;
+import web.validation.impl.PriceValidatorImpl;
 import web.validation.UserDetailsValidatorImpl;
 
 public class CommandFactoryImpl implements CommandFactory {

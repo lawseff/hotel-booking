@@ -7,7 +7,7 @@ import web.entity.room.RoomClass;
 import com.epam.booking.exception.ServiceException;
 import com.epam.booking.service.api.ReservationService;
 import com.epam.booking.service.api.RoomClassService;
-import com.epam.booking.validation.api.BookingDetailsValidator;
+import web.validation.api.BookingDetailsValidator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;

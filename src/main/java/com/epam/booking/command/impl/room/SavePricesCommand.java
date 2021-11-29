@@ -6,7 +6,7 @@ import web.entity.room.RoomClass;
 import com.epam.booking.utils.CurrentPageGetter;
 import com.epam.booking.exception.ServiceException;
 import com.epam.booking.service.api.RoomClassService;
-import com.epam.booking.validation.api.PriceValidator;
+import web.validation.api.PriceValidator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;

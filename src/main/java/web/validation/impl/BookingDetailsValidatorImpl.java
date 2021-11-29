@@ -1,7 +1,7 @@
-package com.epam.booking.validation.impl;
+package web.validation.impl;
 
 import com.epam.booking.utils.DateUtils;
-import com.epam.booking.validation.api.BookingDetailsValidator;
+import web.validation.api.BookingDetailsValidator;
 import java.util.Date;
 
 public class BookingDetailsValidatorImpl implements BookingDetailsValidator {
