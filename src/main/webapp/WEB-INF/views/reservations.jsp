@@ -84,7 +84,7 @@
             <booking:formatStatus status="${reservation.reservationStatus}"/>
         </display:column>
         <display:column title="${details}">
-            <a href="${pageContext.request.contextPath}/controller?command=show_reservations_page&id=${reservation.id}&d-8003858-s=${param["d-8003858-s"]}&d-8003858-p=${param["d-8003858-p"]}&d-8003858-o=${param["d-8003858-o"]}">
+            <a href="${pageContext.request.contextPath}/reservations/${reservation.id}?d-8003858-s=${param["d-8003858-s"]}&d-8003858-p=${param["d-8003858-p"]}&d-8003858-o=${param["d-8003858-o"]}">
                 ...
             </a>
         </display:column>

@@ -1,5 +1,6 @@
 package web.controller;
 
+import com.epam.booking.exception.ServiceException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
+import web.service.BookService;
 import web.service.RoomService;
 
 @Controller
@@ -19,9 +21,11 @@ import web.service.RoomService;
 public class BookController {
 
     private final RoomService roomService;
+    private final BookService bookService;
 
-    public BookController(RoomService roomService) {
+    public BookController(RoomService roomService, BookService bookService) {
         this.roomService = roomService;
+        this.bookService = bookService;
     }
 
     @GetMapping("/book")
@@ -35,8 +39,9 @@ public class BookController {
             @RequestParam("arrivalDate") Date arrivalDate,
             @RequestParam("departureDate") Date departureDate,
             @RequestParam("personsAmount") Integer personsAmount,
-            @RequestParam("className") String roomClass
-    ) {
+            @RequestParam("roomClass") String roomClass
+    ) throws ServiceException {
+        bookService.book(arrivalDate, departureDate, personsAmount, roomClass);
         return new RedirectView("/reservations");
     }
 

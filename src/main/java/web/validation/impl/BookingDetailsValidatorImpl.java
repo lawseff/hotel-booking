@@ -1,9 +1,11 @@
 package web.validation.impl;
 
+import org.springframework.stereotype.Component;
 import web.utils.DateUtils;
 import web.validation.api.BookingDetailsValidator;
 import java.util.Date;
 
+@Component
 public class BookingDetailsValidatorImpl implements BookingDetailsValidator {
 
     private static final int MAXIMUM_ROOM_CAPACITY = 6;
