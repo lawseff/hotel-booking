@@ -1,4 +1,4 @@
-package com.epam.booking.dto;
+package web.dto;
 
 public class SignUpRequest {
 

@@ -1,6 +1,6 @@
 package web.service;
 
-import com.epam.booking.dto.SignUpRequest;
+import web.dto.SignUpRequest;
 import com.epam.booking.exception.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

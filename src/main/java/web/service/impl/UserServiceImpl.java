@@ -1,17 +1,11 @@
 package web.service.impl;
 
-import com.epam.booking.dto.SignUpRequest;
+import web.dto.SignUpRequest;
 import com.epam.booking.exception.EntityAlreadyExistsException;
 import com.epam.booking.exception.ServiceException;
-import java.util.Collection;
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import web.entity.User;

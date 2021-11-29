@@ -3,7 +3,7 @@ package com.epam.booking.service.impl;
 import com.epam.booking.builder.Builder;
 import com.epam.booking.dao.DaoHelper;
 import com.epam.booking.dao.api.UserDao;
-import com.epam.booking.dto.SignUpRequest;
+import web.dto.SignUpRequest;
 import web.entity.User;
 import com.epam.booking.exception.DaoException;
 import com.epam.booking.exception.EntityAlreadyExistsException;
