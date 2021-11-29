@@ -1,5 +1,6 @@
 package web.validation.impl;
 
+import org.springframework.stereotype.Component;
 import web.utils.DateUtils;
 import web.validation.api.PaymentValidator;
 
@@ -7,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Component
 public class PaymentValidatorImpl implements PaymentValidator {
 
     // card number

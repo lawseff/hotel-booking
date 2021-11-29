@@ -221,21 +221,19 @@
 
 <div class="form" id="payment">
     <span onclick="toggle('hide')">&#10006;</span> <br>
-    <form action="${pageContext.request.contextPath}/controller" method="post">
-        <input type="hidden" name="command" value="pay">
-        <input type="hidden" name="id" value="${reservation_details.id}">
+    <form action="${pageContext.request.contextPath}/reservations/${reservation_details.id}/pay" method="post">
         <p>${payment_sum} ${reservation_details.totalPrice} BYN<p>
         <label>
             ${payment_card_number}
-            <input type="text" name="card_number" id="card_number" pattern="\d{16}" maxlength="16" required placeholder="${card_number_placeholder}">
+            <input type="text" name="cardNumber" id="card_number" pattern="\d{16}" maxlength="16" required placeholder="${card_number_placeholder}">
         </label>
         <label>
             ${payment_valid_thru}
-            <input type="text" name="valid_thru" id="valid_thru" placeholder="${valid_thru_placeholder}" pattern="(0[1-9]|1[0-2])/\d{2}" maxlength="5" required>
+            <input type="text" name="validThru" id="valid_thru" placeholder="${valid_thru_placeholder}" pattern="(0[1-9]|1[0-2])/\d{2}" maxlength="5" required>
         </label>
         <label>
             ${payment_cvv_number}
-            <input type="password" name="cvv_number" id="cvv_number" pattern="\d{3}" maxlength="3" required placeholder="${cvv_number_placeholder}">
+            <input type="password" name="cvvNumber" id="cvv_number" pattern="\d{3}" maxlength="3" required placeholder="${cvv_number_placeholder}">
         </label>
         <i class="fa fa-cc-visa"></i>
         <i class="fa fa-cc-mastercard" id="mastercard"></i>

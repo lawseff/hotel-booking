@@ -15,6 +15,7 @@ import web.repository.ReservationRepository;
 import web.service.ReservationService;
 import web.service.RoleService;
 import web.utils.RoomUtils;
+import web.validation.api.PaymentValidator;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -27,12 +28,14 @@ public class ReservationServiceImpl implements ReservationService {
     private final ReservationRepository reservationRepository;
     private final RoomUtils roomUtils;
     private final RoomRepository roomRepository;
+    private final PaymentValidator paymentValidator;
 
-    public ReservationServiceImpl(RoleService roleService, ReservationRepository reservationRepository, RoomUtils roomUtils, RoomRepository roomRepository) {
+    public ReservationServiceImpl(RoleService roleService, ReservationRepository reservationRepository, RoomUtils roomUtils, RoomRepository roomRepository, PaymentValidator paymentValidator) {
         this.roleService = roleService;
         this.reservationRepository = reservationRepository;
         this.roomUtils = roomUtils;
         this.roomRepository = roomRepository;
+        this.paymentValidator = paymentValidator;
     }
 
     @Override
@@ -60,6 +63,22 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setRoom(room);
         reservation.setReservationStatus(ReservationStatus.APPROVED);
         reservation.setTotalPrice(ReservationPriceCalculator.calculateReservationPrice(reservation));
+        reservationRepository.save(reservation);
+    }
+
+    @Override
+    public void pay(Integer id, String cardNumber, String cvvNumber, String validThru) throws ServiceException {
+        if (!paymentValidator.isCardNumberValid(cardNumber)) {
+            throw new ServiceException("Invalid card number: " + cardNumber);
+        }
+        if (!paymentValidator.isExpirationDateValid(validThru)) {
+            throw new ServiceException("Invalid expiration date: " + validThru);
+        }
+        if (!paymentValidator.isCvvNumberValid(cvvNumber)) {
+            throw new ServiceException("Invalid cvv number: " + cvvNumber);
+        }
+        Reservation reservation = reservationRepository.getById(id);
+        reservation.setReservationStatus(ReservationStatus.PAID);
         reservationRepository.save(reservation);
     }
 

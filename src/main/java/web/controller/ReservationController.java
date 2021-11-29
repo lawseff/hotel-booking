@@ -3,6 +3,7 @@ package web.controller;
 import com.epam.booking.exception.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,6 @@ public class ReservationController {
 
     //    check_in
     //    check_out
-    //    pay
 
     private final ReservationService service;
 
@@ -51,6 +51,19 @@ public class ReservationController {
             HttpServletRequest request
     ) throws ServiceException {
         service.approve(reservationId, roomId);
+        return redirectToCurrentPage(request);
+    }
+
+    @PostMapping("/reservations/{id}/pay")
+    @PreAuthorize("@roleService.isUser()")
+    public RedirectView payForReservation(
+            @PathVariable("id") Integer id,
+            @RequestParam("cardNumber") String cardNumber,
+            @RequestParam("cvvNumber") String cvvNumber,
+            @RequestParam("validThru") String validThru,
+            HttpServletRequest request
+    ) throws ServiceException {
+        service.pay(id, cardNumber, cvvNumber, validThru);
         return redirectToCurrentPage(request);
     }
 
