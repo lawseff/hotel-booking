@@ -104,37 +104,6 @@
       <artifactId>spring-boot-maven-plugin</artifactId>
     </plugin>
       <plugins>
-        <plugin>
-          <groupId>org.jacoco</groupId>
-          <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.6</version>
-          <configuration>
-            <excludes>
-              <exclude>**/*com/epam/booking/entity/**</exclude>
-              <exclude>**/*com/epam/booking/tag/**</exclude>
-              <exclude>**/*com/epam/booking/command/factory/**</exclude>
-              <exclude>**/*com/epam/booking/dao/impl/InMemoryUserDao.**</exclude>
-              <exclude>**/*com/epam/booking/connection/ConnectionFactory.**</exclude>
-              <exclude>**/*com/epam/booking/connection/ConnectionPool.**</exclude>
-              <exclude>**/*com/epam/booking/connection/ProxyConnection.**</exclude>
-              <exclude>**/*com/epam/booking/exception/**</exclude>
-            </excludes>
-          </configuration>
-          <executions>
-            <execution>
-              <goals>
-                <goal>prepare-agent</goal>
-              </goals>
-            </execution>
-            <execution>
-              <id>report</id>
-              <phase>prepare-package</phase>
-              <goals>
-                <goal>report</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
       </plugins>
   </build>
 </project>
