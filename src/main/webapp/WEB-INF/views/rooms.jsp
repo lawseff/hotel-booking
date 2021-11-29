@@ -53,9 +53,7 @@
         <display:column title="${class_label}" property="roomClass.name" sortable="true"/>
         <display:column title="${beds}" property="bedsAmount" sortable="true"/>
         <display:column title="${active}">
-            <form action="${pageContext.request.contextPath}/controller" method="post">
-                <input type="hidden" name="command" value="change_room_status">
-                <input type="hidden" name="id" value="${room.id}">
+            <form action="${pageContext.request.contextPath}/rooms/${room.id}/status" method="post">
                 <input type="checkbox" name="checkbox" value="checked"
                        <c:if test="${room.active}">checked="checked"</c:if>
                        onchange="this.form.submit()"
