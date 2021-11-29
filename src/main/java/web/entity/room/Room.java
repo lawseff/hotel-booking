@@ -1,14 +1,31 @@
 package web.entity.room;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import web.entity.Identifiable;
 import java.io.Serializable;
 
+@Entity
+@Table(name = "room")
 public class Room implements Identifiable, Serializable {
 
     private static final long serialVersionUID = -1947754420403223291L;
+
+    @Id
     private Integer id;
+
+    @Column(name = "is_active")
     private boolean active;
+
+    @OneToOne
+    @JoinColumn(name = "room_class_id")
     private RoomClass roomClass;
+
+    @Column(name = "beds_amount")
     private int bedsAmount;
 
     public Room() {
@@ -27,6 +44,10 @@ public class Room implements Identifiable, Serializable {
         return id;
     }
 
+    void setId(Integer id) {
+        this.id = id;
+    }
+
     public boolean isActive() {
         return active;
     }
@@ -39,8 +60,16 @@ public class Room implements Identifiable, Serializable {
         return roomClass;
     }
 
+    public void setRoomClass(RoomClass roomClass) {
+        this.roomClass = roomClass;
+    }
+
     public int getBedsAmount() {
         return bedsAmount;
+    }
+
+    public void setBedsAmount(RoomClass roomClass) {
+        this.roomClass = roomClass;
     }
 
     @Override

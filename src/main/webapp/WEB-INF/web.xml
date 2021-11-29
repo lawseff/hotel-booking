@@ -5,6 +5,10 @@
 <web-app>
   <display-name>Hotel Booking</display-name>
 
+  <listener>
+    <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+  </listener>
+
   <error-page>
     <exception-type>java.lang.Throwable</exception-type>
     <location>/WEB-INF/views/error.jsp</location>
@@ -13,5 +17,6 @@
     <error-code>404</error-code>
     <location>/WEB-INF/views/error404.jsp</location>
   </error-page>
+
 
 </web-app>

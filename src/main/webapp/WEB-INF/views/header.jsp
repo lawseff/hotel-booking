@@ -39,7 +39,7 @@
             </c:if>
             <c:if test="${not empty user}">
                 <c:if test="${user.admin}">
-                    <a href="${pageContext.request.contextPath}/controller?command=show_rooms_page"><li>${rooms}</li></a>
+                    <a href="${pageContext.request.contextPath}/rooms"><li>${rooms}</li></a>
                 </c:if>
                 <c:if test="${not user.admin}">
                     <a href="${pageContext.request.contextPath}/controller?command=show_book_page"><li>${book}</li></a>

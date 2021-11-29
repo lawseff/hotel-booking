@@ -1,15 +1,29 @@
 package web.entity.room;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import web.entity.Identifiable;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+@Entity
+@Table(name = "room_class")
 public class RoomClass implements Identifiable, Serializable {
 
     private static final long serialVersionUID = -3864008028644659221L;
+
+    @Id
     private Integer id;
+
+    @Column(name = "class_name")
     private String name;
+
+    @Column(name = "basic_rate")
     private BigDecimal basicRate;
+
+    @Column(name = "rate_per_person")
     private BigDecimal ratePerPerson;
 
     public RoomClass() {
@@ -32,8 +46,16 @@ public class RoomClass implements Identifiable, Serializable {
         return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public BigDecimal getBasicRate() {

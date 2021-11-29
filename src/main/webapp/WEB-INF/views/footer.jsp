@@ -15,7 +15,6 @@
         <c:if test="${not empty user and user.admin}">
             <span>Administrator</span>
         </c:if>
-        <p>Epam, 2019</p>
     </div>
 
 </body>
