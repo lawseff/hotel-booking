@@ -82,6 +82,22 @@ public class ReservationServiceImpl implements ReservationService {
         reservationRepository.save(reservation);
     }
 
+    @Override
+    public void checkIn(Integer id) throws ServiceException {
+        setStatus(id, ReservationStatus.CHECKED_IN);
+    }
+
+    @Override
+    public void checkOut(Integer id) throws ServiceException {
+        setStatus(id, ReservationStatus.CHECKED_OUT);
+    }
+
+    private void setStatus(Integer id, ReservationStatus status) {
+        Reservation reservation = reservationRepository.getById(id);
+        reservation.setReservationStatus(status);
+        reservationRepository.save(reservation);
+    }
+
     private void loadReservations(Model model, User user) {
         List<Reservation> reservations;
         if (user.isAdmin()) {

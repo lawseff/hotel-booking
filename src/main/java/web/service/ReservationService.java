@@ -13,4 +13,8 @@ public interface ReservationService {
 
     void pay(Integer id, String cardNumber, String cvv, String validThru) throws ServiceException;
 
+    void checkIn(Integer id) throws ServiceException;
+
+    void checkOut(Integer id) throws ServiceException;
+
 }

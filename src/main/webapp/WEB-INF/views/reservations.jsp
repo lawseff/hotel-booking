@@ -198,18 +198,14 @@
                 </c:if>
                 <c:if test="${reservation_details.reservationStatus eq 'PAID' and user.admin}">
                     <td>
-                        <form action="${pageContext.request.contextPath}/controller" method="post">
-                            <input type="hidden" name="command" value="check_in">
-                            <input type="hidden" name="id" value="${reservation_details.id}">
+                        <form action="${pageContext.request.contextPath}/reservations/${reservation_details.id}/check_in" method="post">
                             <input type="submit" value="${button_check_in}">
                         </form>
                     </td>
                 </c:if>
                 <c:if test="${reservation_details.reservationStatus eq 'CHECKED_IN' and user.admin}">
                     <td>
-                        <form action="${pageContext.request.contextPath}/controller" method="post">
-                            <input type="hidden" name="command" value="check_out">
-                            <input type="hidden" name="id" value="${reservation_details.id}">
+                        <form action="${pageContext.request.contextPath}/reservations/${reservation_details.id}/check_out" method="post">
                             <input type="submit" value="${button_check_out}">
                         </form>
                     </td>

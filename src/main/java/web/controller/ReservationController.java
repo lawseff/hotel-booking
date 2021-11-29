@@ -67,6 +67,26 @@ public class ReservationController {
         return redirectToCurrentPage(request);
     }
 
+    @PostMapping("/reservations/{id}/check_in")
+    @PreAuthorize("@roleService.isAdmin()")
+    public RedirectView checkIn(
+            @PathVariable("id") Integer id,
+            HttpServletRequest request
+    ) throws ServiceException {
+        service.checkIn(id);
+        return redirectToCurrentPage(request);
+    }
+
+    @PostMapping("/reservations/{id}/check_out")
+    @PreAuthorize("@roleService.isAdmin()")
+    public RedirectView checkOut(
+            @PathVariable("id") Integer id,
+            HttpServletRequest request
+    ) throws ServiceException {
+        service.checkOut(id);
+        return redirectToCurrentPage(request);
+    }
+
     private RedirectView redirectToCurrentPage(HttpServletRequest request) {
         String page = CurrentPageGetter.getCurrentPage(request);
         return new RedirectView(page);
