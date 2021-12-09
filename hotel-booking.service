@@ -1,0 +1,13 @@
+[Unit]
+Description=AWS demo app
+After=syslog.target
+
+[Service]
+User=ec2-user
+ExecStart=/opt/hotel-booking/hotel-booking.jar
+EnvironmentFile=/etc/hotel-booking/hotel-booking.env
+SuccessExitStatus=143
+SyslogIdentifier=hotel-booking
+
+[Install]
+WantedBy=multi-user.target
