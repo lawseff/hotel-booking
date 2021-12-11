@@ -1,4 +1,4 @@
-package com.booking.service.impl;
+package com.booking.service.impl.reservation;
 
 import com.booking.entity.User;
 import com.booking.exception.ServiceException;
@@ -29,13 +29,15 @@ public class ReservationServiceImpl implements ReservationService {
     private final RoomUtils roomUtils;
     private final RoomRepository roomRepository;
     private final PaymentValidator paymentValidator;
+    private final ReservationServiceHelper helper;
 
-    public ReservationServiceImpl(RoleService roleService, ReservationRepository reservationRepository, RoomUtils roomUtils, RoomRepository roomRepository, PaymentValidator paymentValidator) {
+    public ReservationServiceImpl(RoleService roleService, ReservationRepository reservationRepository, RoomUtils roomUtils, RoomRepository roomRepository, PaymentValidator paymentValidator, ReservationServiceHelper helper) {
         this.roleService = roleService;
         this.reservationRepository = reservationRepository;
         this.roomUtils = roomUtils;
         this.roomRepository = roomRepository;
         this.paymentValidator = paymentValidator;
+        this.helper = helper;
     }
 
     @Override
@@ -101,7 +103,7 @@ public class ReservationServiceImpl implements ReservationService {
     private void loadReservations(Model model, User user) {
         List<Reservation> reservations;
         if (user.isAdmin()) {
-            reservations = reservationRepository.findAll();
+            reservations = helper.findAllReservations();
         } else {
             int id = user.getId();
             reservations = reservationRepository.findByUserId(id);
@@ -117,7 +119,7 @@ public class ReservationServiceImpl implements ReservationService {
             BigDecimal totalPrice = ReservationPriceCalculator.calculateReservationPrice(reservation);
             reservation.setTotalPrice(totalPrice);
             List<Room> rooms = roomRepository.findAll();
-            List<Reservation> reservations = reservationRepository.findAll();
+            List<Reservation> reservations = helper.findAllReservations();
             List<Room> suitableRooms = roomUtils.getAvailableRooms(rooms, reservations, reservation);
             model.addAttribute(SUITABLE_ROOMS_ATTRIBUTE, suitableRooms);
         }
