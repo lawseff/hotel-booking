@@ -46,7 +46,7 @@ public class ProfilingAspect {
 
             ExecutionInfo executionInfo = ExecutionInfo.builder()
                     .executionTimeMillis(executionTime)
-                    .methodName(joinPoint.getSignature().toLongString())
+                    .methodName(joinPoint.getSignature().toShortString())
                     .memoryUsageByTime(memoryUsages)
                     .build();
 
@@ -54,6 +54,7 @@ public class ProfilingAspect {
                     .jreInfo(ProfilingUtils.getJreInfo())
                     .systemInfo(ProfilingUtils.getSystemInfo())
                     .executionInfo(executionInfo)
+                    .generationTime(Instant.now())
                     .build();
             reportService.generateReport(report);
         }

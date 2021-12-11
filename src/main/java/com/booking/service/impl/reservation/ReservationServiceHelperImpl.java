@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 @Component
-//@Primary
+@Primary
 public class ReservationServiceHelperImpl implements ReservationServiceHelper {
 
     private final ReservationRepository repository;

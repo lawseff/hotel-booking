@@ -112,6 +112,12 @@
       <artifactId>javafaker</artifactId>
       <version>1.0.2</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.jfree/jfreechart -->
+    <dependency>
+      <groupId>org.jfree</groupId>
+      <artifactId>jfreechart</artifactId>
+      <version>1.5.3</version>
+    </dependency>
   </dependencies>
 
   <build>

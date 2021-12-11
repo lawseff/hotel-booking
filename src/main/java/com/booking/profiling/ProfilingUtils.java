@@ -2,15 +2,15 @@ package com.booking.profiling;
 
 import com.booking.profiling.model.JreInfo;
 import com.booking.profiling.model.SystemInfo;
+import lombok.SneakyThrows;
 
 public class ProfilingUtils {
 
     private static final double MB_DIVISOR = 1024.;
 
-    private static final String OS_ARCHITECTURE = "os.arch";
-    private static final String OS_NAME = "os.name";
-    private static final String OS_VERSION = "os.version";
-
+    private static final String OS_ARCHITECTURE = "system.arch";
+    private static final String OS_NAME = "system.name";
+    private static final String OS_VERSION = "system.version";
     private static final String JAVA_VENDOR = "java.vendor";
     private static final String JAVA_VERSION = "java.version";
 
@@ -21,6 +21,7 @@ public class ProfilingUtils {
         return diff / MB_DIVISOR;
     }
 
+    @SneakyThrows
     public static SystemInfo getSystemInfo() {
         String architecture = System.getProperty(OS_ARCHITECTURE);
         String name = System.getProperty(OS_NAME);

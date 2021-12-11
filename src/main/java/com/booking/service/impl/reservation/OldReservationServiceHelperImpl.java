@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
-@Primary
+//@Primary
 public class OldReservationServiceHelperImpl implements ReservationServiceHelper {
 
     private final UserRepository userRepository;

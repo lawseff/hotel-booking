@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head title="Memory report">
+    <style>
+        table {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 500px;
+        }
+
+        td,  th {
+            border: 1px solid #ddd;
+            padding: 4px;
+        }
+
+
+        tr:hover {background-color: #f2f2f2;}
+
+        th {
+            padding-top: 6px;
+            padding-bottom: 6px;
+            text-align: left;
+            background-color: #04AA6D;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<h2>Profiling report</h2>
+<p>Generated on %s</p>
+<table>
+    <tr><th>Property</th><th>Value</th></tr>
+    <tr><td>OS name</td><td>%s</td></tr>
+    <tr><td>OS version</td><td>%s</td></tr>
+    <tr><td>OS architecture</td><td>%s</td></tr>
+    <tr><td>JRE vendor</td><td>%s</td></tr>
+    <tr><td>JRE version</td><td>%s</td></tr>
+    <tr><td>Method name</td><td>%s</td></tr>
+    <tr><td>Execution time (s)</td><td>%s</td></tr>
+</table>
+<p>JVM memory usage:</p>
+<image src="memory_usage.jpg"></image>
+</body>
+</html>
