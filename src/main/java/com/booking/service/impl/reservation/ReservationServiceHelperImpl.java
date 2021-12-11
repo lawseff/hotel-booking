@@ -1,26 +1,38 @@
 package com.booking.service.impl.reservation;
 
+import com.booking.entity.User;
 import com.booking.entity.reservation.Reservation;
 import com.booking.profiling.time.Profiled;
 import com.booking.repository.ReservationRepository;
+import com.booking.repository.UserRepository;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
-@Primary
+//@Primary
 public class ReservationServiceHelperImpl implements ReservationServiceHelper {
 
-    private final ReservationRepository repository;
+    private final UserRepository userRepository;
+    private final ReservationRepository reservationRepository;
 
-    public ReservationServiceHelperImpl(ReservationRepository repository) {
-        this.repository = repository;
+    public ReservationServiceHelperImpl(UserRepository userRepository, ReservationRepository reservationRepository) {
+        this.userRepository = userRepository;
+        this.reservationRepository = reservationRepository;
     }
 
     @Profiled
     @Override
+    @Transactional(readOnly = true)
     public List<Reservation> findAllReservations() {
-        return repository.findAll();
+        List<User> users = userRepository.findAll();
+        List<Reservation> reservations = new ArrayList<>();
+        for (User user : users) {
+            reservations.addAll(reservationRepository.findByUserId(user.getId()));
+        }
+        return reservations;
     }
 
 }
