@@ -25,7 +25,7 @@ public class ReservationServiceHelperImpl implements ReservationServiceHelper {
 
     @Profiled
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public List<Reservation> findAllReservations() {
         List<User> users = userRepository.findAll();
         List<Reservation> reservations = new ArrayList<>();
