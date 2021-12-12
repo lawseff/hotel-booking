@@ -32,7 +32,7 @@ public class Reservation implements Identifiable, Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_class_id")
     private RoomClass roomClass;
 
