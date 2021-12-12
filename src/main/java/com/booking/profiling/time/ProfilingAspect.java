@@ -33,7 +33,7 @@ public class ProfilingAspect {
     private ExecutorService executorService = Executors.newCachedThreadPool();
 
     @Around("@annotation(Profiled)")
-    public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object profileMethod(ProceedingJoinPoint joinPoint) throws Throwable {
 
         long start = System.currentTimeMillis();
         List<MemoryUsage> memoryUsages = new ArrayList<>();
